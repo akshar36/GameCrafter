@@ -9,6 +9,7 @@ TagManager:
   - Obstacle
   - Portal1
   - Portal4
+  - checkpoint
   layers:
   - Default
   - TransparentFX

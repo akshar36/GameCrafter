@@ -10,7 +10,7 @@ public class TimerScript : MonoBehaviour
     private bool startTime = false;
     void Start()
     {
-        updateTimer(99);
+        updateTimer(TimeLeft);
     }
 
     void Update()
