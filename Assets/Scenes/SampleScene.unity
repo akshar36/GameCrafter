@@ -573,7 +573,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   portal: {fileID: 1854228377}
-  sendDataScript: {fileID: 64312050}
+  sendDataScript: {fileID: 0}
 --- !u!212 &165638905
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -2493,7 +2493,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   portal: {fileID: 165638902}
-  sendDataScript: {fileID: 0}
+  sendDataScript: {fileID: 64312050}
 --- !u!61 &713129476
 BoxCollider2D:
   m_ObjectHideFlags: 0
