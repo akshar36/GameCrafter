@@ -8,6 +8,8 @@ public class LevelSelector : MonoBehaviour
 {
     public int level;
     public TextMeshProUGUI levelText;
+    public static int chosenLevel = 1;
+
     void Start()
     {
         levelText.text = level.ToString();   
@@ -24,9 +26,11 @@ public class LevelSelector : MonoBehaviour
         //    SceneManager.LoadScene("SampleScene");
         //}
         else if(level.ToString() == "2") {
+            chosenLevel++;
             SceneManager.LoadScene("SampleScene2");
         } 
         else if (level.ToString() == "3"){
+            chosenLevel+=2;
             SceneManager.LoadScene("SampleScene3");
         }
     }

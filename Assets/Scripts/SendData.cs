@@ -6,8 +6,9 @@ public class SendData : MonoBehaviour
 {
     public IEnumerator SendDataToGoogleSheets(string survivalDuration, string evaderTeleportUsage) 
     {
-        string webAppUrl = "https://script.google.com/macros/s/AKfycby4A5LTheYt-hUK78bz5A3nHHOI6uo_lFOCCNmg5jIrJytszskrBf89zpC02RuKKz-L/exec";
+        string webAppUrl = "https://script.google.com/macros/s/AKfycby09Hzor8b7QT_EDbRWtJi3LsQNrbKZxRJeatlEfP_SKvD8YhPBFJNOi5YCi0yOwwvU/exec";
         WWWForm form = new WWWForm();
+        form.AddField("map", LevelSelector.chosenLevel);
         form.AddField("survivalDuration", survivalDuration);
         form.AddField("evaderTeleportUsage", evaderTeleportUsage);
 
