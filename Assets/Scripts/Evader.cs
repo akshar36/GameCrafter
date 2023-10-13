@@ -26,6 +26,9 @@ public class Evader : MonoBehaviour
     public Sprite caughtSprite;
     public Sprite smilingSprite;
     private bool evaderMoved = false;
+    public SendData sendDataScript;
+    private float survivalStartTime;
+
 
     void Start()
     {
@@ -37,6 +40,7 @@ public class Evader : MonoBehaviour
         chaserSpriteRenderer = chaser.GetComponent<SpriteRenderer>();
         chaserController = chaser.GetComponent<ChaserAI>();
         timerController = timer.GetComponent<TimerScript>();
+        survivalStartTime = Time.time;
     }
 
     void Update()
@@ -93,6 +97,8 @@ public class Evader : MonoBehaviour
         spriteRenderer.sprite = caughtSprite;
         RestartText.gameObject.SetActive(true);
         Time.timeScale = 0f;
+        float survivalDuration = Time.time - survivalStartTime;
+        StartCoroutine(sendDataScript.SendDataToGoogleSheets(survivalDuration.ToString(), Teleport.teleportUsageCount.ToString()));
     }
 
     void HideGameOverShowTimer()
