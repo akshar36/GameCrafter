@@ -18,13 +18,15 @@ public class LevelSelector : MonoBehaviour
     // Update is called once per frame
     public void OpenScene()
     {
-        if (level.ToString() == "1")
+
+        if (level.ToString() == "0")
         {
             SceneManager.LoadScene("Tutorial1");
         }
-        //if(level.ToString() == "2") {
-        //    SceneManager.LoadScene("SampleScene");
-        //}
+        else if (level.ToString() == "1")
+        {
+            SceneManager.LoadScene("SampleScene");
+        }
         else if(level.ToString() == "2") {
             chosenLevel++;
             SceneManager.LoadScene("SampleScene2");
