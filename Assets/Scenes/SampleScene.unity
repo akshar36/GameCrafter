@@ -2939,7 +2939,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: af4b0de0f0550495db484201bd4ba133, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  TimeLeft: 100
+  TimeLeft: 50
   GameText: {fileID: 2036098622}
   TimerTxt: {fileID: 969963255}
 --- !u!224 &969963259
