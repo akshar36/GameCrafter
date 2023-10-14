@@ -117,7 +117,7 @@ public class Evader : MonoBehaviour
     public void RestartButtonClicked()
     {
         Time.timeScale = 1f;
-        Debug.Log("REstart");
+        Debug.Log("Restart");
         Scene currentScene = SceneManager.GetActiveScene();
         SceneManager.LoadScene(currentScene.name);
     }
