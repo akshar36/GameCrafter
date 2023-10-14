@@ -55,7 +55,7 @@ public class Evader : MonoBehaviour
 
         rb.velocity = new Vector2(moveDirection.x * moveSpeed, rb.velocity.y);
 
-        if (isGrounded && Input.GetKeyDown(KeyCode.W))
+        if (isGrounded && (Input.GetKeyDown(KeyCode.W) || Input.GetKeyDown(KeyCode.UpArrow)))
         {
             Jump();
         }
