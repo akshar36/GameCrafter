@@ -489,7 +489,7 @@ MonoBehaviour:
   radius: 10
   height: 2
   canMove: 1
-  maxSpeed: 60
+  maxSpeed: 48
   gravity: {x: NaN, y: NaN, z: NaN}
   groundMask:
     serializedVersion: 2
@@ -2939,7 +2939,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: af4b0de0f0550495db484201bd4ba133, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  TimeLeft: 50
+  TimeLeft: 60
   GameText: {fileID: 2036098622}
   TimerTxt: {fileID: 969963255}
 --- !u!224 &969963259
