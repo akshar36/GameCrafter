@@ -786,7 +786,6 @@ MonoBehaviour:
   TimerTxt: {fileID: 969963255}
   caughtSprite: {fileID: 21300000, guid: 704eaec5f474fc24bba95faec2ee8d47, type: 3}
   smilingSprite: {fileID: 21300000, guid: 1df6f8ffe2785a34c804f7ac2722d1c1, type: 3}
-  sendDataScript: {fileID: 64312050}
 --- !u!1001 &254170139
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -3247,7 +3246,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: af4b0de0f0550495db484201bd4ba133, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  TimeLeft: 60
+  TimeLeft: 50
   GameText: {fileID: 2036098622}
   TimerTxt: {fileID: 969963255}
 --- !u!224 &969963259
