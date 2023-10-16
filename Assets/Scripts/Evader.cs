@@ -26,9 +26,7 @@ public class Evader : MonoBehaviour
     public Sprite caughtSprite;
     public Sprite smilingSprite;
     private bool evaderMoved = false;
-    private GameObject DroppedLedge;
-    private bool isColliding = false;
-    private GameObject LedgePrefab;
+
     void Start()
     {
         HideGameOverShowTimer();
@@ -57,15 +55,10 @@ public class Evader : MonoBehaviour
         {
             Jump();
         }
-        if (Input.GetKeyDown(KeyCode.M)) {
-            if(DroppedLedge != null) {
-                DroppedLedge.transform.Rotate(Vector3.forward * 90.0f);
-            }
-        }
 
         if(!isGrounded && Input.GetKeyDown(KeyCode.Space) && platformCount>0)
         {
-            DroppedLedge = Instantiate(floorprefab, transform.position, Quaternion.identity);
+            Instantiate(floorprefab, transform.position, Quaternion.identity);
             platformCount--;
             LedgeCount.text = "x " + platformCount;
             LedgeCount.gameObject.SetActive(true);
@@ -85,20 +78,10 @@ public class Evader : MonoBehaviour
         {
             ShowGameOverHideTimer();
         } else{
+            Debug.Log("hit the ground");
             isGrounded = true;
         }
-    }
 
-    void OnCollisionStay2D(Collision2D collision)
-    {
-        if (collision.gameObject.CompareTag("LedgePrefab")) // Detect when collision ends
-        {
-            if(Input.GetKeyDown(KeyCode.N)){
-                Destroy(collision.gameObject);
-                platformCount++;
-                LedgeCount.text = "x " + platformCount;
-            }
-        }
     }
 
     void ShowGameOverHideTimer()
