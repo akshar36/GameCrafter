@@ -10,6 +10,7 @@ TagManager:
   - Portal1
   - Portal4
   - checkpoint
+  - LedgePrefab
   layers:
   - Default
   - TransparentFX

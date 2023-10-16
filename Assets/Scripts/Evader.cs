@@ -29,6 +29,9 @@ public class Evader : MonoBehaviour
     public SendData sendDataScript;
     private float survivalStartTime;
 
+    private GameObject DroppedLedge;
+    private bool isColliding = false;
+    private GameObject LedgePrefab;
 
     void Start()
     {
@@ -60,9 +63,15 @@ public class Evader : MonoBehaviour
             Jump();
         }
 
+        if(Input.GetKeyDown(KeyCode.M)) {
+                if(DroppedLedge != null) {
+                    DroppedLedge.transform.Rotate(Vector3.forward * 90.0f);
+                }
+        }
+        
         if(!isGrounded && Input.GetKeyDown(KeyCode.Space) && platformCount>0)
         {
-            Instantiate(floorprefab, transform.position, Quaternion.identity);
+            DroppedLedge = Instantiate(floorprefab, transform.position, Quaternion.identity);
             platformCount--;
             LedgeCount.text = "x " + platformCount;
             LedgeCount.gameObject.SetActive(true);
@@ -76,13 +85,13 @@ public class Evader : MonoBehaviour
         isGrounded = false;
     }
 
+
     void OnCollisionEnter2D(Collision2D collision)
     {
         if(collision.gameObject.CompareTag("Chaser"))
         {
             ShowGameOverHideTimer();
         } else{
-            Debug.Log("hit the ground");
             isGrounded = true;
         }
 
@@ -130,7 +139,6 @@ void OnCollisionStay2D(Collision2D collision)
     public void RestartButtonClicked()
     {
         Time.timeScale = 1f;
-        Debug.Log("Restart");
         Scene currentScene = SceneManager.GetActiveScene();
         SceneManager.LoadScene(currentScene.name);
     }
