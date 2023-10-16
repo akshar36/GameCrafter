@@ -88,6 +88,19 @@ public class Evader : MonoBehaviour
 
     }
 
+void OnCollisionStay2D(Collision2D collision)
+     {
+         if (collision.gameObject.CompareTag("LedgePrefab")) // Detect when collision ends
+         {
+             if(Input.GetKeyDown(KeyCode.N)){
+                 Destroy(collision.gameObject);
+                 platformCount++;
+                 LedgeCount.text = "x " + platformCount;
+             }
+         }
+     }
+
+
     void ShowGameOverHideTimer()
     {
         GameText.text = "Game Over";
