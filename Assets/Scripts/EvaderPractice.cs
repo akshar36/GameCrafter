@@ -20,6 +20,7 @@ public class EvaderPractice : MonoBehaviour
     private bool evaderMoved = false;
     private float i = 5.0f;
     public Canvas PopUp1;
+    private GameObject DroppedLedge;
 
     void Start()
     {
@@ -58,9 +59,15 @@ public class EvaderPractice : MonoBehaviour
                 Jump();
             }
 
+            if(Input.GetKeyDown(KeyCode.M)) {
+                    if(DroppedLedge != null) {
+                        DroppedLedge.transform.Rotate(Vector3.forward * 90.0f);
+                    }
+            }
+
             if (!isGrounded && Input.GetKeyDown(KeyCode.Space))
             {
-                Instantiate(floorprefab, transform.position, Quaternion.identity);
+                DroppedLedge = Instantiate(floorprefab, transform.position, Quaternion.identity);
                 // platformCount--;
                 // LedgeCount.text = "x " + platformCount;
                 // LedgeCount.gameObject.SetActive(true);
@@ -98,6 +105,16 @@ public class EvaderPractice : MonoBehaviour
         }
 
     }
+
+    void OnCollisionStay2D(Collision2D collision)
+    {
+         if (collision.gameObject.CompareTag("LedgePrefab"))
+         {
+             if(Input.GetKeyDown(KeyCode.N)){
+                 Destroy(collision.gameObject);
+             }
+         }
+     }
 
     void ShowGameOverHideTimer()
     {

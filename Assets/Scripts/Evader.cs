@@ -19,6 +19,7 @@ public class Evader : MonoBehaviour
     private GameObject chaser;
     public TextMeshPro GameText;
     public GameObject RestartText;
+    public GameObject BackButton;
     public TextMeshPro LedgeCount;
     public TextMeshPro TimerTxt;
     private SpriteRenderer spriteRenderer;
@@ -157,5 +158,13 @@ void OnCollisionStay2D(Collision2D collision)
         Time.timeScale = 1f;
         Scene currentScene = SceneManager.GetActiveScene();
         SceneManager.LoadScene(currentScene.name);
+    }
+
+     public void BackButtonClicked()
+    {
+        Time.timeScale = 1f;
+        Scene currentScene = SceneManager.GetActiveScene();
+        SceneManager.LoadScene("LevelSelection");
+        Debug.Log("Back clicked");
     }
 }
