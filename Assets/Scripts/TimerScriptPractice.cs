@@ -12,7 +12,6 @@ public class TimerScriptPractice : MonoBehaviour
     public GameObject RestartText;
     private bool startTime = false;
 
-
     void Start()
     {
         updateTimer(TimeLeft);
@@ -41,7 +40,7 @@ public class TimerScriptPractice : MonoBehaviour
         GameText.gameObject.SetActive(true);
         TimerTxt.gameObject.SetActive(false);
         RestartText.gameObject.SetActive(true);
-        Time.timeScale = 0f;
+        Time.timeScale = 0f;        
     }
     void showGameWin(){
         GameText.text = "You Win";
