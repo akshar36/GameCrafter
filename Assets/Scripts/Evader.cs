@@ -33,6 +33,9 @@ public class Evader : MonoBehaviour
     private bool isColliding = false;
     private GameObject LedgePrefab;
 
+
+    public Canvas PopUp1;
+
     void Start()
     {
         HideGameOverShowTimer();
@@ -48,34 +51,47 @@ public class Evader : MonoBehaviour
 
     void Update()
     {
-        float moveInput = Input.GetAxis("Horizontal");
-        Vector2 moveDirection = new Vector2(moveInput, 0);
-        if(rb.velocity.magnitude > 5f && !evaderMoved){
-            Debug.Log("rb.velocity.magnitude "+ rb.velocity.magnitude);
-            evaderMoved = true;
-            StartRunning();
-        }
-
-        rb.velocity = new Vector2(moveDirection.x * moveSpeed, rb.velocity.y);
-
-        if (isGrounded && (Input.GetKeyDown(KeyCode.W) || Input.GetKeyDown(KeyCode.UpArrow)))
+        if (!PopUp1.gameObject.activeSelf)
         {
-            Jump();
-        }
+            float moveInput = Input.GetAxis("Horizontal");
+            Vector2 moveDirection = new Vector2(moveInput, 0);
+            if (rb.velocity.magnitude > 5f && !evaderMoved)
+            {
+                Debug.Log("rb.velocity.magnitude " + rb.velocity.magnitude);
+                evaderMoved = true;
+                StartRunning();
+            }
 
-        if(Input.GetKeyDown(KeyCode.M)) {
-                if(DroppedLedge != null) {
+            rb.velocity = new Vector2(moveDirection.x * moveSpeed, rb.velocity.y);
+
+            if (isGrounded && (Input.GetKeyDown(KeyCode.W) || Input.GetKeyDown(KeyCode.UpArrow)))
+            {
+                Jump();
+            }
+
+            if (Input.GetKeyDown(KeyCode.M))
+            {
+                if (DroppedLedge != null)
+                {
                     DroppedLedge.transform.Rotate(Vector3.forward * 90.0f);
                 }
+            }
+
+            if (!isGrounded && Input.GetKeyDown(KeyCode.Space) && platformCount > 0)
+            {
+                DroppedLedge = Instantiate(floorprefab, transform.position, Quaternion.identity);
+                platformCount--;
+                LedgeCount.text = "x " + platformCount;
+                LedgeCount.gameObject.SetActive(true);
+                isGrounded = true;
+            }
         }
-        
-        if(!isGrounded && Input.GetKeyDown(KeyCode.Space) && platformCount>0)
+        else
         {
-            DroppedLedge = Instantiate(floorprefab, transform.position, Quaternion.identity);
-            platformCount--;
-            LedgeCount.text = "x " + platformCount;
-            LedgeCount.gameObject.SetActive(true);
-            isGrounded = true;
+            if (Input.anyKeyDown)
+            {
+                PopUp1.gameObject.SetActive(false);
+            }
         }
     }
 
