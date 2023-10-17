@@ -144,4 +144,12 @@ public class EvaderPractice : MonoBehaviour
         Scene currentScene = SceneManager.GetActiveScene();
         SceneManager.LoadScene(currentScene.name);
     }
+
+     public void BackButtonClicked()
+    {
+        Time.timeScale = 1f;
+        Scene currentScene = SceneManager.GetActiveScene();
+        SceneManager.LoadScene("LevelSelection");
+        Debug.Log("Back clicked");
+    }
 }
