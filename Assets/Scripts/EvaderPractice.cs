@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 
 public class EvaderPractice : MonoBehaviour
 {
@@ -13,10 +14,10 @@ public class EvaderPractice : MonoBehaviour
     private TimerScriptPractice timerController;
     // private int platformCount = 3;
     public GameObject floorprefab;
-    public TextMeshPro GameText;
+    public Text GameText;
     public GameObject RestartText;
-    public TextMeshPro LedgeCount;
-    public TextMeshPro TimerTxt;
+    public Text LedgeCount;
+    public Text TimerTxt;
     private bool evaderMoved = false;
     private float i = 5.0f;
     public Canvas PopUp1;
@@ -32,7 +33,7 @@ public class EvaderPractice : MonoBehaviour
         {
             PopUp1.gameObject.SetActive(false);
         }
-        LedgeCount.text = "x " + "\u221E";
+        LedgeCount.text = "x " + "INFINITY";
         HideGameOverShowTimer();
         rb = GetComponent<Rigidbody2D>();
         GameObject timer = GameObject.Find("TimerTxt");

@@ -3,12 +3,13 @@ using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 
 public class TimerScriptPractice : MonoBehaviour
 {
     public float TimeLeft;
-    public TextMeshPro GameText;
-    public TextMeshPro TimerTxt;
+    public Text GameText;
+    public Text TimerTxt;
     public GameObject RestartText;
     private bool startTime = false;
 

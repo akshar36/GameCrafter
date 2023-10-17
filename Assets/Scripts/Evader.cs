@@ -17,11 +17,11 @@ public class Evader : MonoBehaviour
     private int platformCount = 3;
     public GameObject floorprefab;
     private GameObject chaser;
-    public TextMeshPro GameText;
+    public Text GameText;
     public GameObject RestartText;
     public GameObject BackButton;
-    public TextMeshPro LedgeCount;
-    public TextMeshPro TimerTxt;
+    public Text LedgeCount;
+    public Text TimerTxt;
     private SpriteRenderer spriteRenderer;
     private SpriteRenderer chaserSpriteRenderer;
     public Sprite caughtSprite;
@@ -129,7 +129,7 @@ void OnCollisionStay2D(Collision2D collision)
 
     void ShowGameOverHideTimer()
     {
-        GameText.text = "Game Over";
+        GameText.text = "GAME OVER";
         GameText.gameObject.SetActive(true);
         TimerTxt.gameObject.SetActive(false);
         chaserSpriteRenderer.sprite = smilingSprite;

@@ -5,11 +5,13 @@ using TMPro;
 public class TimerScript : MonoBehaviour
 {
     public float TimeLeft;
-    public TextMeshPro GameText;
-    public TextMeshPro TimerTxt;
+    public Text GameText;
+    public Text TimerTxt;
+    public GameObject RestartTxt;
     private bool startTime = false;
     void Start()
     {
+        RestartTxt.gameObject.SetActive(false);
         updateTimer(TimeLeft);
     }
 
@@ -31,11 +33,12 @@ public class TimerScript : MonoBehaviour
     }
 
     void showGameWin(){
-        GameText.text = "You Win";
+        GameText.text = "YOU WIN";
         Color pinkColor = HexToColor("#FFC0CB");
         GameText.color = pinkColor;
         GameText.gameObject.SetActive(true);
         TimerTxt.gameObject.SetActive(false);
+        RestartTxt.gameObject.SetActive(true);
         Time.timeScale = 0f;
     }
 
