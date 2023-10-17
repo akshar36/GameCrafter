@@ -12,7 +12,6 @@ public class LevelSelector : MonoBehaviour
 
     void Start()
     {
-        levelText.text = level.ToString();   
     }
 
     // Update is called once per frame
