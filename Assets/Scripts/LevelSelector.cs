@@ -28,7 +28,7 @@ public class LevelSelector : MonoBehaviour
             SceneManager.LoadScene("SampleScene");
         }
         else if(level.ToString() == "2") {
-            chosenLevel++;
+            chosenLevel = 2;
             SceneManager.LoadScene("SampleScene2");
         }
     }
