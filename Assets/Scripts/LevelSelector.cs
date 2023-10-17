@@ -13,6 +13,9 @@ public class LevelSelector : MonoBehaviour
     void Start()
     {
         levelText.text = level.ToString();   
+        if(level.ToString() == "0") {
+            levelText.text = "How To Play";
+        }
     }
 
     // Update is called once per frame

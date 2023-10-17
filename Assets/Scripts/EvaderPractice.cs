@@ -11,7 +11,7 @@ public class EvaderPractice : MonoBehaviour
     private Rigidbody2D rb;
     private bool isGrounded;
     private TimerScriptPractice timerController;
-    private int platformCount = 3;
+    // private int platformCount = 3;
     public GameObject floorprefab;
     public TextMeshPro GameText;
     public GameObject RestartText;
@@ -31,7 +31,7 @@ public class EvaderPractice : MonoBehaviour
         {
             PopUp1.gameObject.SetActive(false);
         }
-        LedgeCount.text = "x " + platformCount;
+        LedgeCount.text = "x " + "\u221E";
         HideGameOverShowTimer();
         rb = GetComponent<Rigidbody2D>();
         GameObject timer = GameObject.Find("TimerTxt");
@@ -58,12 +58,12 @@ public class EvaderPractice : MonoBehaviour
                 Jump();
             }
 
-            if (!isGrounded && Input.GetKeyDown(KeyCode.Space) && platformCount > 0)
+            if (!isGrounded && Input.GetKeyDown(KeyCode.Space))
             {
                 Instantiate(floorprefab, transform.position, Quaternion.identity);
-                platformCount--;
-                LedgeCount.text = "x " + platformCount;
-                LedgeCount.gameObject.SetActive(true);
+                // platformCount--;
+                // LedgeCount.text = "x " + platformCount;
+                // LedgeCount.gameObject.SetActive(true);
                 isGrounded = true;
             }
         }
