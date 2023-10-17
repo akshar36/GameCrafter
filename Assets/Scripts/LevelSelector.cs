@@ -33,10 +33,6 @@ public class LevelSelector : MonoBehaviour
         else if(level.ToString() == "2") {
             chosenLevel++;
             SceneManager.LoadScene("SampleScene2");
-        } 
-        else if (level.ToString() == "3"){
-            chosenLevel+=2;
-            SceneManager.LoadScene("SampleScene3");
         }
     }
 }
