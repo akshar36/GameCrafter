@@ -4193,7 +4193,7 @@ GameObject:
   - component: {fileID: 5391612633783917923}
   m_Layer: 6
   m_Name: Ledge
-  m_TagString: LedgePrefab
+  m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -4784,7 +4784,7 @@ GameObject:
   - component: {fileID: 9102063231095994410}
   m_Layer: 6
   m_Name: Ledge (11)
-  m_TagString: LedgePrefab
+  m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -4803,7 +4803,7 @@ GameObject:
   - component: {fileID: 9102063231407761022}
   m_Layer: 6
   m_Name: Ledge (2)
-  m_TagString: LedgePrefab
+  m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -4822,7 +4822,7 @@ GameObject:
   - component: {fileID: 9102063230458936789}
   m_Layer: 6
   m_Name: Ledge (9)
-  m_TagString: LedgePrefab
+  m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -4841,7 +4841,7 @@ GameObject:
   - component: {fileID: 9102063230418143939}
   m_Layer: 6
   m_Name: Ledge (1)
-  m_TagString: LedgePrefab
+  m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -4860,7 +4860,7 @@ GameObject:
   - component: {fileID: 9102063230581286323}
   m_Layer: 6
   m_Name: Ledge (5)
-  m_TagString: LedgePrefab
+  m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -4879,7 +4879,7 @@ GameObject:
   - component: {fileID: 9102063230692927656}
   m_Layer: 6
   m_Name: Ledge (8)
-  m_TagString: LedgePrefab
+  m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -4898,7 +4898,7 @@ GameObject:
   - component: {fileID: 9102063231959698713}
   m_Layer: 6
   m_Name: Ledge (3)
-  m_TagString: LedgePrefab
+  m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -4917,7 +4917,7 @@ GameObject:
   - component: {fileID: 9102063232354231674}
   m_Layer: 6
   m_Name: Ledge (10)
-  m_TagString: LedgePrefab
+  m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -4936,7 +4936,7 @@ GameObject:
   - component: {fileID: 9102063231637525203}
   m_Layer: 6
   m_Name: Ledge (6)
-  m_TagString: LedgePrefab
+  m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -4955,7 +4955,7 @@ GameObject:
   - component: {fileID: 9102063231913670493}
   m_Layer: 6
   m_Name: Ledge (7)
-  m_TagString: LedgePrefab
+  m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
