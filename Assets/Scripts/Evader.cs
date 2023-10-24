@@ -34,6 +34,8 @@ public class Evader : MonoBehaviour
     private bool isColliding = false;
     private GameObject LedgePrefab;
 
+    private string gameOverReason = "won";
+
 
     public Canvas PopUp1;
 
@@ -107,6 +109,7 @@ public class Evader : MonoBehaviour
     {
         if(collision.gameObject.CompareTag("Chaser"))
         {
+            gameOverReason = "lost";
             ShowGameOverHideTimer();
         } else{
             isGrounded = true;
@@ -137,7 +140,7 @@ public class Evader : MonoBehaviour
         RestartText.gameObject.SetActive(true);
         Time.timeScale = 0f;
         float survivalDuration = Time.time - survivalStartTime;
-        StartCoroutine(sendDataScript.SendDataToGoogleSheets(survivalDuration.ToString(), Teleport.teleportUsageCount.ToString()));
+        StartCoroutine(sendDataScript.SendDataToGoogleSheets(survivalDuration.ToString(), Teleport.teleportUsageCount.ToString(), gameOverReason));
     }
 
     void HideGameOverShowTimer()
