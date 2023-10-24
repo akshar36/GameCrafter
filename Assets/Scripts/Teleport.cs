@@ -40,6 +40,7 @@ public class Teleport : MonoBehaviour
             // After 10 seconds, come back to the original scene.
             // The StartCoroutine method allows you to use a coroutine for this.
             StartCoroutine(ReturnToOriginalSceneAfterDelay(10f));
+            TimerScriptPractice.mainSceneTimeLeft = TimerScript.TimeLeft;
         }
         else if (collision.tag == "Chaser")
         {
