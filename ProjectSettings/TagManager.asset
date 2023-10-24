@@ -11,6 +11,8 @@ TagManager:
   - Portal4
   - checkpoint
   - LedgePrefab
+  - HighJump
+  - Fire
   layers:
   - Default
   - TransparentFX

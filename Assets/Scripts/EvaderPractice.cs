@@ -16,6 +16,10 @@ public class EvaderPractice : MonoBehaviour
     private bool evaderMoved = false;
     private float i = 5.0f;
     private GameObject DroppedLedge;
+    public GameObject highJump; 
+    public GameObject fire; 
+    public GameObject highJumpPowerPopUp;  
+    public GameObject firePowerPopUp;  
 
     void Start()
     {
@@ -23,6 +27,8 @@ public class EvaderPractice : MonoBehaviour
         rb = GetComponent<Rigidbody2D>();
         GameObject timer = GameObject.Find("TimerTxt");
         timerController = timer.GetComponent<TimerScriptPractice>();
+        firePowerPopUp.SetActive(false);
+        highJumpPowerPopUp.SetActive(false);
     }
 
     void Update()
@@ -57,5 +63,38 @@ public class EvaderPractice : MonoBehaviour
     public void StartRunning()
     {
         timerController.StartTime();
+    }
+
+
+    void OnCollisionEnter2D(Collision2D collision)
+    {
+        Debug.Log("Entered Collission");
+
+        if(collision.gameObject.CompareTag("HighJump"))
+        {
+            Debug.Log("Entered high");
+
+            highJump.SetActive(false);
+            
+            // Display the popup message
+            highJumpPowerPopUp.SetActive(true);
+            StartCoroutine(HidePopup(2.0f, highJumpPowerPopUp));
+        } else if(collision.gameObject.CompareTag("Fire")){
+            fire.SetActive(false);
+            Debug.Log("fire");
+
+            
+            // Display the popup message
+            firePowerPopUp.SetActive(true);
+            StartCoroutine(HidePopup(2.0f, firePowerPopUp));
+        }
+
+    }
+
+    // Coroutine to hide the popup after a delay
+    IEnumerator HidePopup(float delay, GameObject popUp)
+    {
+        yield return new WaitForSeconds(delay);
+        popUp.SetActive(false);
     }
 }
