@@ -1,7 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.SceneManagement; 
 
 public class Teleport : MonoBehaviour
 {
@@ -10,7 +9,6 @@ public class Teleport : MonoBehaviour
     private GameObject chaser;
     public static int teleportUsageCount = 0;
     public SendData sendDataScript;
-    public string tutorialSceneName = "Tutorial1";
 
    
     void Start()
@@ -23,25 +21,12 @@ public class Teleport : MonoBehaviour
     {
         if(collision.tag == "Player")
         {
-            SceneManager.LoadScene(tutorialSceneName);
-            StartCoroutine(ReturnToOriginalSceneAfterDelay(10f));
-            
-            // player.transform.position = new Vector2(portal.transform.position.x, portal.transform.position.y);
-            // teleportUsageCount++;
-            // Debug.Log("Teleport usage incremented to: " + teleportUsageCount);
+            player.transform.position = new Vector2(portal.transform.position.x, portal.transform.position.y);
+            teleportUsageCount++;
+            Debug.Log("Teleport usage incremented to: " + teleportUsageCount);
         } 
         else if(collision.tag == "Chaser"){
             chaser.transform.position = new Vector2(portal.transform.position.x, portal.transform.position.y);
         }
     }
-    private IEnumerator ReturnToOriginalSceneAfterDelay(float delay)
-    {
-        yield return new WaitForSeconds(delay);
-
-        // This will load the original scene based on the scene's build index.
-        // Here we're assuming the original scene is at build index 0.
-        // You might want to change this if your original scene has a different index.
-        SceneManager.LoadScene(0);
-    }
 }
-
