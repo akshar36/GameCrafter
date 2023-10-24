@@ -49,7 +49,7 @@ public class TimerScript : MonoBehaviour
         float minutes = Mathf.FloorToInt(currentTime / 60);
         float seconds = Mathf.FloorToInt(currentTime % 60);
 
-        TimerTxt.text = string.Format("{0:00}:{1:00}", minutes, seconds);
+        TimerTxt.text = string.Format("{0:00}:{1:00} seconds left to win", minutes, seconds);
     }
 
     Color HexToColor(string hex)
