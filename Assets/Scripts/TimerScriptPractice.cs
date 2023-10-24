@@ -10,7 +10,6 @@ public class TimerScriptPractice : MonoBehaviour
     public float TimeLeft;
     public Text GameText;
     public Text TimerTxt;
-    public GameObject RestartText;
     private bool startTime = false;
 
     void Start()
@@ -29,27 +28,9 @@ public class TimerScriptPractice : MonoBehaviour
             }
             else
             {
-                ShowGameOverHideTimer();
                 TimeLeft = 0;
             }
         }
-    }
-
-    void ShowGameOverHideTimer()
-    {
-        GameText.text = "Game Over";
-        GameText.gameObject.SetActive(true);
-        TimerTxt.gameObject.SetActive(false);
-        RestartText.gameObject.SetActive(true);
-        Time.timeScale = 0f;        
-    }
-    void showGameWin(){
-        GameText.text = "You Win";
-        Color pinkColor = HexToColor("#FFC0CB");
-        GameText.color = pinkColor;
-        GameText.gameObject.SetActive(true);
-        TimerTxt.gameObject.SetActive(false);
-        Time.timeScale = 0f;
     }
 
     void updateTimer(float currentTime)
