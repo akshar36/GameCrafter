@@ -70,13 +70,13 @@ public class Evader : MonoBehaviour
                 Jump();
             }
 
-            if (Input.GetKeyDown(KeyCode.M))
-            {
-                if (DroppedLedge != null)
-                {
-                    DroppedLedge.transform.Rotate(Vector3.forward * 90.0f);
-                }
-            }
+            // if (Input.GetKeyDown(KeyCode.M))
+            // {
+            //     if (DroppedLedge != null)
+            //     {
+            //         DroppedLedge.transform.Rotate(Vector3.forward * 90.0f);
+            //     }
+            // }
 
             if (!isGrounded && Input.GetKeyDown(KeyCode.Space) && platformCount > 0)
             {
@@ -114,17 +114,17 @@ public class Evader : MonoBehaviour
 
     }
 
-void OnCollisionStay2D(Collision2D collision)
-     {
-         if (collision.gameObject.CompareTag("LedgePrefab")) // Detect when collision ends
-         {
-             if(Input.GetKeyDown(KeyCode.N)){
-                 Destroy(collision.gameObject);
-                 platformCount++;
-                 LedgeCount.text = "x " + platformCount;
-             }
-         }
-     }
+// void OnCollisionStay2D(Collision2D collision)
+//      {
+//          if (collision.gameObject.CompareTag("LedgePrefab")) // Detect when collision ends
+//          {
+//              if(Input.GetKeyDown(KeyCode.N)){
+//                  Destroy(collision.gameObject);
+//                  platformCount++;
+//                  LedgeCount.text = "x " + platformCount;
+//              }
+//          }
+//      }
 
 
     void ShowGameOverHideTimer()
