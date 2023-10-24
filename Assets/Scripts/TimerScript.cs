@@ -4,7 +4,7 @@ using TMPro;
 
 public class TimerScript : MonoBehaviour
 {
-    public float TimeLeft;
+    public static float TimeLeft = 49f;
     public Text GameText;
     public Text TimerTxt;
     public GameObject RestartTxt;
