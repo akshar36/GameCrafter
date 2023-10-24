@@ -33,6 +33,8 @@ public class TimerScriptPractice : MonoBehaviour
             {
                 TimeLeft = 0;
                 if(LevelSelector.chosenLevel == 1){
+                    // Evader.AreWeReturningToTheScene = true;
+                    Evader.AreWeReturningToTheScene = true;
                     TimerScript.TimeLeft = TimerScriptPractice.mainSceneTimeLeft;
                     SceneManager.LoadScene(sceneToReturnTo);
                     } else{

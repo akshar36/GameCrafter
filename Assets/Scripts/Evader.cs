@@ -35,6 +35,7 @@ public class Evader : MonoBehaviour
     private GameObject LedgePrefab;
 
     private string gameOverReason = "won";
+    public static bool AreWeReturningToTheScene = false;
 
 
     public Canvas PopUp1;
@@ -91,7 +92,7 @@ public class Evader : MonoBehaviour
         }
         else
         {
-            if (Input.anyKeyDown)
+            if (Input.anyKeyDown || AreWeReturningToTheScene)
             {
                 PopUp1.gameObject.SetActive(false);
             }
