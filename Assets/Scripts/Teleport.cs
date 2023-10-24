@@ -44,10 +44,18 @@ public class Teleport : MonoBehaviour
             StartCoroutine(ReturnToOriginalSceneAfterDelay(10f));
             // TimerScriptPractice.mainSceneTimeLeft = TimerScript.TimeLeft;
         }
-        else if (collision.tag == "Player")
+        else if (collision.tag == "Player" && LevelSelector.chosenLevel == 2)
         {
             player.transform.position = new Vector2(portal.transform.position.x + 7f, portal.transform.position.y);
-        } else {
+        }
+        else if (collision.tag == "Player"){
+            SceneManager.LoadScene(tutorialSceneName);
+
+            // After 10 seconds, come back to the original scene.
+            // The StartCoroutine method allows you to use a coroutine for this.
+            StartCoroutine(ReturnToOriginalSceneAfterDelay(10f));
+        }
+        else{
             chaser.transform.position = new Vector2(portal.transform.position.x +7f, portal.transform.position.y);
         }
     }
