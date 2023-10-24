@@ -14,7 +14,7 @@ public class Evader : MonoBehaviour
     private bool isGrounded;
     private ChaserAI chaserController;
     private TimerScript timerController;
-    private int platformCount = 3;
+    private int platformCount = 10;
     public GameObject floorprefab;
     private GameObject chaser;
     public Text GameText;
