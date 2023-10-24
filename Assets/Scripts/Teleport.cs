@@ -11,7 +11,8 @@ public class Teleport : MonoBehaviour
     public static int teleportUsageCount = 0;
     public SendData sendDataScript;
     public string tutorialSceneName = "Tutorial1";
-   
+    public string fromSceneName;
+
     void Start()
     {
         player = GameObject.FindWithTag("Player");
@@ -30,9 +31,10 @@ public class Teleport : MonoBehaviour
     //         chaser.transform.position = new Vector2(portal.transform.position.x, portal.transform.position.y);
     //     }
     // }
+
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if (collision.tag == "Player")
+        if (collision.tag == "Player" && portal.name =="wormhole")
         {
             // Instead of teleporting within the scene, load the tutorial scene
             SceneManager.LoadScene(tutorialSceneName);
@@ -40,11 +42,13 @@ public class Teleport : MonoBehaviour
             // After 10 seconds, come back to the original scene.
             // The StartCoroutine method allows you to use a coroutine for this.
             StartCoroutine(ReturnToOriginalSceneAfterDelay(10f));
-            TimerScriptPractice.mainSceneTimeLeft = TimerScript.TimeLeft;
+            // TimerScriptPractice.mainSceneTimeLeft = TimerScript.TimeLeft;
         }
-        else if (collision.tag == "Chaser")
+        else if (collision.tag == "Player")
         {
-            chaser.transform.position = new Vector2(portal.transform.position.x, portal.transform.position.y);
+            player.transform.position = new Vector2(portal.transform.position.x + 7f, portal.transform.position.y);
+        } else {
+            chaser.transform.position = new Vector2(portal.transform.position.x +7f, portal.transform.position.y);
         }
     }
 
@@ -55,6 +59,6 @@ public class Teleport : MonoBehaviour
         // This will load the original scene based on the scene's build index.
         // Here we're assuming the original scene is at build index 0.
         // You might want to change this if your original scene has a different index.
-        SceneManager.LoadScene(0);
+        SceneManager.LoadScene(fromSceneName);
     }
 }

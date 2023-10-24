@@ -13,7 +13,6 @@ public class TimerScriptPractice : MonoBehaviour
     private bool startTime = false;
     private string sceneToReturnTo = "SampleScene"; // The name of the scene you want to return to
     private string sceneToReturnTo2 = "SampleScene2";
-    public static float mainSceneTimeLeft;
 
     void Start()
     {
@@ -33,12 +32,11 @@ public class TimerScriptPractice : MonoBehaviour
             {
                 TimeLeft = 0;
                 if(LevelSelector.chosenLevel == 1){
-                    // Evader.AreWeReturningToTheScene = true;
                     Evader.AreWeReturningToTheScene = true;
-                    TimerScript.TimeLeft = TimerScriptPractice.mainSceneTimeLeft;
                     SceneManager.LoadScene(sceneToReturnTo);
-                    } else{
-                    TimerScript.TimeLeft = TimerScriptPractice.mainSceneTimeLeft;
+                    } 
+                else{
+                    Evader.AreWeReturningToTheScene = true;
                     SceneManager.LoadScene(sceneToReturnTo2);
                 }
             }

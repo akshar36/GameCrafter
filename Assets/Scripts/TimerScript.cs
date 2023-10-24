@@ -1,6 +1,7 @@
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
+using UnityEngine.SceneManagement;
 
 public class TimerScript : MonoBehaviour
 {
@@ -24,8 +25,7 @@ public class TimerScript : MonoBehaviour
                 TimeLeft -= Time.deltaTime;
                 updateTimer(TimeLeft);
             }
-            else
-            {
+            else {
                 showGameWin();
                 TimeLeft = 0;
             }
@@ -45,9 +45,10 @@ public class TimerScript : MonoBehaviour
     void updateTimer(float currentTime)
     {
         currentTime += 1;
-
+        Debug.Log("currentTime "+ currentTime);
         float minutes = Mathf.FloorToInt(currentTime / 60);
         float seconds = Mathf.FloorToInt(currentTime % 60);
+        Debug.Log("seconds "+ seconds);
 
         TimerTxt.text = string.Format("{0:00}:{1:00} seconds left to win", minutes, seconds);
     }
@@ -68,3 +69,17 @@ public class TimerScript : MonoBehaviour
         startTime = true;
     }
 }
+
+    // void OnCollisionStay2D(Collision2D collision)
+    // {
+
+    //     if (collision.gameObject.CompareTag("LedgePrefab")) // Detect when collision ends
+    //     {
+    //         if(Input.GetKeyDown(KeyCode.N)){
+    //             Destroy(collision.gameObject);
+    //             platformCount++;
+    //             LedgeCount.text = "x " + platformCount;
+    //             Debug.Log("Player collided with the portal");
+    //         }
+    //     }
+    // }

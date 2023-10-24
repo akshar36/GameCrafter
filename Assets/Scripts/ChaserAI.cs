@@ -13,7 +13,6 @@ public class ChaserAI : MonoBehaviour
     int currentWayPoint;
     bool reachedEndofPath = false;
     private bool isChasing = false;
-
     Seeker seeker;
     Rigidbody2D rb;
 
@@ -42,6 +41,15 @@ public class ChaserAI : MonoBehaviour
         {
             path = p;
             currentWayPoint=0;
+            // hits = Physics2D.OverlapBoxAll(transform.position, new Vector2(tilemap.cellBounds.size.x, tilemap.cellBounds.size.y), 0f, enemyLayer);
+            // foreach (Collider2D hit in hits)
+            // {
+            //     // Get the position of the tile in world coordinates
+            //     Vector3Int cellPosition = tilemap.WorldToCell(hit.transform.position);
+            //     Debug.Log("workin");
+            //     // Change the tile to the orange tile
+            //     tilemap.SetTile(cellPosition, orangeTile);
+            // }
         }
     }
 

@@ -26,18 +26,17 @@ public class Evader : MonoBehaviour
     private SpriteRenderer chaserSpriteRenderer;
     public Sprite caughtSprite;
     public Sprite smilingSprite;
+    public Sprite shieldSprite;
     private bool evaderMoved = false;
     public SendData sendDataScript;
     private float survivalStartTime;
-
+    private bool noShield = true;
     private GameObject DroppedLedge;
     private bool isColliding = false;
     private GameObject LedgePrefab;
-
     private string gameOverReason = "won";
+    private GameObject wormhole;
     public static bool AreWeReturningToTheScene = false;
-
-
     public Canvas PopUp1;
 
     void Start()
@@ -51,6 +50,19 @@ public class Evader : MonoBehaviour
         chaserController = chaser.GetComponent<ChaserAI>();
         timerController = timer.GetComponent<TimerScript>();
         survivalStartTime = Time.time;
+        if(EvaderSpace.shield) {
+            StartCoroutine(DeactivateShield(10f));
+            noShield = false;            
+            Color greenColor = HexToColor("#6AF802");
+            Vector3 newScale = new Vector3(5.0f, 5.0f, 5.0f);
+            spriteRenderer.material.color = greenColor;
+            GameObject evader = GameObject.Find("Evader");
+            evader.transform.localScale = newScale;
+        }
+        if(LevelSelector.chosenLevel == 2){
+            wormhole = GameObject.Find("wormhole");
+            wormhole.gameObject.SetActive(false);
+        }
     }
 
     void Update()
@@ -97,6 +109,20 @@ public class Evader : MonoBehaviour
                 PopUp1.gameObject.SetActive(false);
             }
         }
+        if(Time.time > 10 && !EvaderSpace.visited){
+            wormhole.gameObject.SetActive(true);
+        }
+    }
+
+    private IEnumerator DeactivateShield(float delay)
+    {
+        yield return new WaitForSeconds(delay);
+        Color greenColor = HexToColor("#FFFF00");
+        Vector3 newScale = new Vector3(3.0f, 3.0f, 3.0f);
+        spriteRenderer.material.color = greenColor;
+        GameObject evader = GameObject.Find("Evader");
+        evader.transform.localScale = newScale;
+        noShield = true;
     }
 
     void Jump()
@@ -108,7 +134,7 @@ public class Evader : MonoBehaviour
 
     void OnCollisionEnter2D(Collision2D collision)
     {
-        if(collision.gameObject.CompareTag("Chaser"))
+        if(collision.gameObject.CompareTag("Chaser") && noShield)
         {
             gameOverReason = "lost";
             ShowGameOverHideTimer();
@@ -118,20 +144,20 @@ public class Evader : MonoBehaviour
 
     }
 
-// void OnCollisionStay2D(Collision2D collision)
-//      {
-//          if (collision.gameObject.CompareTag("LedgePrefab")) // Detect when collision ends
-//          {
-//              if(Input.GetKeyDown(KeyCode.N)){
-//                  Destroy(collision.gameObject);
-//                  platformCount++;
-//                  LedgeCount.text = "x " + platformCount;
-//              }
-//          }
-//      }
+void OnCollisionStay2D(Collision2D collision)
+     {
+         if (collision.gameObject.CompareTag("LedgePrefab"))
+         {
+             if(Input.GetKeyDown(KeyCode.N)){
+                 Destroy(collision.gameObject);
+                 platformCount++;
+                 LedgeCount.text = "x " + platformCount;
+             }
+         }
+     }
 
 
-    void ShowGameOverHideTimer()
+    public void ShowGameOverHideTimer()
     {
         GameText.text = "GAME OVER";
         GameText.gameObject.SetActive(true);
@@ -170,5 +196,17 @@ public class Evader : MonoBehaviour
         Scene currentScene = SceneManager.GetActiveScene();
         SceneManager.LoadScene("LevelSelection");
         Debug.Log("Back clicked");
+    }
+
+    Color HexToColor(string hex)
+    {
+        // Remove the '#' character if it's included
+        hex = hex.TrimStart('#');
+
+        // Parse the hex string to a Color object
+        Color color = new Color();
+        ColorUtility.TryParseHtmlString("#" + hex, out color);
+
+        return color;
     }
 }

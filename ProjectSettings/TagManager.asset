@@ -9,8 +9,11 @@ TagManager:
   - Obstacle
   - Portal1
   - Portal4
-  - checkpoint
+  - changeScenePortal
   - LedgePrefab
+  - shield
+  - bomb
+  - checkpoint
   - HighJump
   - Fire
   layers:
@@ -24,8 +27,8 @@ TagManager:
   - Dummy
   - Ledge1
   - text
-  - 
-  - 
+  - evaderSpace
+  - rightBorder
   - 
   - 
   - 
@@ -67,4 +70,10 @@ TagManager:
     locked: 0
   - name: text
     uniqueID: 1838749809
+    locked: 0
+  - name: changeScenePortal
+    uniqueID: 3690345033
+    locked: 0
+  - name: New Layer 8
+    uniqueID: 1332601183
     locked: 0
