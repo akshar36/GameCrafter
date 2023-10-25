@@ -168,6 +168,8 @@ MonoBehaviour:
   shieldSprite: {fileID: 0}
   sendDataScript: {fileID: 1073655552}
   PopUp1: {fileID: 755410723}
+  shootText: {fileID: 0}
+  powerupText: {fileID: 0}
 --- !u!4 &108745094
 Transform:
   m_ObjectHideFlags: 0
@@ -2942,6 +2944,7 @@ MonoBehaviour:
   GameText: {fileID: 1162950646}
   TimerTxt: {fileID: 811989258}
   RestartTxt: {fileID: 176154574}
+  sendDataScript: {fileID: 1073655552}
 --- !u!114 &811989258
 MonoBehaviour:
   m_ObjectHideFlags: 0
