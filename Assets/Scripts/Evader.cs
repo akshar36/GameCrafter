@@ -29,18 +29,21 @@ public class Evader : MonoBehaviour
     public Sprite shieldSprite;
     private bool evaderMoved = false;
     public SendData sendDataScript;
-    private float survivalStartTime;
+    public static float survivalStartTime;
     private bool noShield = true;
     private GameObject DroppedLedge;
     private bool isColliding = false;
     private GameObject LedgePrefab;
-    private string gameOverReason = "won";
     private GameObject wormhole;
     public static bool AreWeReturningToTheScene = false;
     public Canvas PopUp1;
+    public TextMeshProUGUI shootText;
+    public TextMeshProUGUI powerupText;
 
     void Start()
     {
+        shootText.color = Color.white;
+        powerupText.color = Color.white;
         HideGameOverShowTimer();
         rb = GetComponent<Rigidbody2D>();
         spriteRenderer = GetComponent<SpriteRenderer>();
@@ -109,7 +112,7 @@ public class Evader : MonoBehaviour
                 PopUp1.gameObject.SetActive(false);
             }
         }
-        if(Time.time > 10 && !EvaderSpace.visited){
+        if(LevelSelector.chosenLevel == 2 && Time.time > 10 && !EvaderSpace.visited){
             wormhole.gameObject.SetActive(true);
         }
     }
@@ -134,27 +137,28 @@ public class Evader : MonoBehaviour
 
     void OnCollisionEnter2D(Collision2D collision)
     {
-        if(collision.gameObject.CompareTag("Chaser") && noShield)
+        if((LevelSelector.chosenLevel == 1 && collision.gameObject.CompareTag("Chaser")) || 
+        (LevelSelector.chosenLevel == 2 && collision.gameObject.CompareTag("Chaser") && noShield))
         {
-            gameOverReason = "lost";
             ShowGameOverHideTimer();
+            TimerScript.setTime();
         } else{
             isGrounded = true;
         }
 
     }
 
-void OnCollisionStay2D(Collision2D collision)
-     {
-         if (collision.gameObject.CompareTag("LedgePrefab"))
-         {
-             if(Input.GetKeyDown(KeyCode.N)){
-                 Destroy(collision.gameObject);
-                 platformCount++;
-                 LedgeCount.text = "x " + platformCount;
-             }
-         }
-     }
+// void OnCollisionStay2D(Collision2D collision)
+//      {
+//          if (collision.gameObject.CompareTag("LedgePrefab"))
+//          {
+//              if(Input.GetKeyDown(KeyCode.N)){
+//                  Destroy(collision.gameObject);
+//                  platformCount++;
+//                  LedgeCount.text = "x " + platformCount;
+//              }
+//          }
+//      }
 
 
     public void ShowGameOverHideTimer()
@@ -167,7 +171,7 @@ void OnCollisionStay2D(Collision2D collision)
         RestartText.gameObject.SetActive(true);
         Time.timeScale = 0f;
         float survivalDuration = Time.time - survivalStartTime;
-        StartCoroutine(sendDataScript.SendDataToGoogleSheets(survivalDuration.ToString(), Teleport.teleportUsageCount.ToString(), gameOverReason));
+        StartCoroutine(sendDataScript.SendDataToGoogleSheets(survivalDuration.ToString(), Teleport.teleportUsageCount.ToString(), "lost"));
     }
 
     void HideGameOverShowTimer()
@@ -196,6 +200,7 @@ void OnCollisionStay2D(Collision2D collision)
         Scene currentScene = SceneManager.GetActiveScene();
         SceneManager.LoadScene("LevelSelection");
         Debug.Log("Back clicked");
+        TimerScript.setTime();
     }
 
     Color HexToColor(string hex)
