@@ -46,13 +46,12 @@ public class EvaderSpace : MonoBehaviour
     void OnTriggerEnter2D(Collider2D collision){
         if(collision.tag == "shield")
         {
-            if(shieldCollected < 5) {
-                shieldCollected ++;
-                ShieldCount.text = shieldCollected + " / 5";
-                ShieldCount.gameObject.SetActive(true);
-                collision.gameObject.SetActive(false);
-            }
-            if(shieldCollected >= 5) {
+            shieldCollected++;
+            ShieldCount.text = shieldCollected.ToString();
+            ShieldCount.gameObject.SetActive(true);
+            collision.gameObject.SetActive(false);
+
+            if(shieldCollected > 0) {
                 shield = true;
             }
         }
@@ -67,10 +66,8 @@ public class EvaderSpace : MonoBehaviour
                 spriteRenderer.sprite = hitTwo;
             } else if(bombHit == 3){
                 spriteRenderer.sprite = hitThree;
-                GameOverTxt.gameObject.SetActive(true);
-                TimerTxt.gameObject.SetActive(false);
-                RestartText.gameObject.SetActive(true);
                 Time.timeScale = 0f;
+                 SceneManager.LoadScene("Level2");
             }
         }
     }
@@ -79,7 +76,7 @@ public class EvaderSpace : MonoBehaviour
     {
         Time.timeScale = 1f;
         // Scene currentScene = SceneManager.GetActiveScene();
-        SceneManager.LoadScene("SampleScene2");
+        SceneManager.LoadScene("Level2");
     }
 
      public void BackButtonClicked()
