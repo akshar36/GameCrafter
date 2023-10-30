@@ -60,7 +60,7 @@ public class TimerScript : MonoBehaviour
         TimerTxt.gameObject.SetActive(false);
         RestartTxt.gameObject.SetActive(true);
         Time.timeScale = 0f;
-        //SceneManager.LoadScene("LevelSelection");
+        SceneManager.LoadScene("LevelSelection");
         setTime();
         
     }
