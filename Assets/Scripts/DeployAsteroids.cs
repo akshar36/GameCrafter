@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class DeployAsteroids : MonoBehaviour {
     public GameObject bombPrefabs;
-    public float respawnTime = 1.0f;
+    public float respawnTime = 10.0f;
     private Vector2 screenBounds;
 
     // Use this for initialization

@@ -17,6 +17,11 @@ public class Teleport : MonoBehaviour
     {
         player = GameObject.FindWithTag("Player");
         chaser = GameObject.FindWithTag("Chaser");
+        if (SceneManager.GetActiveScene().name == tutorialSceneName)
+        {
+        // When the tutorial scene is active, start the coroutine
+        StartCoroutine(ReturnAfterDelay(10.0f));
+    }
     }
 
     // private void OnTriggerEnter2D(Collider2D collision)
@@ -38,7 +43,8 @@ public class Teleport : MonoBehaviour
         {
             teleportUsageCount++;
             // Instead of teleporting within the scene, load the tutorial scene
-            SceneManager.LoadScene(tutorialSceneName);
+            SceneManager.LoadScene(tutorialSceneName,LoadSceneMode.Additive);
+            
         }
         else if (collision.tag == "Player" && LevelSelector.chosenLevel == 2)
         {
@@ -52,4 +58,12 @@ public class Teleport : MonoBehaviour
             chaser.transform.position = new Vector2(portal.transform.position.x +7f, portal.transform.position.y);
         }
     }
+
+    private IEnumerator ReturnAfterDelay(float delay)
+{
+    yield return new WaitForSeconds(delay);
+
+    // Unload the tutorial scene
+    SceneManager.UnloadSceneAsync(tutorialSceneName);
+}
 }
