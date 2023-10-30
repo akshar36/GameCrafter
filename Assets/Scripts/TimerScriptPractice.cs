@@ -32,11 +32,11 @@ public class TimerScriptPractice : MonoBehaviour
             {
                 TimeLeft = 0;
                 if(LevelSelector.chosenLevel == 1){
-                    Evader.AreWeReturningToTheScene = true;
+                    TimerScript.AreWeReturningToTheScene = true;
                     SceneManager.LoadScene(sceneToReturnTo);
                     } 
                 else{
-                    Evader.AreWeReturningToTheScene = true;
+                    TimerScript.AreWeReturningToTheScene = true;
                     SceneManager.LoadScene(sceneToReturnTo2);
                 }
             }

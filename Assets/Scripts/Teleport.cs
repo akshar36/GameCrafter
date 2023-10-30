@@ -36,37 +36,20 @@ public class Teleport : MonoBehaviour
     {
         if (collision.tag == "Player" && portal.name =="wormhole")
         {
+            teleportUsageCount++;
             // Instead of teleporting within the scene, load the tutorial scene
             SceneManager.LoadScene(tutorialSceneName);
-
-            // After 10 seconds, come back to the original scene.
-            // The StartCoroutine method allows you to use a coroutine for this.
-            StartCoroutine(ReturnToOriginalSceneAfterDelay(10f));
-            // TimerScriptPractice.mainSceneTimeLeft = TimerScript.TimeLeft;
         }
         else if (collision.tag == "Player" && LevelSelector.chosenLevel == 2)
         {
             player.transform.position = new Vector2(portal.transform.position.x + 7f, portal.transform.position.y);
         }
         else if (collision.tag == "Player"){
+            teleportUsageCount++;
             SceneManager.LoadScene(tutorialSceneName);
-
-            // After 10 seconds, come back to the original scene.
-            // The StartCoroutine method allows you to use a coroutine for this.
-            StartCoroutine(ReturnToOriginalSceneAfterDelay(10f));
         }
         else{
             chaser.transform.position = new Vector2(portal.transform.position.x +7f, portal.transform.position.y);
         }
-    }
-
-    private IEnumerator ReturnToOriginalSceneAfterDelay(float delay)
-    {
-        yield return new WaitForSeconds(delay);
-
-        // This will load the original scene based on the scene's build index.
-        // Here we're assuming the original scene is at build index 0.
-        // You might want to change this if your original scene has a different index.
-        SceneManager.LoadScene(fromSceneName);
     }
 }

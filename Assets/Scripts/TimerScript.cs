@@ -5,7 +5,8 @@ using UnityEngine.SceneManagement;
 
 public class TimerScript : MonoBehaviour
 {
-    public static float TimeLeft;
+    private static float TimeLeft;
+    public static bool AreWeReturningToTheScene = false;
     public Text GameText;
     public Text TimerTxt;
     public GameObject RestartTxt;
@@ -15,7 +16,10 @@ public class TimerScript : MonoBehaviour
     void Start()
     {
         RestartTxt.gameObject.SetActive(false);
-        setTime();
+        Debug.Log("set time called on start");
+        if (!AreWeReturningToTheScene){
+            setTime();
+        }
         updateTimer(TimeLeft);
     }
 

@@ -24,7 +24,6 @@ public class LevelSelector : MonoBehaviour
         }
         else if (level.ToString() == "1")
         {
-            Debug.Log("xxx");
             SceneManager.LoadScene("SampleScene");
         }
         else if(level.ToString() == "2") {

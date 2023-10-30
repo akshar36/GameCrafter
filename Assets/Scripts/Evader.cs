@@ -35,8 +35,6 @@ public class Evader : MonoBehaviour
     private bool isColliding = false;
     private GameObject LedgePrefab;
     private GameObject wormhole;
-    public static bool AreWeReturningToTheScene = false;
-    public Canvas PopUp1;
     public TextMeshProUGUI shootText;
     public TextMeshProUGUI powerupText;
 
@@ -70,8 +68,6 @@ public class Evader : MonoBehaviour
 
     void Update()
     {
-        if (!PopUp1.gameObject.activeSelf)
-        {
             float moveInput = Input.GetAxis("Horizontal");
             Vector2 moveDirection = new Vector2(moveInput, 0);
             if (rb.velocity.magnitude > 5f && !evaderMoved)
@@ -104,14 +100,8 @@ public class Evader : MonoBehaviour
                 LedgeCount.gameObject.SetActive(true);
                 isGrounded = true;
             }
-        }
-        else
-        {
-            if (Input.anyKeyDown || AreWeReturningToTheScene)
-            {
-                PopUp1.gameObject.SetActive(false);
-            }
-        }
+        
+
         if(LevelSelector.chosenLevel == 2 && Time.time > 10 && !EvaderSpace.visited){
             wormhole.gameObject.SetActive(true);
         }
@@ -141,6 +131,7 @@ public class Evader : MonoBehaviour
         (LevelSelector.chosenLevel == 2 && collision.gameObject.CompareTag("Chaser") && noShield))
         {
             ShowGameOverHideTimer();
+            Debug.Log("set time called in collision");
             TimerScript.setTime();
         } else{
             isGrounded = true;
@@ -200,6 +191,7 @@ public class Evader : MonoBehaviour
         Scene currentScene = SceneManager.GetActiveScene();
         SceneManager.LoadScene("LevelSelection");
         Debug.Log("Back clicked");
+        Debug.Log("set time called on back");
         TimerScript.setTime();
     }
 
