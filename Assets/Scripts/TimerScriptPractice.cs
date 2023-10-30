@@ -11,8 +11,8 @@ public class TimerScriptPractice : MonoBehaviour
     public Text GameText;
     public Text TimerTxt;
     private bool startTime = false;
-    private string sceneToReturnTo = "SampleScene"; // The name of the scene you want to return to
-    private string sceneToReturnTo2 = "SampleScene2";
+    private string sceneToReturnTo = "Level1"; // The name of the scene you want to return to
+    private string sceneToReturnTo2 = "Level2";
 
     void Start()
     {

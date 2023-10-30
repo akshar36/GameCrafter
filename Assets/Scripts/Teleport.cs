@@ -10,7 +10,6 @@ public class Teleport : MonoBehaviour
     private GameObject chaser;
     public static int teleportUsageCount = 0;
     public SendData sendDataScript;
-    public string tutorialSceneName = "Tutorial1";
     public string fromSceneName;
 
     void Start()
@@ -34,23 +33,13 @@ public class Teleport : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if (collision.tag == "Player" && portal.name =="wormhole")
+        if (collision.tag == "Player")
         {
             teleportUsageCount++;
             // Instead of teleporting within the scene, load the tutorial scene
-            SceneManager.LoadScene(tutorialSceneName);
-            
-        }
-        else if (collision.tag == "Player" && LevelSelector.chosenLevel == 2)
-        {
             player.transform.position = new Vector2(portal.transform.position.x + 7f, portal.transform.position.y);
-        }
-        else if (collision.tag == "Player"){
-            teleportUsageCount++;
-            SceneManager.LoadScene(tutorialSceneName);
-        }
-        else{
-            chaser.transform.position = new Vector2(portal.transform.position.x +7f, portal.transform.position.y);
+            SceneManager.LoadScene("Space");
+            
         }
     }
 }

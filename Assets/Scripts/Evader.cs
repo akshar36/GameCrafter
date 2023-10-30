@@ -35,13 +35,9 @@ public class Evader : MonoBehaviour
     private bool isColliding = false;
     private GameObject LedgePrefab;
     private GameObject wormhole;
-    public TextMeshProUGUI shootText;
-    public TextMeshProUGUI powerupText;
 
     void Start()
     {
-        shootText.color = Color.white;
-        powerupText.color = Color.white;
         HideGameOverShowTimer();
         rb = GetComponent<Rigidbody2D>();
         spriteRenderer = GetComponent<SpriteRenderer>();
