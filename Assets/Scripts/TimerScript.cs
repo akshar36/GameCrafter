@@ -26,7 +26,7 @@ public class TimerScript : MonoBehaviour
     public static void setTime(){
         switch(LevelSelector.chosenLevel){
             case 1:
-                TimeLeft = 49f;
+                TimeLeft = 29f;
                 break;
             case 2:
                 TimeLeft = 59f;
@@ -60,7 +60,7 @@ public class TimerScript : MonoBehaviour
         TimerTxt.gameObject.SetActive(false);
         RestartTxt.gameObject.SetActive(true);
         Time.timeScale = 0f;
-        SceneManager.LoadScene("LevelSelection");
+        //SceneManager.LoadScene("LevelSelection");
         setTime();
         
     }
