@@ -27,6 +27,7 @@ public class EvaderLevel1 : MonoBehaviour
     public Sprite caughtSprite;
     public Sprite smilingSprite;
     //public Sprite shieldSprite;
+    public SendData sendDataScript;
 
     public Sprite hitOne;
     public Sprite hitTwo;
@@ -40,8 +41,7 @@ public class EvaderLevel1 : MonoBehaviour
     private GameObject LedgePrefab;
     private GameObject wormhole;
 
-    private float disableChaserTime = 15f;
-
+    private float disableChaserTime = 12f;
 
     void Start()
     {
@@ -49,9 +49,6 @@ public class EvaderLevel1 : MonoBehaviour
         rb = GetComponent<Rigidbody2D>();
         spriteRenderer = GetComponent<SpriteRenderer>();
         GameObject chaser = GameObject.Find("Chaser");
-        chaser.SetActive(false);
-        StartCoroutine(EnableChaserAfterDelay(disableChaserTime));
-
         GameObject timer = GameObject.Find("TimerTxt");
         chaserSpriteRenderer = chaser.GetComponent<SpriteRenderer>();
         chaserController = chaser.GetComponent<ChaserAI>();
@@ -70,10 +67,13 @@ public class EvaderLevel1 : MonoBehaviour
             wormhole = GameObject.Find("wormhole");
             wormhole.gameObject.SetActive(false);
         }
+
     }
+    
 
     void Update()
     {
+            
             float moveInput = Input.GetAxis("Horizontal");
             Vector2 moveDirection = new Vector2(moveInput, 0);
             if (rb.velocity.magnitude > 5f && !evaderMoved)
@@ -81,6 +81,7 @@ public class EvaderLevel1 : MonoBehaviour
                 Debug.Log("rb.velocity.magnitude " + rb.velocity.magnitude);
                 evaderMoved = true;
                 StartRunning();
+                StartCoroutine(EnableChaserAfterDelay(disableChaserTime));
             }
 
             rb.velocity = new Vector2(moveDirection.x * moveSpeed, rb.velocity.y);
@@ -116,8 +117,24 @@ public class EvaderLevel1 : MonoBehaviour
     private IEnumerator EnableChaserAfterDelay(float delay)
     {
         yield return new WaitForSeconds(delay);
-        chaser.SetActive(true);
+        StartCoroutine(RedReminderFlash());
+        yield return new WaitForSeconds(3.0f);
+        chaserSpriteRenderer.color = Color.yellow;
+        chaserController.StartChasing();
     }
+    private IEnumerator RedReminderFlash()
+    {
+        // Flash the chaser red to remind the player
+        Color originalColor = chaserSpriteRenderer.color;
+        for (int i = 0; i < 3; i++) // Flash 3 times
+        {
+            chaserSpriteRenderer.color = Color.red;
+            yield return new WaitForSeconds(0.5f); // Flash duration
+            chaserSpriteRenderer.color = originalColor;
+            yield return new WaitForSeconds(0.5f); // Time between flashes
+        }
+    }
+
 
     private IEnumerator DeactivateShield(float delay)
     {
@@ -188,6 +205,7 @@ public class EvaderLevel1 : MonoBehaviour
         RestartText.gameObject.SetActive(true);
         Time.timeScale = 0f;
         float survivalDuration = Time.time - survivalStartTime;
+        StartCoroutine(sendDataScript.SendDataToGoogleSheets(survivalDuration.ToString(), Teleport.teleportUsageCount.ToString(), "lost"));
     }
 
     void HideGameOverShowTimer()
@@ -198,8 +216,7 @@ public class EvaderLevel1 : MonoBehaviour
     }
 
     public void StartRunning()
-    {
-        chaserController.StartChasing();
+    { 
         timerController.StartTime();
     }
 
