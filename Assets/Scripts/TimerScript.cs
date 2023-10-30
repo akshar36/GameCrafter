@@ -60,7 +60,9 @@ public class TimerScript : MonoBehaviour
         TimerTxt.gameObject.SetActive(false);
         RestartTxt.gameObject.SetActive(true);
         Time.timeScale = 0f;
+        SceneManager.LoadScene("LevelSelection");
         setTime();
+        
     }
 
     void updateTimer(float currentTime)
@@ -89,6 +91,7 @@ public class TimerScript : MonoBehaviour
     {
         startTime = true;
     }
+
 }
 
     // void OnCollisionStay2D(Collision2D collision)
