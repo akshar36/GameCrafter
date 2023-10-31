@@ -137,7 +137,7 @@ public class EvaderLevel1 : MonoBehaviour
         
     }
 
-    IEnumerator ShakeObject(GameObject obj, float duration, float intensity)
+    private IEnumerator ShakeObject(GameObject obj, float duration, float intensity)
     {
         Vector3 originalPosition = obj.transform.position;
         Quaternion originalRotation = obj.transform.rotation;
