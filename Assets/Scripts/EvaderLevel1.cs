@@ -91,6 +91,12 @@ public class EvaderLevel1 : MonoBehaviour
     {
             
             float moveInput = Input.GetAxis("Horizontal");
+            if(moveInput > 0){
+                right.gameObject.SetActive(false);
+            }
+            else if(moveInput < 0){
+                left.gameObject.SetActive(false);
+            }
             Vector2 moveDirection = new Vector2(moveInput, 0);
             if (rb.velocity.magnitude > 5f && !evaderMoved)
             {
@@ -104,6 +110,7 @@ public class EvaderLevel1 : MonoBehaviour
 
             if (isGrounded && (Input.GetKeyDown(KeyCode.W) || Input.GetKeyDown(KeyCode.UpArrow)))
             {
+                up.gameObject.SetActive(false);
                 Jump();
             }
 
@@ -117,6 +124,7 @@ public class EvaderLevel1 : MonoBehaviour
 
             if (!isGrounded && Input.GetKeyDown(KeyCode.Space) && platformCount > 0)
             {
+                JumpSpace.SetActive(false);
                 DroppedLedge = Instantiate(floorprefab, transform.position, Quaternion.identity);
                 platformCount--;
                 LedgeCount.text = "x " + platformCount;
@@ -133,9 +141,6 @@ public class EvaderLevel1 : MonoBehaviour
     private IEnumerator RemoveRawImagesAfterDelay(float delay)
     {
         yield return new WaitForSeconds(delay);
-        up.gameObject.SetActive(false);
-        right.gameObject.SetActive(false);
-        left.gameObject.SetActive(false);
         yield return new WaitForSeconds(2.0f);
         JumpSpace.SetActive(true);
         StartCoroutine(ShakeObject(JumpSpace, 3f, 0.1f));
@@ -163,7 +168,6 @@ public class EvaderLevel1 : MonoBehaviour
         // Reset the object to its original position and rotation when the shake is done.
         obj.transform.position = originalPosition;
         obj.transform.rotation = originalRotation;
-        JumpSpace.SetActive(false);
     }
 
     private IEnumerator EnableChaserAfterDelay(float delay)
