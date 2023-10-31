@@ -26,7 +26,7 @@ public class TimerScript : MonoBehaviour
     public static void setTime(){
         switch(LevelSelector.chosenLevel){
             case 1:
-                TimeLeft = 29f;
+                TimeLeft = 39f;
                 break;
             case 2:
                 TimeLeft = 59f;

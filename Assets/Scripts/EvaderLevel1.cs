@@ -41,7 +41,12 @@ public class EvaderLevel1 : MonoBehaviour
     private GameObject LedgePrefab;
     private GameObject wormhole;
 
-    private float disableChaserTime = 12f;
+
+    public RawImage up;
+    public RawImage right;
+    public RawImage left;
+
+    private float disableChaserTime = 17f;
 
     void Start()
     {
@@ -81,6 +86,7 @@ public class EvaderLevel1 : MonoBehaviour
                 Debug.Log("rb.velocity.magnitude " + rb.velocity.magnitude);
                 evaderMoved = true;
                 StartRunning();
+                StartCoroutine(RemoveRawImagesAfterDelay(2.0f));
                 StartCoroutine(EnableChaserAfterDelay(disableChaserTime));
             }
 
@@ -112,6 +118,14 @@ public class EvaderLevel1 : MonoBehaviour
         if(LevelSelector.chosenLevel == 2 && Time.time > 10 && !EvaderSpace.visited){
             wormhole.gameObject.SetActive(true);
         }
+    }
+
+    private IEnumerator RemoveRawImagesAfterDelay(float delay)
+    {
+        yield return new WaitForSeconds(delay);
+        up.gameObject.SetActive(false);
+        right.gameObject.SetActive(false);
+        left.gameObject.SetActive(false);
     }
 
     private IEnumerator EnableChaserAfterDelay(float delay)
