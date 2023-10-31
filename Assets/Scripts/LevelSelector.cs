@@ -26,5 +26,9 @@ public class LevelSelector : MonoBehaviour
             chosenLevel = 2;
             SceneManager.LoadScene("Level2");
         }
+        else if(level.ToString() == "3") {
+            chosenLevel = 3;
+            SceneManager.LoadScene("Level3");
+        }
     }
 }
