@@ -7,47 +7,43 @@ using UnityEngine.UI;
 
 public class CountDownScript : MonoBehaviour
 {
-    public float TimeLeft = 5f;
+    private float initialTime = 5f;
+    private float timeLeft;
     public Text Countdown;
+    private bool countingDown = false;
+
 
     void Start()
     {
-        updateTimer(TimeLeft);
+        timeLeft = initialTime;
+        UpdateTimerText();
     }
 
-    void Update()
+   void Update()
     {
-            if(TimeLeft > 0)
-            {
-                TimeLeft -= Time.deltaTime;
-                updateTimer(TimeLeft);
-            }
-            else
-            {
-                TimeLeft = 0;
-                Countdown.text = "Chasing resumes!";
-            }
+        if (countingDown && timeLeft > 0)
+        {
+            timeLeft -= Time.deltaTime;
+            UpdateTimerText();
+        }
+        else
+        {
+            countingDown = false;
+            timeLeft = 0;
+            Countdown.text = "Chasing resumes!";
+        }
     }
 
-    void updateTimer(float currentTime)
+    void UpdateTimerText()
     {
-        currentTime += 1;
-
-        float minutes = Mathf.FloorToInt(currentTime / 60);
-        float seconds = Mathf.FloorToInt(currentTime % 60);
-
-        Countdown.text = string.Format("{0:00}:{1:00}", minutes, seconds);
+        int roundedTime = Mathf.CeilToInt(timeLeft); // Round up to the nearest integer.
+        Countdown.text = roundedTime.ToString();
     }
 
-    Color HexToColor(string hex)
+    public void StartCountdown(float duration)
     {
-        // Remove the '#' character if it's included
-        hex = hex.TrimStart('#');
-
-        // Parse the hex string to a Color object
-        Color color = new Color();
-        ColorUtility.TryParseHtmlString("#" + hex, out color);
-
-        return color;
+        initialTime = duration; // Set the countdown duration
+        timeLeft = initialTime;
+        countingDown = true;
     }
 }

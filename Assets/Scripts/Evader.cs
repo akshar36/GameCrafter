@@ -35,10 +35,13 @@ public class Evader : MonoBehaviour
     private bool isColliding = false;
     private GameObject LedgePrefab;
     private GameObject wormhole;
+    private GameObject countdown;
     private bool onSafeLedge = false;
     private CountDownScript countdownController;
-    public Text CountDownText;
     private bool hasCollidedWithChaser = false;
+    private bool safeLedgeUsed = false;
+    private GameObject SafeLedge;
+    public Material ledgeMaterial;
 
     void Start()
     {
@@ -52,9 +55,13 @@ public class Evader : MonoBehaviour
         spriteRenderer = GetComponent<SpriteRenderer>();
         GameObject chaser = GameObject.Find("Chaser");
         GameObject timer = GameObject.Find("TimerTxt");
+        countdown = GameObject.Find("Countdown");
+        SafeLedge = GameObject.Find("SafeLedge");
+        countdown.SetActive(false);
         chaserSpriteRenderer = chaser.GetComponent<SpriteRenderer>();
         chaserController = chaser.GetComponent<ChaserAI>();
         timerController = timer.GetComponent<TimerScript>();
+        countdownController = countdown.GetComponent<CountDownScript>();
         survivalStartTime = Time.time;
         if(EvaderSpace.shield) {
             Color greenColor = HexToColor("#6AF802");
@@ -159,12 +166,13 @@ public class Evader : MonoBehaviour
                 }
             }
             
-        } else if(collision.gameObject.CompareTag("SafeLedge")){
-            Debug.Log("ON SAFE LEDGE");
+        } else if(collision.gameObject.CompareTag("SafeLedge") && safeLedgeUsed == false){
             onSafeLedge = true;
+            safeLedgeUsed = true;
             chaserController.StopChasing();
-            CountDownText.gameObject.SetActive(true);
-            StartCoroutine(ResumeChasingAfterDelay(5f));
+            countdown.SetActive(true);
+            countdownController.StartCountdown(5f);
+            StartCoroutine(ResumeChasingAfterDelay(7f));
         }else{
             isGrounded = true;
         }
@@ -182,10 +190,12 @@ public class Evader : MonoBehaviour
     yield return new WaitForSeconds(delay);
     if (onSafeLedge)
     {
+        Renderer renderer = SafeLedge.GetComponent<Renderer>();
+        renderer.material = ledgeMaterial;
         onSafeLedge = false;
         chaserController.StartChasing();
-        Debug.Log("resuming chasing");
-        CountDownText.gameObject.SetActive(false);
+        countdown.SetActive(false);
+        
     }
 }
 
@@ -221,7 +231,6 @@ public class Evader : MonoBehaviour
         GameText.gameObject.SetActive(false);
         TimerTxt.gameObject.SetActive(true);
         RestartText.gameObject.SetActive(false);
-        CountDownText.gameObject.SetActive(false);
     }
 
     public void StartRunning()
