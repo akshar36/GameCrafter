@@ -112,7 +112,9 @@ public class Evader : MonoBehaviour
             }
         
 
-        if(LevelSelector.chosenLevel != 1 && Time.time > 10 && !EvaderSpace.visited){
+        float gameplayDuration = Time.time - survivalStartTime;
+
+        if(LevelSelector.chosenLevel != 1 && gameplayDuration > 10 && !EvaderSpace.visited){
             wormhole.gameObject.SetActive(true);
         }
         ShieldCount.text = "x" + EvaderSpace.shieldCollected;
