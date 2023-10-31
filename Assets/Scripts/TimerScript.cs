@@ -69,8 +69,6 @@ public class TimerScript : MonoBehaviour
             platformCount = (10 - Evader.platformCount).ToString();
         }
         StartCoroutine(sendDataScript.SendDataToGoogleSheets(survivalDuration.ToString(), Teleport.teleportUsed, "won", platformCount, TimerScriptPractice.totalShieldsCollected));
-        Color pinkColor = HexToColor("#FFC0CB");
-        GameText.color = pinkColor;
         GameText.gameObject.SetActive(true);
         PlayAgainTxt.gameObject.SetActive(true);
         NextLevelTxt.gameObject.SetActive(true);
