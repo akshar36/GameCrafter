@@ -42,7 +42,11 @@ public class Evader : MonoBehaviour
 
     void Start()
     {
+        evaderMoved = false;
         platformCount = 10;
+        isColliding = false;
+        onSafeLedge = false;
+        hasCollidedWithChaser = false;
         HideGameOverShowTimer();
         rb = GetComponent<Rigidbody2D>();
         spriteRenderer = GetComponent<SpriteRenderer>();
