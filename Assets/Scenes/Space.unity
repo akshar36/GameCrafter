@@ -6074,7 +6074,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   TimeLeft: 9
-  GameText: {fileID: 0}
+  GameText: {fileID: 995563958}
   TimerTxt: {fileID: 1784264583}
 --- !u!222 &1784264585
 CanvasRenderer:

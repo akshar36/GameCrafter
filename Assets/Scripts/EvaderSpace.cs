@@ -11,7 +11,8 @@ public class EvaderSpace : MonoBehaviour
     public Text GameOverTxt;
     private TimerScriptPractice timerController;
     public Text TimerTxt;
-    public static int shieldCollected = 0;    
+    public static int shieldCollected = 0;   
+    public static int totalShieldsCollected = 0; 
     public Text shieldCount;
     private int bombHit = 0;    
     public float moveForce = 10.0f;
@@ -29,6 +30,7 @@ public class EvaderSpace : MonoBehaviour
         visited = false;
         shield = false;
         shieldCollected = 0;
+        totalShieldsCollected = 0;
         rb = GetComponent<Rigidbody2D>();
         spriteRenderer = GetComponent<SpriteRenderer>();
         GameOverTxt.gameObject.SetActive(false);
@@ -51,6 +53,7 @@ public class EvaderSpace : MonoBehaviour
         if(collision.tag == "shield")
         {
             shieldCollected++;
+            totalShieldsCollected++;
             shieldCount.text = shieldCollected.ToString();
             collision.gameObject.SetActive(false);
 
@@ -69,23 +72,12 @@ public class EvaderSpace : MonoBehaviour
                 spriteRenderer.sprite = hitTwo;
             } else if(bombHit == 3){
                 spriteRenderer.sprite = hitThree;
-                SceneManager.LoadScene("Level2");
+                if(LevelSelector.chosenLevel == 2)
+                    SceneManager.LoadScene("Level2");
+                else if(LevelSelector.chosenLevel == 3)
+                    SceneManager.LoadScene("Level3");
             }
         }
-    }
-
-    public void RestartButtonClicked()
-    {
-        Time.timeScale = 1f;
-        // Scene currentScene = SceneManager.GetActiveScene();
-        SceneManager.LoadScene("Level2");
-    }
-
-     public void BackButtonClicked()
-    {
-        Time.timeScale = 1f;
-        Scene currentScene = SceneManager.GetActiveScene();
-        SceneManager.LoadScene("LevelSelection");
     }
 
 }

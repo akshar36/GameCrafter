@@ -10,7 +10,6 @@ public class Teleport : MonoBehaviour
     private GameObject chaser;
     public static string teleportUsed = "no";
     public SendData sendDataScript;
-    public string fromSceneName;
 
     void Start()
     {

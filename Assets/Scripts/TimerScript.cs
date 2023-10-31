@@ -68,7 +68,7 @@ public class TimerScript : MonoBehaviour
         else{
             platformCount = (10 - Evader.platformCount).ToString();
         }
-        StartCoroutine(sendDataScript.SendDataToGoogleSheets(survivalDuration.ToString(), Teleport.teleportUsed, "won", platformCount, TimerScriptPractice.totalShieldsCollected));
+        StartCoroutine(sendDataScript.SendDataToGoogleSheets(survivalDuration.ToString(), Teleport.teleportUsed, "won", platformCount, EvaderSpace.totalShieldsCollected.ToString()));
         GameText.gameObject.SetActive(true);
         PlayAgainTxt.gameObject.SetActive(true);
         NextLevelTxt.gameObject.SetActive(true);

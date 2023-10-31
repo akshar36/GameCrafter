@@ -268,7 +268,7 @@ public class EvaderLevel1 : MonoBehaviour
         RestartText.gameObject.SetActive(true);
         Time.timeScale = 0f;
         float survivalDuration = Time.time - survivalStartTime;
-        StartCoroutine(sendDataScript.SendDataToGoogleSheets(survivalDuration.ToString(), Teleport.teleportUsed, "lost", (10-platformCount).ToString(), TimerScriptPractice.totalShieldsCollected));
+        StartCoroutine(sendDataScript.SendDataToGoogleSheets(survivalDuration.ToString(), Teleport.teleportUsed, "lost", (10-platformCount).ToString(), EvaderSpace.totalShieldsCollected.ToString()));
     }
 
     void HideGameOverShowTimer()
