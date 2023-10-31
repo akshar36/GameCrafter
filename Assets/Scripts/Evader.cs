@@ -101,7 +101,7 @@ public class Evader : MonoBehaviour
         if(LevelSelector.chosenLevel == 2 && Time.time > 10 && !EvaderSpace.visited){
             wormhole.gameObject.SetActive(true);
         }
-        ShieldCount.text = "x" + EvaderSpace.ShieldCount;
+        // ShieldCount.text = "x" + EvaderSpace.ShieldCount;
     }
 
     private IEnumerator DeactivateShield(float delay)
