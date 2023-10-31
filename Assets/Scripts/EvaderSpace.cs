@@ -7,7 +7,7 @@ using UnityEngine.UI;
 
 public class EvaderSpace : MonoBehaviour
 {
-    public Text ShieldCount;
+    public static Text ShieldCount;
     public Text GameOverTxt;
     private TimerScriptPractice timerController;
     public Text TimerTxt;
@@ -46,7 +46,10 @@ public class EvaderSpace : MonoBehaviour
     void OnTriggerEnter2D(Collider2D collision){
         if(collision.tag == "shield")
         {
+            
             shieldCollected++;
+            ShieldCount.text =  "x " + shieldCollected;
+            ShieldCount.gameObject.SetActive(true);
             ShieldCount.text = shieldCollected.ToString();
             ShieldCount.gameObject.SetActive(true);
             collision.gameObject.SetActive(false);
