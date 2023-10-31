@@ -2,6 +2,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
 using UnityEngine.SceneManagement;
+using System.Collections; 
 
 public class TimerScript : MonoBehaviour
 {
@@ -10,12 +11,16 @@ public class TimerScript : MonoBehaviour
     public Text GameText;
     public Text TimerTxt;
     public GameObject RestartTxt;
+    public GameObject PlayAgainTxt;
+    public GameObject NextLevelTxt;
     private bool startTime = false;
     public SendData sendDataScript;
 
     void Start()
     {
         RestartTxt.gameObject.SetActive(false);
+        PlayAgainTxt.gameObject.SetActive(false);
+        NextLevelTxt.gameObject.SetActive(false);
         Debug.Log("set time called on start");
         if (!AreWeReturningToTheScene){
             setTime();
@@ -26,10 +31,10 @@ public class TimerScript : MonoBehaviour
     public static void setTime(){
         switch(LevelSelector.chosenLevel){
             case 1:
-                TimeLeft = 39f;
+                TimeLeft = 49f;
                 break;
             case 2:
-                TimeLeft = 59f;
+                TimeLeft = 39f;
                 break;
         }
     }
@@ -53,26 +58,24 @@ public class TimerScript : MonoBehaviour
     void showGameWin(){
         GameText.text = "YOU WIN";
         float survivalDuration = Time.time - Evader.survivalStartTime;
-        StartCoroutine(sendDataScript.SendDataToGoogleSheets(survivalDuration.ToString(), Teleport.teleportUsageCount.ToString(), "won"));
+        //StartCoroutine(sendDataScript.SendDataToGoogleSheets(survivalDuration.ToString(), Teleport.teleportUsageCount.ToString(), "won"));
         Color pinkColor = HexToColor("#FFC0CB");
         GameText.color = pinkColor;
         GameText.gameObject.SetActive(true);
+        PlayAgainTxt.gameObject.SetActive(true);
+        NextLevelTxt.gameObject.SetActive(true);
         TimerTxt.gameObject.SetActive(false);
-        RestartTxt.gameObject.SetActive(true);
         Time.timeScale = 0f;
-        SceneManager.LoadScene("LevelSelection");
         setTime();
-        
     }
+
+   
 
     void updateTimer(float currentTime)
     {
         currentTime += 1;
-        Debug.Log("currentTime "+ currentTime);
         float minutes = Mathf.FloorToInt(currentTime / 60);
         float seconds = Mathf.FloorToInt(currentTime % 60);
-        Debug.Log("seconds "+ seconds);
-
         TimerTxt.text = string.Format("{0:00}:{1:00} seconds left to win", minutes, seconds);
     }
 

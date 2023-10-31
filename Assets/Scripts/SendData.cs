@@ -13,8 +13,10 @@ public class SendData : MonoBehaviour
         form.AddField("evaderTeleportUsage", evaderTeleportUsage);
         form.AddField("gameOverReason", gameOverReason);
 
-        UnityWebRequest www = UnityWebRequest.Post(webAppUrl, form);
+        using UnityWebRequest www = UnityWebRequest.Post(webAppUrl, form);
+        {
         yield return www.SendWebRequest();
+        }
 
         if(www.result == UnityWebRequest.Result.ConnectionError || www.result == UnityWebRequest.Result.ProtocolError) 
         {
