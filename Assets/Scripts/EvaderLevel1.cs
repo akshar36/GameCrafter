@@ -131,6 +131,7 @@ public class EvaderLevel1 : MonoBehaviour
         up.gameObject.SetActive(false);
         right.gameObject.SetActive(false);
         left.gameObject.SetActive(false);
+        yield return new WaitForSeconds(2.0f);
         JumpSpace.SetActive(true);
         StartCoroutine(ShakeObject(JumpSpace, 3f, 0.1f));
         
