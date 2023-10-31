@@ -142,9 +142,9 @@ public class EvaderLevel1 : MonoBehaviour
             }
         
 
-        if(LevelSelector.chosenLevel == 2 && Time.time > 10 && !EvaderSpace.visited){
-            wormhole.gameObject.SetActive(true);
-        }
+        // if(LevelSelector.chosenLevel == 2 && Time.time > 10 && !EvaderSpace.visited){
+        //     wormhole.gameObject.SetActive(true);
+        // }
     }
 
     private IEnumerator RemoveRawImagesAfterDelay(float delay)
@@ -304,8 +304,10 @@ public class EvaderLevel1 : MonoBehaviour
         Scene currentScene = SceneManager.GetActiveScene();
         Debug.Log(currentScene.name);
         if(currentScene.name == "Level1"){
+            LevelSelector.chosenLevel = 2;
             SceneManager.LoadScene("Level2");
         }else{
+            LevelSelector.chosenLevel = 3;
             SceneManager.LoadScene("Level3");
         }
     }

@@ -255,8 +255,10 @@ public class Evader : MonoBehaviour
         Time.timeScale = 1f;
         Scene currentScene = SceneManager.GetActiveScene();
         if(currentScene.name == "Level1"){
-        SceneManager.LoadScene("Level2");
+            LevelSelector.chosenLevel = 2;
+            SceneManager.LoadScene("Level2");
         }else{
+            LevelSelector.chosenLevel = 3;
             SceneManager.LoadScene("Level3");
         }
     }
