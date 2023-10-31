@@ -5279,7 +5279,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: 0 / 5
+  m_Text: 0
 --- !u!1 &575203210
 GameObject:
   m_ObjectHideFlags: 0
@@ -5416,9 +5416,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a7d685b7cd5ea45e9b3631a2752598d6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ShieldCount: {fileID: 561311909}
   GameOverTxt: {fileID: 995563958}
   TimerTxt: {fileID: 1784264583}
+  shieldCount: {fileID: 561311909}
   moveForce: 10
   RestartText: {fileID: 1730052251}
   hitOne: {fileID: 21300000, guid: 3ed93e930fc92cd4b9648ff5b62eba01, type: 3}
@@ -6461,7 +6461,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   portal: {fileID: 2026353088}
   sendDataScript: {fileID: 0}
-  tutorialSceneName: Tutorial1
   fromSceneName: 
 --- !u!61 &2026353090
 BoxCollider2D:

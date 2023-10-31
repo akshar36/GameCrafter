@@ -31,7 +31,6 @@ public class Evader : MonoBehaviour
     private bool evaderMoved = false;
     public SendData sendDataScript;
     public static float survivalStartTime;
-    private bool noShield = true;
     private GameObject DroppedLedge;
     private bool isColliding = false;
     private GameObject LedgePrefab;
@@ -39,6 +38,7 @@ public class Evader : MonoBehaviour
     private bool onSafeLedge = false;
     private CountDownScript countdownController;
     public Text CountDownText;
+    private bool hasCollidedWithChaser = false;
 
     void Start()
     {
@@ -52,8 +52,6 @@ public class Evader : MonoBehaviour
         timerController = timer.GetComponent<TimerScript>();
         survivalStartTime = Time.time;
         if(EvaderSpace.shield) {
-            StartCoroutine(DeactivateShield(10f));
-            noShield = false;            
             Color greenColor = HexToColor("#6AF802");
             Vector3 newScale = new Vector3(5.0f, 5.0f, 5.0f);
             spriteRenderer.material.color = greenColor;
@@ -104,18 +102,7 @@ public class Evader : MonoBehaviour
         if(LevelSelector.chosenLevel == 2 && Time.time > 10 && !EvaderSpace.visited){
             wormhole.gameObject.SetActive(true);
         }
-        // ShieldCount.text = "x" + EvaderSpace.ShieldCount;
-    }
-
-    private IEnumerator DeactivateShield(float delay)
-    {
-        yield return new WaitForSeconds(delay);
-        Color greenColor = HexToColor("#FFFF00");
-        Vector3 newScale = new Vector3(3.0f, 3.0f, 3.0f);
-        spriteRenderer.material.color = greenColor;
-        GameObject evader = GameObject.Find("Evader");
-        evader.transform.localScale = newScale;
-        noShield = true;
+        ShieldCount.text = "x" + EvaderSpace.shieldCollected;
     }
 
     void Jump()
@@ -127,12 +114,32 @@ public class Evader : MonoBehaviour
 
     void OnCollisionEnter2D(Collision2D collision)
     {
-        if((LevelSelector.chosenLevel == 1 && collision.gameObject.CompareTag("Chaser")) || 
-        (LevelSelector.chosenLevel == 2 && collision.gameObject.CompareTag("Chaser") && noShield))
+        if(collision.gameObject.CompareTag("Chaser"))
         {
-            ShowGameOverHideTimer();
-            Debug.Log("set time called in collision");
-            TimerScript.setTime();
+            if(LevelSelector.chosenLevel == 1){
+                ShowGameOverHideTimer();
+                Debug.Log("set time called in collision");
+                TimerScript.setTime();
+            }
+            else if(LevelSelector.chosenLevel == 2 && !hasCollidedWithChaser){
+                hasCollidedWithChaser = true;
+                if(EvaderSpace.shieldCollected == 0){
+                    ShowGameOverHideTimer();
+                    Debug.Log("set time called in collision");
+                    TimerScript.setTime();
+                }
+                else{
+                    EvaderSpace.shieldCollected -= 1;   
+                    if(EvaderSpace.shieldCollected == 0){
+                        Color yellowColor = HexToColor("#FFFF00");
+                        Vector3 newScale = new Vector3(3.0f, 3.0f, 3.0f);
+                        spriteRenderer.material.color = yellowColor;
+                        GameObject evader = GameObject.Find("Evader");
+                        evader.transform.localScale = newScale;
+                    }
+                }
+            }
+            
         } else if(collision.gameObject.CompareTag("SafeLedge")){
             Debug.Log("ON SAFE LEDGE");
             onSafeLedge = true;
@@ -143,6 +150,12 @@ public class Evader : MonoBehaviour
             isGrounded = true;
         }
 
+    }
+
+    void OnCollisionExit2D(Collision2D collision) {
+        if (hasCollidedWithChaser && collision.gameObject.CompareTag("Chaser")) {
+            hasCollidedWithChaser = false;
+        }
     }
 
     private IEnumerator ResumeChasingAfterDelay(float delay)
@@ -200,6 +213,8 @@ public class Evader : MonoBehaviour
     public void RestartButtonClicked()
     {
         Time.timeScale = 1f;
+        hasCollidedWithChaser = false;
+        EvaderSpace.shield = false;
         Scene currentScene = SceneManager.GetActiveScene();
         SceneManager.LoadScene(currentScene.name);
     }

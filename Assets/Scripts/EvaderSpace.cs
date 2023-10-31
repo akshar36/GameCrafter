@@ -11,7 +11,8 @@ public class EvaderSpace : MonoBehaviour
     public Text GameOverTxt;
     private TimerScriptPractice timerController;
     public Text TimerTxt;
-    private int shieldCollected = 0;    
+    public static int shieldCollected = 0;    
+    public Text shieldCount;
     private int bombHit = 0;    
     public float moveForce = 10.0f;
     private Rigidbody2D rb;
@@ -46,8 +47,8 @@ public class EvaderSpace : MonoBehaviour
     void OnTriggerEnter2D(Collider2D collision){
         if(collision.tag == "shield")
         {
-            
             shieldCollected++;
+            shieldCount.text = shieldCollected.ToString();
             collision.gameObject.SetActive(false);
 
             if(shieldCollected > 0) {
