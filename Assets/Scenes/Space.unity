@@ -5279,7 +5279,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: 0
+  m_Text: 0 / 5
 --- !u!1 &575203210
 GameObject:
   m_ObjectHideFlags: 0
@@ -6461,6 +6461,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   portal: {fileID: 2026353088}
   sendDataScript: {fileID: 0}
+  tutorialSceneName: Tutorial1
   fromSceneName: 
 --- !u!61 &2026353090
 BoxCollider2D:
