@@ -6,6 +6,8 @@ using UnityEngine.UI;
 using UnityEngine.Tilemaps;
 using UnityEngine.SceneManagement;
 using TMPro;
+using Random = UnityEngine.Random;
+
 public class EvaderLevel1 : MonoBehaviour
 {
     // public static Text ShieldCount;
@@ -46,10 +48,13 @@ public class EvaderLevel1 : MonoBehaviour
     public RawImage right;
     public RawImage left;
 
+    public GameObject JumpSpace;
+
     private float disableChaserTime = 17f;
 
     void Start()
     {
+        JumpSpace.SetActive(false);
         HideGameOverShowTimer();
         rb = GetComponent<Rigidbody2D>();
         spriteRenderer = GetComponent<SpriteRenderer>();
@@ -126,6 +131,34 @@ public class EvaderLevel1 : MonoBehaviour
         up.gameObject.SetActive(false);
         right.gameObject.SetActive(false);
         left.gameObject.SetActive(false);
+        yield return new WaitForSeconds(2.0f);
+        JumpSpace.SetActive(true);
+        StartCoroutine(ShakeObject(JumpSpace, 3f, 0.1f));
+        
+    }
+
+    IEnumerator ShakeObject(GameObject obj, float duration, float intensity)
+    {
+        Vector3 originalPosition = obj.transform.position;
+        Quaternion originalRotation = obj.transform.rotation;
+
+        float endTime = Time.time + duration;
+
+        while (Time.time < endTime)
+        {
+            float randomX = Random.Range(-intensity, intensity);
+            float randomY = Random.Range(-intensity, intensity);
+
+            obj.transform.position = originalPosition + new Vector3(randomX, randomY, 0);
+            obj.transform.rotation = originalRotation * Quaternion.Euler(0, 0, Random.Range(-intensity, intensity));
+
+            yield return null;
+        }
+
+        // Reset the object to its original position and rotation when the shake is done.
+        obj.transform.position = originalPosition;
+        obj.transform.rotation = originalRotation;
+        JumpSpace.SetActive(false);
     }
 
     private IEnumerator EnableChaserAfterDelay(float delay)
