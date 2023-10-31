@@ -7,7 +7,7 @@ using UnityEngine.UI;
 
 public class EvaderSpace : MonoBehaviour
 {
-    public static Text ShieldCount;
+    
     public Text GameOverTxt;
     private TimerScriptPractice timerController;
     public Text TimerTxt;
@@ -48,10 +48,6 @@ public class EvaderSpace : MonoBehaviour
         {
             
             shieldCollected++;
-            ShieldCount.text =  "x " + shieldCollected;
-            ShieldCount.gameObject.SetActive(true);
-            ShieldCount.text = shieldCollected.ToString();
-            ShieldCount.gameObject.SetActive(true);
             collision.gameObject.SetActive(false);
 
             if(shieldCollected > 0) {
@@ -69,8 +65,7 @@ public class EvaderSpace : MonoBehaviour
                 spriteRenderer.sprite = hitTwo;
             } else if(bombHit == 3){
                 spriteRenderer.sprite = hitThree;
-                Time.timeScale = 0f;
-                 SceneManager.LoadScene("Level2");
+                SceneManager.LoadScene("Level2");
             }
         }
     }

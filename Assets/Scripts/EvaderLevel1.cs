@@ -8,6 +8,7 @@ using UnityEngine.SceneManagement;
 using TMPro;
 public class EvaderLevel1 : MonoBehaviour
 {
+    // public static Text ShieldCount;
     public float moveSpeed = 5.0f;
     public float jumpForce = 8.0f;
     private Rigidbody2D rb;
@@ -26,7 +27,6 @@ public class EvaderLevel1 : MonoBehaviour
     private SpriteRenderer chaserSpriteRenderer;
     public Sprite caughtSprite;
     public Sprite smilingSprite;
-    //public Sprite shieldSprite;
     public SendData sendDataScript;
 
     public Sprite hitOne;
@@ -72,6 +72,7 @@ public class EvaderLevel1 : MonoBehaviour
             wormhole = GameObject.Find("wormhole");
             wormhole.gameObject.SetActive(false);
         }
+        // ShieldCount.text = "x" + EvaderSpace.shieldCollected;
 
     }
     
