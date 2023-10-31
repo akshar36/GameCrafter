@@ -251,6 +251,18 @@ public class EvaderLevel1 : MonoBehaviour
         TimerScript.setTime();
     }
 
+     public void NextButtonClicked()
+    {
+        Time.timeScale = 1f;
+        Scene currentScene = SceneManager.GetActiveScene();
+        Debug.Log(currentScene.name);
+        if(currentScene.name == "Level1"){
+        SceneManager.LoadScene("Level2");
+        }else{
+            SceneManager.LoadScene("Level3");
+        }
+    }
+
     Color HexToColor(string hex)
     {
         // Remove the '#' character if it's included

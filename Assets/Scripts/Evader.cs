@@ -69,7 +69,6 @@ public class Evader : MonoBehaviour
             Vector2 moveDirection = new Vector2(moveInput, 0);
             if (rb.velocity.magnitude > 5f && !evaderMoved)
             {
-                Debug.Log("rb.velocity.magnitude " + rb.velocity.magnitude);
                 evaderMoved = true;
                 StartRunning();
             }
@@ -183,13 +182,24 @@ public class Evader : MonoBehaviour
         SceneManager.LoadScene(currentScene.name);
     }
 
+     public void NextButtonClicked()
+    {
+        Time.timeScale = 1f;
+        Scene currentScene = SceneManager.GetActiveScene();
+        Debug.Log(currentScene.name);
+        if(currentScene.name == "Level1"){
+        SceneManager.LoadScene("Level2");
+        }else{
+            SceneManager.LoadScene("Level3");
+        }
+    }
+
      public void BackButtonClicked()
     {
         Time.timeScale = 1f;
         Scene currentScene = SceneManager.GetActiveScene();
         SceneManager.LoadScene("LevelSelection");
         Debug.Log("Back clicked");
-        Debug.Log("set time called on back");
         TimerScript.setTime();
     }
 
