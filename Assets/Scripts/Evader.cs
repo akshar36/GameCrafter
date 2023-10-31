@@ -8,6 +8,7 @@ using UnityEngine.SceneManagement;
 using TMPro;
 public class Evader : MonoBehaviour
 {
+    public Text ShieldCount;
     public float moveSpeed = 5.0f;
     public float jumpForce = 8.0f;
     private Rigidbody2D rb;
@@ -100,6 +101,7 @@ public class Evader : MonoBehaviour
         if(LevelSelector.chosenLevel == 2 && Time.time > 10 && !EvaderSpace.visited){
             wormhole.gameObject.SetActive(true);
         }
+        // ShieldCount.text = "x" + EvaderSpace.ShieldCount;
     }
 
     private IEnumerator DeactivateShield(float delay)
