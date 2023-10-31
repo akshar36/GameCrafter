@@ -26,6 +26,9 @@ public class EvaderSpace : MonoBehaviour
     public static bool visited = false;
     void Start()
     {
+        visited = false;
+        shield = false;
+        shieldCollected = 0;
         rb = GetComponent<Rigidbody2D>();
         spriteRenderer = GetComponent<SpriteRenderer>();
         GameOverTxt.gameObject.SetActive(false);

@@ -34,6 +34,7 @@ public class TimerScriptPractice : MonoBehaviour
             {
                 TimeLeft = 0;
                 totalShieldsCollected = EvaderSpace.shieldCollected.ToString();
+                Debug.Log("shields in space : " + totalShieldsCollected);
                 TimerScript.AreWeReturningToTheScene = true;
                 if(LevelSelector.chosenLevel == 1){
                     SceneManager.LoadScene(sceneToReturnTo);

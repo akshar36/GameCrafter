@@ -59,7 +59,7 @@ public class Evader : MonoBehaviour
             GameObject evader = GameObject.Find("Evader");
             evader.transform.localScale = newScale;
         }
-        if(LevelSelector.chosenLevel == 2){
+        if(LevelSelector.chosenLevel != 1){
             wormhole = GameObject.Find("wormhole");
             wormhole.gameObject.SetActive(false);
         }
@@ -100,7 +100,7 @@ public class Evader : MonoBehaviour
             }
         
 
-        if(LevelSelector.chosenLevel == 2 && Time.time > 10 && !EvaderSpace.visited){
+        if(LevelSelector.chosenLevel != 1 && Time.time > 10 && !EvaderSpace.visited){
             wormhole.gameObject.SetActive(true);
         }
         ShieldCount.text = "x" + EvaderSpace.shieldCollected;
@@ -198,6 +198,7 @@ public class Evader : MonoBehaviour
         RestartText.gameObject.SetActive(true);
         Time.timeScale = 0f;
         float survivalDuration = Time.time - survivalStartTime;
+        Debug.Log("shields : " + TimerScriptPractice.totalShieldsCollected);
         StartCoroutine(sendDataScript.SendDataToGoogleSheets(survivalDuration.ToString(), Teleport.teleportUsed, "lost", (10-platformCount).ToString(), TimerScriptPractice.totalShieldsCollected));
     }
 

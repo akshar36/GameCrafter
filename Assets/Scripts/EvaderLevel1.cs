@@ -73,7 +73,7 @@ public class EvaderLevel1 : MonoBehaviour
             GameObject evader = GameObject.Find("Evader");
             evader.transform.localScale = newScale;
         }
-        if(LevelSelector.chosenLevel == 2){
+        if(LevelSelector.chosenLevel != 1){
             wormhole = GameObject.Find("wormhole");
             wormhole.gameObject.SetActive(false);
         }
