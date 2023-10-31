@@ -11,8 +11,10 @@ public class TimerScriptPractice : MonoBehaviour
     public Text GameText;
     public Text TimerTxt;
     private bool startTime = false;
+    public static string totalShieldsCollected = "0";
     private string sceneToReturnTo = "Level1"; // The name of the scene you want to return to
     private string sceneToReturnTo2 = "Level2";
+    private string sceneToReturnTo3 = "Level3";
 
     void Start()
     {
@@ -31,13 +33,16 @@ public class TimerScriptPractice : MonoBehaviour
             else
             {
                 TimeLeft = 0;
+                totalShieldsCollected = EvaderSpace.shieldCollected.ToString();
+                TimerScript.AreWeReturningToTheScene = true;
                 if(LevelSelector.chosenLevel == 1){
-                    TimerScript.AreWeReturningToTheScene = true;
                     SceneManager.LoadScene(sceneToReturnTo);
                     } 
-                else{
-                    TimerScript.AreWeReturningToTheScene = true;
+                else if(LevelSelector.chosenLevel == 2){
                     SceneManager.LoadScene(sceneToReturnTo2);
+                }
+                else if(LevelSelector.chosenLevel == 3){
+                    SceneManager.LoadScene(sceneToReturnTo3);
                 }
             }
         }

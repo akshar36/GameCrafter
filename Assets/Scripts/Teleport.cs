@@ -8,12 +8,13 @@ public class Teleport : MonoBehaviour
     public GameObject portal;
     private GameObject player;
     private GameObject chaser;
-    public static int teleportUsageCount = 0;
+    public static string teleportUsed = "no";
     public SendData sendDataScript;
     public string fromSceneName;
 
     void Start()
     {
+        teleportUsed = "no";
         player = GameObject.FindWithTag("Player");
         chaser = GameObject.FindWithTag("Chaser");
     }
@@ -35,7 +36,7 @@ public class Teleport : MonoBehaviour
     {
         if (collision.tag == "Player")
         {
-            teleportUsageCount++;
+            teleportUsed = "yes";
             // Instead of teleporting within the scene, load the tutorial scene
             player.transform.position = new Vector2(portal.transform.position.x + 7f, portal.transform.position.y);
             SceneManager.LoadScene("Space");

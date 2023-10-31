@@ -61,7 +61,14 @@ public class TimerScript : MonoBehaviour
     void showGameWin(){
         GameText.text = "YOU WIN";
         float survivalDuration = Time.time - Evader.survivalStartTime;
-        //StartCoroutine(sendDataScript.SendDataToGoogleSheets(survivalDuration.ToString(), Teleport.teleportUsageCount.ToString(), "won"));
+        string platformCount = "0";
+        if(LevelSelector.chosenLevel == 1){
+            platformCount = (10 - EvaderLevel1.platformCount).ToString();
+        }
+        else{
+            platformCount = (10 - Evader.platformCount).ToString();
+        }
+        StartCoroutine(sendDataScript.SendDataToGoogleSheets(survivalDuration.ToString(), Teleport.teleportUsed, "won", platformCount, TimerScriptPractice.totalShieldsCollected));
         Color pinkColor = HexToColor("#FFC0CB");
         GameText.color = pinkColor;
         GameText.gameObject.SetActive(true);

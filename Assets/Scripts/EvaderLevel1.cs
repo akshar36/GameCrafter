@@ -15,7 +15,7 @@ public class EvaderLevel1 : MonoBehaviour
     private bool isGrounded;
     private ChaserAI chaserController;
     private TimerScript timerController;
-    private int platformCount = 10;
+    public static int platformCount = 10;
     public GameObject floorprefab;
     private GameObject chaser;
     public Text GameText;
@@ -170,8 +170,7 @@ public class EvaderLevel1 : MonoBehaviour
 
     void OnCollisionEnter2D(Collision2D collision)
     {
-        if((LevelSelector.chosenLevel == 1 && collision.gameObject.CompareTag("Chaser")) || 
-        (LevelSelector.chosenLevel == 2 && collision.gameObject.CompareTag("Chaser") && noShield))
+        if(collision.gameObject.CompareTag("Chaser"))
         {
             getHit++;
             if (getHit == 1)
@@ -218,7 +217,7 @@ public class EvaderLevel1 : MonoBehaviour
         RestartText.gameObject.SetActive(true);
         Time.timeScale = 0f;
         float survivalDuration = Time.time - survivalStartTime;
-        StartCoroutine(sendDataScript.SendDataToGoogleSheets(survivalDuration.ToString(), Teleport.teleportUsageCount.ToString(), "lost"));
+        StartCoroutine(sendDataScript.SendDataToGoogleSheets(survivalDuration.ToString(), Teleport.teleportUsed, "lost", (10-platformCount).ToString(), TimerScriptPractice.totalShieldsCollected));
     }
 
     void HideGameOverShowTimer()

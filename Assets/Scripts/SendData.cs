@@ -4,14 +4,17 @@ using System.Collections;
 
 public class SendData : MonoBehaviour
 {
-    public IEnumerator SendDataToGoogleSheets(string survivalDuration, string evaderTeleportUsage, string gameOverReason) 
+    public IEnumerator SendDataToGoogleSheets(string survivalDuration, string teleportUsed, 
+    string gameOverReason, string logsPlaced, string shieldsCollected) 
     {
-        string webAppUrl = "https://script.google.com/macros/s/AKfycbxMdeZH1GQHtQtdHdG28iV2KNGWI-KVbMNTnfNBVWey8eU_IOXkhwk9RKLFw4Grbg3B/exec";
+        string webAppUrl = "https://script.google.com/macros/s/AKfycbzEOSspsux0rx4zqN8iDdsC0QDSu0fKaFf6S3t2b-QXcdQZ0sRQcTA3LZb8PejsuUaN/exec";
         WWWForm form = new WWWForm();
         form.AddField("map", LevelSelector.chosenLevel);
         form.AddField("survivalDuration", survivalDuration);
-        form.AddField("evaderTeleportUsage", evaderTeleportUsage);
+        form.AddField("teleportUsed", teleportUsed);
         form.AddField("gameOverReason", gameOverReason);
+        form.AddField("logsPlaced", logsPlaced);
+        form.AddField("shieldsCollected", shieldsCollected);
 
         using UnityWebRequest www = UnityWebRequest.Post(webAppUrl, form);
         {
