@@ -64,19 +64,24 @@ public class EvaderLevel1 : MonoBehaviour
         chaserController = chaser.GetComponent<ChaserAI>();
         timerController = timer.GetComponent<TimerScript>();
         survivalStartTime = Time.time;
-        if(EvaderSpace.shield) {
-            StartCoroutine(DeactivateShield(10f));
-            noShield = false;            
-            Color greenColor = HexToColor("#6AF802");
-            Vector3 newScale = new Vector3(5.0f, 5.0f, 5.0f);
-            spriteRenderer.material.color = greenColor;
-            GameObject evader = GameObject.Find("Evader");
-            evader.transform.localScale = newScale;
-        }
-        if(LevelSelector.chosenLevel != 1){
-            wormhole = GameObject.Find("wormhole");
-            wormhole.gameObject.SetActive(false);
-        }
+        //if(EvaderSpace.shield) {
+        //    StartCoroutine(DeactivateShield(10f));
+        //    noShield = false;            
+        //    Color greenColor = HexToColor("#6AF802");
+        //    Vector3 newScale = new Vector3(5.0f, 5.0f, 5.0f);
+        //    spriteRenderer.material.color = greenColor;
+        //    GameObject evader = GameObject.Find("Evader");
+        //    evader.transform.localScale = newScale;
+        //}
+        Color yellowColor = HexToColor("#FFFF00");
+        Vector3 newScale = new Vector3(3.0f, 3.0f, 3.0f);
+        spriteRenderer.material.color = yellowColor;
+        GameObject evader = GameObject.Find("Evader");
+        evader.transform.localScale = newScale;
+        //if (LevelSelector.chosenLevel != 1){
+        //    wormhole = GameObject.Find("wormhole");
+        //    wormhole.gameObject.SetActive(false);
+        //}
         // ShieldCount.text = "x" + EvaderSpace.shieldCollected;
 
     }
@@ -286,7 +291,7 @@ public class EvaderLevel1 : MonoBehaviour
         Scene currentScene = SceneManager.GetActiveScene();
         Debug.Log(currentScene.name);
         if(currentScene.name == "Level1"){
-        SceneManager.LoadScene("Level2");
+            SceneManager.LoadScene("Level2");
         }else{
             SceneManager.LoadScene("Level3");
         }

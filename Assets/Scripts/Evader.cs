@@ -63,7 +63,15 @@ public class Evader : MonoBehaviour
             GameObject evader = GameObject.Find("Evader");
             evader.transform.localScale = newScale;
         }
-        if(LevelSelector.chosenLevel != 1){
+        if (EvaderSpace.shieldCollected == 0)
+        {
+            Color yellowColor = HexToColor("#FFFF00");
+            Vector3 newScale = new Vector3(3.0f, 3.0f, 3.0f);
+            spriteRenderer.material.color = yellowColor;
+            GameObject evader = GameObject.Find("Evader");
+            evader.transform.localScale = newScale;
+        }
+        if (LevelSelector.chosenLevel != 1){
             wormhole = GameObject.Find("wormhole");
             wormhole.gameObject.SetActive(false);
         }
@@ -225,6 +233,8 @@ public class Evader : MonoBehaviour
         Time.timeScale = 1f;
         hasCollidedWithChaser = false;
         EvaderSpace.shield = false;
+        EvaderSpace.shieldCollected = 0;
+        EvaderSpace.visited = false;
         Scene currentScene = SceneManager.GetActiveScene();
         SceneManager.LoadScene(currentScene.name);
     }
@@ -243,6 +253,8 @@ public class Evader : MonoBehaviour
      public void BackButtonClicked()
     {
         Time.timeScale = 1f;
+        EvaderSpace.shieldCollected = 0;
+        EvaderSpace.visited = false;
         Scene currentScene = SceneManager.GetActiveScene();
         SceneManager.LoadScene("LevelSelection");
         TimerScript.setTime();
