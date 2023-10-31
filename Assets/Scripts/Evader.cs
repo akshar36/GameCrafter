@@ -49,6 +49,7 @@ public class Evader : MonoBehaviour
         platformCount = 10;
         isColliding = false;
         onSafeLedge = false;
+        safeLedgeUsed = false;
         hasCollidedWithChaser = false;
         HideGameOverShowTimer();
         rb = GetComponent<Rigidbody2D>();
