@@ -166,8 +166,7 @@ public class Evader : MonoBehaviour
                     }
                 }
             }
-            
-        } else if(collision.gameObject.CompareTag("SafeLedge") && safeLedgeUsed == false){
+        } else if(collision.gameObject.CompareTag("SafeLedge") && safeLedgeUsed == false && IsPlayerAboveLedge(collision.gameObject.transform.position.y)){
             onSafeLedge = true;
             safeLedgeUsed = true;
             chaserController.StopChasing();
@@ -177,7 +176,19 @@ public class Evader : MonoBehaviour
         }else{
             isGrounded = true;
         }
+    }
 
+     private bool IsPlayerAboveLedge(float ledgeY)
+    {
+        float playerY = transform.position.y;
+
+        Debug.Log("Ledge position:" + ledgeY);
+        Debug.Log("Player position:"+ playerY);
+
+        // Adjust the following value based on your game's logic to define "above."
+        float verticalThreshold = 2.0f;
+
+        return playerY > ledgeY + verticalThreshold;
     }
 
     void OnCollisionExit2D(Collision2D collision) {
@@ -196,7 +207,6 @@ public class Evader : MonoBehaviour
         onSafeLedge = false;
         chaserController.StartChasing();
         countdown.SetActive(false);
-        
     }
 }
 
