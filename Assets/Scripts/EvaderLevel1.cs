@@ -84,7 +84,6 @@ public class EvaderLevel1 : MonoBehaviour
             Vector2 moveDirection = new Vector2(moveInput, 0);
             if (rb.velocity.magnitude > 5f && !evaderMoved)
             {
-                Debug.Log("rb.velocity.magnitude " + rb.velocity.magnitude);
                 evaderMoved = true;
                 StartRunning();
                 StartCoroutine(RemoveRawImagesAfterDelay(2.0f));
@@ -188,7 +187,6 @@ public class EvaderLevel1 : MonoBehaviour
             else if (getHit == 3)
             {
                 ShowGameOverHideTimer();
-                Debug.Log("set time called in collision");
                 TimerScript.setTime();
             }
         } else{
@@ -247,8 +245,6 @@ public class EvaderLevel1 : MonoBehaviour
         Time.timeScale = 1f;
         Scene currentScene = SceneManager.GetActiveScene();
         SceneManager.LoadScene("LevelSelection");
-        Debug.Log("Back clicked");
-        Debug.Log("set time called on back");
         TimerScript.setTime();
     }
 

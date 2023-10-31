@@ -16,6 +16,7 @@ TagManager:
   - checkpoint
   - HighJump
   - Fire
+  - SafeLedge
   layers:
   - Default
   - TransparentFX

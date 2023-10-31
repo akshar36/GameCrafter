@@ -87,4 +87,12 @@ public class ChaserAI : MonoBehaviour
     {
         isChasing = true;
     }
+
+    public void StopChasing()
+    {
+        isChasing = false;
+        rb.velocity = Vector2.zero;
+        rb.angularVelocity = 0f; // Stop any angular velocity.
+        rb.Sleep(); // Put the rigidbody to sleep to clear any forces.
+    }
 }

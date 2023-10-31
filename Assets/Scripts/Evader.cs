@@ -36,6 +36,9 @@ public class Evader : MonoBehaviour
     private bool isColliding = false;
     private GameObject LedgePrefab;
     private GameObject wormhole;
+    private bool onSafeLedge = false;
+    private CountDownScript countdownController;
+    public Text CountDownText;
 
     void Start()
     {
@@ -130,11 +133,29 @@ public class Evader : MonoBehaviour
             ShowGameOverHideTimer();
             Debug.Log("set time called in collision");
             TimerScript.setTime();
-        } else{
+        } else if(collision.gameObject.CompareTag("SafeLedge")){
+            Debug.Log("ON SAFE LEDGE");
+            onSafeLedge = true;
+            chaserController.StopChasing();
+            CountDownText.gameObject.SetActive(true);
+            StartCoroutine(ResumeChasingAfterDelay(5f));
+        }else{
             isGrounded = true;
         }
 
     }
+
+    private IEnumerator ResumeChasingAfterDelay(float delay)
+    {
+    yield return new WaitForSeconds(delay);
+    if (onSafeLedge)
+    {
+        onSafeLedge = false;
+        chaserController.StartChasing();
+        Debug.Log("resuming chasing");
+        CountDownText.gameObject.SetActive(false);
+    }
+}
 
 // void OnCollisionStay2D(Collision2D collision)
 //      {
@@ -167,6 +188,7 @@ public class Evader : MonoBehaviour
         GameText.gameObject.SetActive(false);
         TimerTxt.gameObject.SetActive(true);
         RestartText.gameObject.SetActive(false);
+        CountDownText.gameObject.SetActive(false);
     }
 
     public void StartRunning()
@@ -186,7 +208,6 @@ public class Evader : MonoBehaviour
     {
         Time.timeScale = 1f;
         Scene currentScene = SceneManager.GetActiveScene();
-        Debug.Log(currentScene.name);
         if(currentScene.name == "Level1"){
         SceneManager.LoadScene("Level2");
         }else{
@@ -199,7 +220,6 @@ public class Evader : MonoBehaviour
         Time.timeScale = 1f;
         Scene currentScene = SceneManager.GetActiveScene();
         SceneManager.LoadScene("LevelSelection");
-        Debug.Log("Back clicked");
         TimerScript.setTime();
     }
 
