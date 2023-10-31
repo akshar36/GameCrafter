@@ -15,7 +15,7 @@ public class Evader : MonoBehaviour
     private bool isGrounded;
     private ChaserAI chaserController;
     private TimerScript timerController;
-    private int platformCount = 10;
+    public static int platformCount = 10;
     public GameObject floorprefab;
     private GameObject chaser;
     public Text GameText;
@@ -42,6 +42,7 @@ public class Evader : MonoBehaviour
 
     void Start()
     {
+        platformCount = 10;
         HideGameOverShowTimer();
         rb = GetComponent<Rigidbody2D>();
         spriteRenderer = GetComponent<SpriteRenderer>();
@@ -121,7 +122,7 @@ public class Evader : MonoBehaviour
                 Debug.Log("set time called in collision");
                 TimerScript.setTime();
             }
-            else if(LevelSelector.chosenLevel == 2 && !hasCollidedWithChaser){
+            else if(LevelSelector.chosenLevel != 1 && !hasCollidedWithChaser){
                 hasCollidedWithChaser = true;
                 if(EvaderSpace.shieldCollected == 0){
                     ShowGameOverHideTimer();
@@ -132,9 +133,7 @@ public class Evader : MonoBehaviour
                     EvaderSpace.shieldCollected -= 1;
 
                     Vector3 chaserPosition = collision.gameObject.transform.position;
-                    chaserPosition.x -= 10; 
-                    chaserPosition.y -= 10; 
-                    collision.gameObject.transform.position = chaserPosition;
+                    collision.gameObject.transform.position = new Vector3(46.62f, 9.9f, 0);
 
                     if(EvaderSpace.shieldCollected == 0){
                         Color yellowColor = HexToColor("#FFFF00");
@@ -199,7 +198,7 @@ public class Evader : MonoBehaviour
         RestartText.gameObject.SetActive(true);
         Time.timeScale = 0f;
         float survivalDuration = Time.time - survivalStartTime;
-        StartCoroutine(sendDataScript.SendDataToGoogleSheets(survivalDuration.ToString(), Teleport.teleportUsageCount.ToString(), "lost"));
+        StartCoroutine(sendDataScript.SendDataToGoogleSheets(survivalDuration.ToString(), Teleport.teleportUsed, "lost", (10-platformCount).ToString(), TimerScriptPractice.totalShieldsCollected));
     }
 
     void HideGameOverShowTimer()

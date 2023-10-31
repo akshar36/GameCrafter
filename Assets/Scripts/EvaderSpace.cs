@@ -39,8 +39,8 @@ public class EvaderSpace : MonoBehaviour
     void Update()
     {
         float verticalInput = Input.GetAxis("Vertical");
-        float horizontalInput = Input.GetAxis("Horizontal");
-        Vector2 movement = new Vector2(horizontalInput * moveForce, verticalInput * moveForce);
+        // float horizontalInput = Input.GetAxis("Horizontal");
+        Vector2 movement = new Vector2(0, verticalInput * moveForce);
             rb.velocity = movement;
     }
 
