@@ -39,19 +39,21 @@ public class FireConditionScript : MonoBehaviour
     
     private void OnTriggerStay2D(Collider2D collision)
     {
-        if(collision.tag == "Player" && !EvaderSpace.shield){
+        if(collision.tag == "Player"){
             contactDuration += Time.deltaTime;
             Debug.Log("contact "+ contactDuration);
             if(contactDuration < 2f){
                 spriteRenderer.sprite = hitOne;
-                Debug.Log("Less than two");
-            }else if(contactDuration  < 4f){
-                spriteRenderer.sprite = hitTwo;
-                Debug.Log("Less than four");
-            } else if(contactDuration > 6f ){
-                Debug.Log("more than four");
-                spriteRenderer.sprite = hitThree;
-                evaderController.ShowGameOverHideTimer();
+            }
+            else if(contactDuration < 4f){
+                if(EvaderSpace.shieldCollected == 0){
+                    spriteRenderer.sprite = hitThree;
+                    evaderController.ShowGameOverHideTimer();
+                }
+                else if(EvaderSpace.shieldCollected > 0){
+                    spriteRenderer.sprite = hitTwo;
+                    EvaderSpace.shieldCollected -=1;
+                }
             }
         }
     }

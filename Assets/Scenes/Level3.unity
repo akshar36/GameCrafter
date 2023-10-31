@@ -4484,7 +4484,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   portal: {fileID: 1701454127}
   sendDataScript: {fileID: 1073655552}
-  fromSceneName: Level3
 --- !u!61 &1701454129
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -5084,7 +5083,7 @@ MonoBehaviour:
   RestartTxt: {fileID: 634035656}
   PlayAgainTxt: {fileID: 2023057371}
   NextLevelTxt: {fileID: 1582898785}
-  sendDataScript: {fileID: 0}
+  sendDataScript: {fileID: 1073655552}
 --- !u!114 &1958582649
 MonoBehaviour:
   m_ObjectHideFlags: 0
