@@ -31,10 +31,13 @@ public class TimerScript : MonoBehaviour
     public static void setTime(){
         switch(LevelSelector.chosenLevel){
             case 1:
-                TimeLeft = 49f;
+                TimeLeft = 39f;
                 break;
             case 2:
-                TimeLeft = 39f;
+                TimeLeft = 49f;
+                break;
+            case 3:
+                TimeLeft = 59f;
                 break;
         }
     }

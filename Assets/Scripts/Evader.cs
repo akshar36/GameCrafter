@@ -129,7 +129,13 @@ public class Evader : MonoBehaviour
                     TimerScript.setTime();
                 }
                 else{
-                    EvaderSpace.shieldCollected -= 1;   
+                    EvaderSpace.shieldCollected -= 1;
+
+                    Vector3 chaserPosition = collision.gameObject.transform.position;
+                    chaserPosition.x -= 10; 
+                    chaserPosition.y -= 10; 
+                    collision.gameObject.transform.position = chaserPosition;
+
                     if(EvaderSpace.shieldCollected == 0){
                         Color yellowColor = HexToColor("#FFFF00");
                         Vector3 newScale = new Vector3(3.0f, 3.0f, 3.0f);
