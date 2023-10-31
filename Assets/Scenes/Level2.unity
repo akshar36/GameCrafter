@@ -4960,7 +4960,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   portal: {fileID: 1701454127}
   sendDataScript: {fileID: 1073655552}
-  fromSceneName: SampleScene2
+  fromSceneName: Level2
 --- !u!61 &1701454129
 BoxCollider2D:
   m_ObjectHideFlags: 0
