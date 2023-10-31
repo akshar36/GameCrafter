@@ -49,6 +49,9 @@ public class EvaderLevel1 : MonoBehaviour
     public RawImage left;
 
     public GameObject JumpSpace;
+    private Vector3 upOffset;
+    private Vector3 rightOffset;
+    private Vector3 leftOffset;
 
     private float disableChaserTime = 17f;
 
@@ -83,13 +86,19 @@ public class EvaderLevel1 : MonoBehaviour
         //    wormhole.gameObject.SetActive(false);
         //}
         // ShieldCount.text = "x" + EvaderSpace.shieldCollected;
+        upOffset = up.transform.position - transform.position;
+        rightOffset = right.transform.position - transform.position;
+        leftOffset = left.transform.position - transform.position;
 
     }
     
 
     void Update()
     {
-            
+            up.transform.position = transform.position + upOffset;
+            right.transform.position = transform.position + rightOffset;
+            left.transform.position = transform.position + leftOffset;
+
             float moveInput = Input.GetAxis("Horizontal");
             if(moveInput > 0){
                 right.gameObject.SetActive(false);
