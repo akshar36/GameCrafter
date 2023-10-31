@@ -1355,6 +1355,7 @@ GameObject:
   - component: {fileID: 389464293}
   - component: {fileID: 389464292}
   - component: {fileID: 389464291}
+  - component: {fileID: 389464294}
   m_Layer: 3
   m_Name: LedgeTileMap
   m_TagString: Untagged
@@ -2272,6 +2273,19 @@ Tilemap:
     e31: 0
     e32: 0
     e33: 1
+--- !u!114 &389464294
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 389464289}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d4593c68cfb294b5abeeb167ea6b4a8f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  objectToSpawn: {fileID: 3241437991345663542, guid: ce4158ad084e54cec977f452719607c4, type: 3}
 --- !u!1001 &439042326
 PrefabInstance:
   m_ObjectHideFlags: 0
