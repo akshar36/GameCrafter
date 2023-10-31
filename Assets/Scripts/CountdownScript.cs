@@ -5,7 +5,7 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
-public class CountDownScript : MonoBehaviour
+public class CountdownScript : MonoBehaviour
 {
     private float initialTime = 5f;
     private float timeLeft;

@@ -37,7 +37,7 @@ public class Evader : MonoBehaviour
     private GameObject wormhole;
     private GameObject countdown;
     private bool onSafeLedge = false;
-    private CountDownScript countdownController;
+    private CountdownScript countdownController;
     private bool hasCollidedWithChaser = false;
     private bool safeLedgeUsed = false;
     private GameObject SafeLedge;
@@ -61,7 +61,7 @@ public class Evader : MonoBehaviour
         chaserSpriteRenderer = chaser.GetComponent<SpriteRenderer>();
         chaserController = chaser.GetComponent<ChaserAI>();
         timerController = timer.GetComponent<TimerScript>();
-        countdownController = countdown.GetComponent<CountDownScript>();
+        countdownController = countdown.GetComponent<CountdownScript>();
         survivalStartTime = Time.time;
         if(EvaderSpace.shield) {
             Color greenColor = HexToColor("#6AF802");
