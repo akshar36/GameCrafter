@@ -9,6 +9,10 @@ public class EvaderSpace : MonoBehaviour
 {
     
     public Text GameOverTxt;
+    public Text LivesTxt;
+    public Text TotalShieldsTxt;
+    public GameObject bombPrefabs;
+    public GameObject shieldPrefabs;
     private TimerScriptPractice timerController;
     public Text TimerTxt;
     public static int shieldCollected = 0;   
@@ -25,6 +29,8 @@ public class EvaderSpace : MonoBehaviour
     public Sprite hitThree;
     public static bool shield = false;
     public static bool visited = false;
+    GameObject shieldPoint;
+
     void Start()
     {
         visited = false;
@@ -39,6 +45,10 @@ public class EvaderSpace : MonoBehaviour
         timerController.StartTime();
         RestartText.gameObject.SetActive(false);
         visited = true;
+        LivesTxt.gameObject.SetActive(false);
+        TotalShieldsTxt.gameObject.SetActive(false);
+        shieldPoint = GameObject.FindWithTag("ShieldPoint");
+        shieldPoint.SetActive(false);
     }
 
     void Update()
@@ -72,12 +82,43 @@ public class EvaderSpace : MonoBehaviour
                 spriteRenderer.sprite = hitTwo;
             } else if(bombHit == 3){
                 spriteRenderer.sprite = hitThree;
-                if(LevelSelector.chosenLevel == 2)
-                    SceneManager.LoadScene("Level2");
-                else if(LevelSelector.chosenLevel == 3)
-                    SceneManager.LoadScene("Level3");
+                SetSceneBack();
             }
         }
+    }
+
+    public void SetSceneBack(){
+        Time.timeScale = 0f;
+        GameObject[] bombs = GameObject.FindGameObjectsWithTag("bomb");
+        for (int i = 0; i < bombs.Length; i++)
+        {
+            Destroy(bombs[i]);
+        }
+
+        // Destroy all objects with tag "Shield"
+        GameObject[] shields = GameObject.FindGameObjectsWithTag("shield");
+        for (int i = 0; i < shields.Length; i++)
+        {
+            Destroy(shields[i]);
+        }
+
+        TotalShieldsTxt.text = "Collected " + totalShieldsCollected.ToString();
+        LivesTxt.text = "= " + totalShieldsCollected.ToString() + " lives";
+        LivesTxt.gameObject.SetActive(true);
+        TotalShieldsTxt.gameObject.SetActive(true);
+        shieldPoint.SetActive(true);
+
+        StartCoroutine(WaitOnScene());
+    }
+
+    private IEnumerator WaitOnScene(){
+        Time.timeScale = 1f;
+        yield return new WaitForSeconds(5.0f);
+
+        if(LevelSelector.chosenLevel == 2)
+            SceneManager.LoadScene("Level2");
+        else if(LevelSelector.chosenLevel == 3)
+            SceneManager.LoadScene("Level3");
     }
 
 }

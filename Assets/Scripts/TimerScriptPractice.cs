@@ -34,15 +34,9 @@ public class TimerScriptPractice : MonoBehaviour
             {
                 TimeLeft = 0;
                 TimerScript.AreWeReturningToTheScene = true;
-                if(LevelSelector.chosenLevel == 1){
-                    SceneManager.LoadScene(sceneToReturnTo);
-                    } 
-                else if(LevelSelector.chosenLevel == 2){
-                    SceneManager.LoadScene(sceneToReturnTo2);
-                }
-                else if(LevelSelector.chosenLevel == 3){
-                    SceneManager.LoadScene(sceneToReturnTo3);
-                }
+                GameObject evader = GameObject.Find("Evader");
+                EvaderSpace evaderSpaceController = evader.GetComponent<EvaderSpace>();
+                evaderSpaceController.SetSceneBack();
             }
         }
     }
