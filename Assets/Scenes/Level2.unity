@@ -303,6 +303,7 @@ MonoBehaviour:
   sendDataScript: {fileID: 1073655552}
   ledgeMaterial: {fileID: 0}
   powerEvader: {fileID: 21300000, guid: bf459ab46d852154e93f9e34ea403e2c, type: 3}
+  normalEvader: {fileID: 21300000, guid: 1df6f8ffe2785a34c804f7ac2722d1c1, type: 3}
 --- !u!4 &108745094
 Transform:
   m_ObjectHideFlags: 0
@@ -1358,7 +1359,7 @@ GameObject:
   - component: {fileID: 389464291}
   m_Layer: 3
   m_Name: LedgeTileMap
-  m_TagString: Untagged
+  m_TagString: LedgeTile
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -2457,6 +2458,9 @@ MonoBehaviour:
   target: {fileID: 108745094}
   movespeed: 3000
   nextWayPointDistance: 2
+  LedgeCount: {fileID: 1629081253}
+  angryChaser: {fileID: 21300000, guid: 537df6c53c953214a9731ff238805c28, type: 3}
+  normalChaser: {fileID: 21300000, guid: 0a54a495f5640dd4b99190576fdb6d67, type: 3}
 --- !u!58 &465038947
 CircleCollider2D:
   m_ObjectHideFlags: 0
@@ -5312,6 +5316,9 @@ MonoBehaviour:
   target: {fileID: 108745094}
   movespeed: 3000
   nextWayPointDistance: 3
+  LedgeCount: {fileID: 0}
+  angryChaser: {fileID: 0}
+  normalChaser: {fileID: 0}
 --- !u!4 &1710665229
 Transform:
   m_ObjectHideFlags: 0

@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using Pathfinding;
+using UnityEngine.UI;
 
 public class ChaserAI : MonoBehaviour
 {
@@ -16,12 +17,24 @@ public class ChaserAI : MonoBehaviour
     Seeker seeker;
     Rigidbody2D rb;
 
+    private float timeNotMoving = 0f;
+    private float destroyThreshold = 5.0f;
+     private float destroyThresholdInitial = 4.0f;
+    private float ledgeDestroyRadius = 3.0f;
+    public Text LedgeCount;
+    public Sprite angryChaser;
+    public Sprite normalChaser;
+    private SpriteRenderer chaserSpriteRenderer;
+
     void Start()
     {
         seeker = GetComponent<Seeker>();
         rb = GetComponent<Rigidbody2D>();
         previousPosition = transform.position;
         InvokeRepeating("UpdatePath", 0f, 1f);
+
+        GameObject chaser = GameObject.Find("Chaser");
+        chaserSpriteRenderer = chaser.GetComponent<SpriteRenderer>();
     }
 
     void UpdatePath()
@@ -41,15 +54,6 @@ public class ChaserAI : MonoBehaviour
         {
             path = p;
             currentWayPoint=0;
-            // hits = Physics2D.OverlapBoxAll(transform.position, new Vector2(tilemap.cellBounds.size.x, tilemap.cellBounds.size.y), 0f, enemyLayer);
-            // foreach (Collider2D hit in hits)
-            // {
-            //     // Get the position of the tile in world coordinates
-            //     Vector3Int cellPosition = tilemap.WorldToCell(hit.transform.position);
-            //     Debug.Log("workin");
-            //     // Change the tile to the orange tile
-            //     tilemap.SetTile(cellPosition, orangeTile);
-            // }
         }
     }
 
@@ -81,8 +85,11 @@ public class ChaserAI : MonoBehaviour
             {
                 currentWayPoint++;
             }
+
+            CheckForMovement();
         }
     }
+
     public void StartChasing()
     {
         isChasing = true;
@@ -97,4 +104,63 @@ public class ChaserAI : MonoBehaviour
         movespeed = 0f;
         rb.Sleep(); // Put the rigidbody to sleep to clear any forces.
     }
+
+    void CheckForMovement()
+    {
+        // Check if the position has changed
+        if (Vector2.Distance(transform.position, previousPosition) < 0.01f) // Threshold can be adjusted
+        {
+            // Position hasn't changed significantly, increase timer
+            timeNotMoving += Time.deltaTime;
+        }
+        else
+        {
+            // Position changed, reset timer
+            timeNotMoving = 0f;
+        }
+
+        // Update previous position
+        previousPosition = transform.position;
+
+        // Check if timeNotMoving has reached the threshold
+        if (timeNotMoving >= destroyThresholdInitial)
+        {
+            MakeChaserBigger();
+        }
+        if (timeNotMoving >= destroyThreshold)
+        {
+            // Destroy nearby LedgePrefabs
+            DestroyNearbyLedges();
+            // Reset timer
+            timeNotMoving = 0f;
+            chaserSpriteRenderer.sprite = normalChaser;
+            Vector3 newScale = new Vector3(3.0f, 3.0f, 3.0f);
+            chaserSpriteRenderer.transform.localScale = newScale;
+        }
+    }
+
+    void DestroyNearbyLedges()
+    {
+        // Find all LedgePrefabs within the radius
+        Collider2D[] ledges = Physics2D.OverlapCircleAll(transform.position, ledgeDestroyRadius);
+        foreach (Collider2D collider in ledges)
+        {
+            if (collider.tag == "LedgePrefab")
+            {
+                Destroy(collider.gameObject);
+                if(LevelSelector.chosenLevel == 1)
+                    EvaderLevel1.platformCount++;
+                else
+                    Evader.platformCount++;
+                    LedgeCount.text = "x " + Evader.platformCount;
+            }
+        }
+    }
+
+    void MakeChaserBigger(){
+        chaserSpriteRenderer.sprite = angryChaser;
+        Vector3 newScale = new Vector3(5.0f, 5.0f, 5.0f);
+        chaserSpriteRenderer.transform.localScale = newScale;
+    }
+
 }
