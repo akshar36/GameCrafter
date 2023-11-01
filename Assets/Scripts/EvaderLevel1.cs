@@ -54,11 +54,14 @@ public class EvaderLevel1 : MonoBehaviour
     private Vector3 leftOffset;
 
     private float disableChaserTime = 17f;
+    bool isCollidingWithLedge = false;
+    Collision2D currentCollision;
 
     void Start()
     {
         JumpSpace.SetActive(false);
         HideGameOverShowTimer();
+        platformCount = 10;
         rb = GetComponent<Rigidbody2D>();
         spriteRenderer = GetComponent<SpriteRenderer>();
         GameObject chaser = GameObject.Find("Chaser");
@@ -92,6 +95,15 @@ public class EvaderLevel1 : MonoBehaviour
 
     }
     
+
+    void OnCollisionStay2D(Collision2D collision)
+    {
+        if (collision.gameObject.CompareTag("LedgePrefab"))
+        {
+            isCollidingWithLedge = true;
+            currentCollision = collision;
+        }
+    }
 
     void Update()
     {
@@ -145,6 +157,14 @@ public class EvaderLevel1 : MonoBehaviour
         // if(LevelSelector.chosenLevel == 2 && Time.time > 10 && !EvaderSpace.visited){
         //     wormhole.gameObject.SetActive(true);
         // }
+
+        if (isCollidingWithLedge && Input.GetKeyDown(KeyCode.N))
+        {
+            Destroy(currentCollision.gameObject);
+            platformCount++;
+            LedgeCount.text = "x " + platformCount;
+            isCollidingWithLedge = false;
+        }
     }
 
     private IEnumerator RemoveRawImagesAfterDelay(float delay)
@@ -244,19 +264,6 @@ public class EvaderLevel1 : MonoBehaviour
         }
 
     }
-
-// void OnCollisionStay2D(Collision2D collision)
-//      {
-//          if (collision.gameObject.CompareTag("LedgePrefab"))
-//          {
-//              if(Input.GetKeyDown(KeyCode.N)){
-//                  Destroy(collision.gameObject);
-//                  platformCount++;
-//                  LedgeCount.text = "x " + platformCount;
-//              }
-//          }
-//      }
-
 
     public void ShowGameOverHideTimer()
     {

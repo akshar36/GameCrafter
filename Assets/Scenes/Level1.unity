@@ -2277,7 +2277,7 @@ GameObject:
   - component: {fileID: 807734249}
   m_Layer: 6
   m_Name: Ledge (1)
-  m_TagString: Untagged
+  m_TagString: LedgePrefab
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0

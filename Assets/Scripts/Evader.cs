@@ -42,6 +42,8 @@ public class Evader : MonoBehaviour
     private bool safeLedgeUsed = false;
     private GameObject SafeLedge;
     public Material ledgeMaterial;
+    bool isCollidingWithLedge = false;
+    Collision2D currentCollision;
 
     void Start()
     {
@@ -85,6 +87,15 @@ public class Evader : MonoBehaviour
         }
     }
 
+    void OnCollisionStay2D(Collision2D collision)
+    {
+        if (collision.gameObject.CompareTag("LedgePrefab"))
+        {
+            isCollidingWithLedge = true;
+            currentCollision = collision;
+        }
+    }
+
     void Update()
     {
             float moveInput = Input.GetAxis("Horizontal");
@@ -125,7 +136,16 @@ public class Evader : MonoBehaviour
         if(LevelSelector.chosenLevel != 1 && gameplayDuration > 10 && !EvaderSpace.visited){
             wormhole.gameObject.SetActive(true);
         }
+
         ShieldCount.text = "x" + EvaderSpace.shieldCollected;
+
+        if (isCollidingWithLedge && Input.GetKeyDown(KeyCode.N))
+        {
+            Destroy(currentCollision.gameObject);
+            platformCount++;
+            LedgeCount.text = "x " + platformCount;
+            isCollidingWithLedge = false;
+        }
     }
 
     void Jump()
@@ -209,19 +229,6 @@ public class Evader : MonoBehaviour
         countdown.SetActive(false);
     }
 }
-
-// void OnCollisionStay2D(Collision2D collision)
-//      {
-//          if (collision.gameObject.CompareTag("LedgePrefab"))
-//          {
-//              if(Input.GetKeyDown(KeyCode.N)){
-//                  Destroy(collision.gameObject);
-//                  platformCount++;
-//                  LedgeCount.text = "x " + platformCount;
-//              }
-//          }
-//      }
-
 
     public void ShowGameOverHideTimer()
     {
