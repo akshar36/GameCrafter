@@ -45,6 +45,7 @@ public class Evader : MonoBehaviour
     bool isCollidingWithLedge = false;
     Collision2D currentCollision;
     public Sprite powerEvader;
+    public Sprite normalEvader;
 
     void Start()
     {
@@ -54,6 +55,7 @@ public class Evader : MonoBehaviour
         onSafeLedge = false;
         safeLedgeUsed = false;
         hasCollidedWithChaser = false;
+        isCollidingWithLedge = false;
 
         HideGameOverShowTimer();
         rb = GetComponent<Rigidbody2D>();
@@ -79,6 +81,7 @@ public class Evader : MonoBehaviour
         }
         if (EvaderSpace.shieldCollected == 0)
         {
+            spriteRenderer.sprite = normalEvader;
             Color yellowColor = HexToColor("#FFFF00");
             Vector3 newScale = new Vector3(3.0f, 3.0f, 3.0f);
             spriteRenderer.material.color = yellowColor;
@@ -96,6 +99,23 @@ public class Evader : MonoBehaviour
         {
             isCollidingWithLedge = true;
             currentCollision = collision;
+        }
+        else
+        {
+            isCollidingWithLedge = false;
+            currentCollision = null;
+        }
+    }
+
+    void OnCollisionExit2D(Collision2D collision)
+    {
+        if (collision.gameObject.CompareTag("LedgePrefab"))
+        {
+            isCollidingWithLedge = false;
+            currentCollision = null;
+        }
+        if (hasCollidedWithChaser && collision.gameObject.CompareTag("Chaser")) {
+            hasCollidedWithChaser = false;
         }
     }
 
@@ -148,6 +168,7 @@ public class Evader : MonoBehaviour
             platformCount++;
             LedgeCount.text = "x " + platformCount;
             isCollidingWithLedge = false;
+            currentCollision = null;  
         }
     }
 
@@ -181,6 +202,7 @@ public class Evader : MonoBehaviour
                     collision.gameObject.transform.position = new Vector3(46.62f, 9.9f, 0);
 
                     if(EvaderSpace.shieldCollected == 0){
+                        spriteRenderer.sprite = normalEvader;
                         Color yellowColor = HexToColor("#FFFF00");
                         Vector3 newScale = new Vector3(3.0f, 3.0f, 3.0f);
                         spriteRenderer.material.color = yellowColor;
@@ -211,12 +233,6 @@ public class Evader : MonoBehaviour
         float verticalThreshold = 2.0f;
 
         return playerY > ledgeY + verticalThreshold;
-    }
-
-    void OnCollisionExit2D(Collision2D collision) {
-        if (hasCollidedWithChaser && collision.gameObject.CompareTag("Chaser")) {
-            hasCollidedWithChaser = false;
-        }
     }
 
     private IEnumerator ResumeChasingAfterDelay(float delay)

@@ -89,6 +89,7 @@ public class EvaderSpace : MonoBehaviour
 
     public void SetSceneBack(){
         Time.timeScale = 0f;
+        TimerScriptPractice.TimeLeft = 0;
         GameObject[] bombs = GameObject.FindGameObjectsWithTag("bomb");
         for (int i = 0; i < bombs.Length; i++)
         {

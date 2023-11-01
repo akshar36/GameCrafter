@@ -7,7 +7,7 @@ using UnityEngine.UI;
 
 public class TimerScriptPractice : MonoBehaviour
 {
-    public float TimeLeft = 9f;
+    public static float TimeLeft = 9f;
     public Text GameText;
     public Text TimerTxt;
     private bool startTime = false;

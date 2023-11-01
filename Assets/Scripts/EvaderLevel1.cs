@@ -49,6 +49,7 @@ public class EvaderLevel1 : MonoBehaviour
     public RawImage left;
 
     public GameObject JumpSpace;
+    public GameObject Recollect;
     private Vector3 upOffset;
     private Vector3 rightOffset;
     private Vector3 leftOffset;
@@ -56,10 +57,13 @@ public class EvaderLevel1 : MonoBehaviour
     private float disableChaserTime = 17f;
     bool isCollidingWithLedge = false;
     Collision2D currentCollision;
+    private bool isNkeyShown = false;
 
     void Start()
     {
         JumpSpace.SetActive(false);
+        Recollect.SetActive(false);
+        isNkeyShown = false;
         HideGameOverShowTimer();
         platformCount = 10;
         rb = GetComponent<Rigidbody2D>();
@@ -70,6 +74,7 @@ public class EvaderLevel1 : MonoBehaviour
         chaserController = chaser.GetComponent<ChaserAI>();
         timerController = timer.GetComponent<TimerScript>();
         survivalStartTime = Time.time;
+        isCollidingWithLedge = false;
         //if(EvaderSpace.shield) {
         //    StartCoroutine(DeactivateShield(10f));
         //    noShield = false;            
@@ -102,6 +107,20 @@ public class EvaderLevel1 : MonoBehaviour
         {
             isCollidingWithLedge = true;
             currentCollision = collision;
+        }
+        else
+        {
+            isCollidingWithLedge = false;
+            currentCollision = null;
+        }
+    }
+
+    void OnCollisionExit2D(Collision2D collision)
+    {
+        if (collision.gameObject.CompareTag("LedgePrefab"))
+        {
+            isCollidingWithLedge = false;
+            currentCollision = null;
         }
     }
 
@@ -146,6 +165,11 @@ public class EvaderLevel1 : MonoBehaviour
             if (!isGrounded && Input.GetKeyDown(KeyCode.Space) && platformCount > 0)
             {
                 JumpSpace.SetActive(false);
+                if(!isNkeyShown){
+                    Recollect.SetActive(true);
+                    StartCoroutine(ShakeObject(Recollect, 3f, 0.1f));
+                    isNkeyShown = true;
+                }
                 DroppedLedge = Instantiate(floorprefab, transform.position, Quaternion.identity);
                 platformCount--;
                 LedgeCount.text = "x " + platformCount;
@@ -160,10 +184,12 @@ public class EvaderLevel1 : MonoBehaviour
 
         if (isCollidingWithLedge && Input.GetKeyDown(KeyCode.N))
         {
+            Recollect.SetActive(false);
             Destroy(currentCollision.gameObject);
             platformCount++;
             LedgeCount.text = "x " + platformCount;
             isCollidingWithLedge = false;
+            currentCollision = null;  
         }
     }
 
