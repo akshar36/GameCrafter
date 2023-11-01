@@ -44,6 +44,7 @@ public class Evader : MonoBehaviour
     public Material ledgeMaterial;
     bool isCollidingWithLedge = false;
     Collision2D currentCollision;
+    public Sprite powerEvader;
 
     void Start()
     {
@@ -53,9 +54,11 @@ public class Evader : MonoBehaviour
         onSafeLedge = false;
         safeLedgeUsed = false;
         hasCollidedWithChaser = false;
+
         HideGameOverShowTimer();
         rb = GetComponent<Rigidbody2D>();
-        spriteRenderer = GetComponent<SpriteRenderer>();
+        GameObject evader = GameObject.Find("Evader");
+        spriteRenderer = evader.GetComponent<SpriteRenderer>();
         GameObject chaser = GameObject.Find("Chaser");
         GameObject timer = GameObject.Find("TimerTxt");
         countdown = GameObject.Find("Countdown");
@@ -66,20 +69,20 @@ public class Evader : MonoBehaviour
         timerController = timer.GetComponent<TimerScript>();
         countdownController = countdown.GetComponent<CountdownScript>();
         survivalStartTime = Time.time;
+
         if(EvaderSpace.shield) {
+            spriteRenderer.sprite = powerEvader;
             Color greenColor = HexToColor("#6AF802");
             Vector3 newScale = new Vector3(5.0f, 5.0f, 5.0f);
             spriteRenderer.material.color = greenColor;
-            GameObject evader = GameObject.Find("Evader");
-            evader.transform.localScale = newScale;
+            spriteRenderer.transform.localScale = newScale;
         }
         if (EvaderSpace.shieldCollected == 0)
         {
             Color yellowColor = HexToColor("#FFFF00");
             Vector3 newScale = new Vector3(3.0f, 3.0f, 3.0f);
             spriteRenderer.material.color = yellowColor;
-            GameObject evader = GameObject.Find("Evader");
-            evader.transform.localScale = newScale;
+            spriteRenderer.transform.localScale = newScale;
         }
         if (LevelSelector.chosenLevel != 1){
             wormhole = GameObject.Find("wormhole");
@@ -181,8 +184,7 @@ public class Evader : MonoBehaviour
                         Color yellowColor = HexToColor("#FFFF00");
                         Vector3 newScale = new Vector3(3.0f, 3.0f, 3.0f);
                         spriteRenderer.material.color = yellowColor;
-                        GameObject evader = GameObject.Find("Evader");
-                        evader.transform.localScale = newScale;
+                        spriteRenderer.transform.localScale = newScale;
                     }
                 }
             }

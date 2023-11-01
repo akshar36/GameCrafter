@@ -302,6 +302,7 @@ MonoBehaviour:
   shieldSprite: {fileID: 0}
   sendDataScript: {fileID: 1073655552}
   ledgeMaterial: {fileID: 0}
+  powerEvader: {fileID: 21300000, guid: bf459ab46d852154e93f9e34ea403e2c, type: 3}
 --- !u!4 &108745094
 Transform:
   m_ObjectHideFlags: 0
@@ -4960,7 +4961,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   portal: {fileID: 1701454127}
   sendDataScript: {fileID: 1073655552}
-  fromSceneName: Level2
 --- !u!61 &1701454129
 BoxCollider2D:
   m_ObjectHideFlags: 0
