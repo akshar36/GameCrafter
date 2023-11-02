@@ -17,6 +17,9 @@ TagManager:
   - HighJump
   - Fire
   - SafeLedge
+  - ledgeTileMap
+  - Laser
+  - Frame
   layers:
   - Default
   - TransparentFX
