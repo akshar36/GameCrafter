@@ -18,8 +18,7 @@ public class ChaserAI : MonoBehaviour
     Rigidbody2D rb;
 
     private float timeNotMoving = 0f;
-    private float destroyThreshold = 5.0f;
-     private float destroyThresholdInitial = 4.0f;
+    private float destroyThreshold = 3.0f;
     private float ledgeDestroyRadius = 3.0f;
     public Text LedgeCount;
     public Sprite angryChaser;
@@ -114,7 +113,7 @@ public class ChaserAI : MonoBehaviour
     void CheckForMovement()
     {
         // Check if the position has changed
-        if (Vector2.Distance(transform.position, previousPosition) < 0.01f) // Threshold can be adjusted
+        if (Vector2.Distance(transform.position, previousPosition) < 0.02f)
         {
             // Position hasn't changed significantly, increase timer
             timeNotMoving += Time.deltaTime;
@@ -128,25 +127,17 @@ public class ChaserAI : MonoBehaviour
         // Update previous position
         previousPosition = transform.position;
 
-        // Check if timeNotMoving has reached the threshold
-        if (timeNotMoving >= destroyThresholdInitial)
-        {
-            MakeChaserBigger();
-        }
         if (timeNotMoving >= destroyThreshold)
         {
+            MakeChaserBigger();
             // Destroy nearby LedgePrefabs
-            DestroyNearbyLedges();
-            // Reset timer
-            timeNotMoving = 0f;
-            chaserSpriteRenderer.sprite = normalChaser;
-            Vector3 newScale = new Vector3(3.0f, 3.0f, 3.0f);
-            chaserSpriteRenderer.transform.localScale = newScale;
+            StartCoroutine(DestroyNearbyLedges());
         }
     }
 
-    void DestroyNearbyLedges()
+    IEnumerator DestroyNearbyLedges()
     {
+        yield return new WaitForSeconds(1.0f);
         // Find all LedgePrefabs within the radius
         Collider2D[] ledges = Physics2D.OverlapCircleAll(transform.position, ledgeDestroyRadius);
         foreach (Collider2D collider in ledges)
@@ -161,9 +152,14 @@ public class ChaserAI : MonoBehaviour
                     LedgeCount.text = "x " + Evader.platformCount;
             }
         }
+        // Reset timer
+        timeNotMoving = 0f;
+        chaserSpriteRenderer.sprite = normalChaser;
+        Vector3 newScale = new Vector3(3.0f, 3.0f, 3.0f);
+        chaserSpriteRenderer.transform.localScale = newScale;
     }
 
-    void MakeChaserBigger(){
+    private void MakeChaserBigger(){
         chaserSpriteRenderer.sprite = angryChaser;
         Vector3 newScale = new Vector3(5.0f, 5.0f, 5.0f);
         chaserSpriteRenderer.transform.localScale = newScale;
