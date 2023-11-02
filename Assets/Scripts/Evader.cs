@@ -47,6 +47,9 @@ public class Evader : MonoBehaviour
     public Sprite powerEvader;
     public Sprite normalEvader;
 
+    public Sprite hitOne;
+    public Sprite hitTwo;
+    private int laserHit = 0;
     void Start()
     {
         evaderMoved = false;
@@ -181,7 +184,7 @@ public class Evader : MonoBehaviour
 
     void OnCollisionEnter2D(Collision2D collision)
     {
-        if(collision.gameObject.CompareTag("Chaser"))
+        if(collision.gameObject.CompareTag("Chaser") || collision.gameObject.CompareTag("Laser"))
         {
             if(LevelSelector.chosenLevel == 1){
                 ShowGameOverHideTimer();
@@ -217,7 +220,8 @@ public class Evader : MonoBehaviour
             countdown.SetActive(true);
             countdownController.StartCountdown(5f);
             StartCoroutine(ResumeChasingAfterDelay(7f));
-        }else{
+        }             
+        else{
             isGrounded = true;
         }
     }

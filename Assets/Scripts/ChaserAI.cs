@@ -26,6 +26,10 @@ public class ChaserAI : MonoBehaviour
     public Sprite normalChaser;
     private SpriteRenderer chaserSpriteRenderer;
 
+    public GameObject bulletPrefab;
+    public float bulletSpeed = 20f;
+    private GameObject bullet;
+    private float angle = 90f;
     void Start()
     {
         seeker = GetComponent<Seeker>();
@@ -94,6 +98,8 @@ public class ChaserAI : MonoBehaviour
     {
         isChasing = true;
         movespeed = 900f;
+        if(LevelSelector.chosenLevel == 3)
+            StartCoroutine(ShootBulletsRandomly());
     }
 
     public void StopChasing()
@@ -163,4 +169,35 @@ public class ChaserAI : MonoBehaviour
         chaserSpriteRenderer.transform.localScale = newScale;
     }
 
+    IEnumerator ShootBulletsRandomly()
+    {
+        while (true)
+        {
+            yield return new WaitForSeconds(Random.Range(1f, 3f));
+            ShootBullets();
+        }
+    }
+
+    void ShootBullets()
+    {
+        for (int i = 0; i <8; i++)
+        {
+            angle = angle + 45*i;  
+            Debug.Log("angle " + angle);
+            Vector2 bulletDirection = Quaternion.Euler(0, 0, angle) * Vector2.up;
+            Vector2 spawnPosition = (Vector2)transform.position + bulletDirection * 6f;
+
+            GameObject bullet = Instantiate(bulletPrefab, spawnPosition, Quaternion.identity);
+            
+            Rigidbody2D rb = bullet.GetComponent<Rigidbody2D>();
+            bullet.transform.rotation = Quaternion.Euler(0, 0, angle);
+
+            rb.velocity = bulletDirection * bulletSpeed;
+
+            // var bullet = Instantiate(bulletPrefab, bulletSpawnPoint.position, bulletSpawnPoint.rotation);
+            // bullet.GetComponent<Rigidbody2D>().velocity = bulletSpawnPoint.up * bulletSpeed;
+
+        }
+        angle = -180;
+    }
 }

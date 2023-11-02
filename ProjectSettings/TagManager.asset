@@ -19,6 +19,9 @@ TagManager:
   - SafeLedge
   - ShieldPoint
   - LedgeTile
+  - ledgeTileMap
+  - Laser
+  - Frame
   layers:
   - Default
   - TransparentFX
