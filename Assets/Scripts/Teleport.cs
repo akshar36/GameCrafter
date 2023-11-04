@@ -37,9 +37,8 @@ public class Teleport : MonoBehaviour
         {
             teleportUsed = "yes";
             // Instead of teleporting within the scene, load the tutorial scene
-            player.transform.position = new Vector2(portal.transform.position.x + 7f, portal.transform.position.y);
+            player.transform.position = new Vector2(portal.transform.position.x, portal.transform.position.y);
             SceneManager.LoadScene("Space");
-            
         }
     }
 }

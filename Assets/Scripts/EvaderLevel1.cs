@@ -50,10 +50,20 @@ public class EvaderLevel1 : MonoBehaviour
 
     public GameObject JumpSpace;
     public GameObject Recollect;
+    public GameObject shiftKey;
+    public GameObject smoke;
+    private int portalCount = 5;
+    private Vector2[] positions = new Vector2[]
+    {
+        new Vector2(105.4f, 1f),
+        new Vector2(30f, 1f),
+        new Vector2(31f, 46f),
+        new Vector2(89f, 45f)
+    };
     private Vector3 upOffset;
     private Vector3 rightOffset;
     private Vector3 leftOffset;
-
+    private bool shiftNotclicked = true;
     private float disableChaserTime = 17f;
     bool isCollidingWithLedge = false;
     Collision2D currentCollision;
@@ -67,6 +77,7 @@ public class EvaderLevel1 : MonoBehaviour
         HideGameOverShowTimer();
         platformCount = 10;
         rb = GetComponent<Rigidbody2D>();
+        shiftKey.SetActive(false);
         spriteRenderer = GetComponent<SpriteRenderer>();
         GameObject chaser = GameObject.Find("Chaser");
         GameObject timer = GameObject.Find("TimerTxt");
@@ -162,12 +173,22 @@ public class EvaderLevel1 : MonoBehaviour
             //     }
             // }
 
+            if (portalCount >0 && ((Input.GetKeyDown(KeyCode.LeftShift)) || (Input.GetKeyDown(KeyCode.RightShift)))){
+                shiftKey.SetActive(false);
+                Debug.Log("playing");
+                GameObject particleInstance = Instantiate(smoke, transform.position, Quaternion.identity);
+                particleInstance.GetComponent<ParticleSystem>().Play();
+                portalCount --;
+                Text portalCountText = GameObject.Find("PortalCount").GetComponent<Text>();
+                portalCountText.text = "x"+portalCount;
+                MoveToRandomPosition();
+            }
+
             if (!isGrounded && Input.GetKeyDown(KeyCode.Space) && platformCount > 0)
             {
                 JumpSpace.SetActive(false);
                 if(!isNkeyShown){
                     Recollect.SetActive(true);
-                    StartCoroutine(ShakeObject(Recollect, 3f, 0.1f));
                     isNkeyShown = true;
                 }
                 DroppedLedge = Instantiate(floorprefab, transform.position, Quaternion.identity);
@@ -175,6 +196,8 @@ public class EvaderLevel1 : MonoBehaviour
                 LedgeCount.text = "x " + platformCount;
                 LedgeCount.gameObject.SetActive(true);
                 isGrounded = true;
+                if (shiftNotclicked)
+                    StartCoroutine(removeShift(7.0f));
             }
         
 
@@ -202,6 +225,22 @@ public class EvaderLevel1 : MonoBehaviour
         
     }
 
+    private IEnumerator removeShift(float delay)
+    {
+        yield return new WaitForSeconds(delay);
+        shiftKey.SetActive(true);
+        shiftNotclicked = false;
+    }
+
+    private void MoveToRandomPosition()
+    {
+            int randomIndex = UnityEngine.Random.Range(0, positions.Length);
+            Vector2 targetPosition = positions[randomIndex];
+            GameObject particleInstance = Instantiate(smoke, targetPosition, Quaternion.identity);
+            particleInstance.GetComponent<ParticleSystem>().Play();
+            transform.position = new Vector3(targetPosition.x, targetPosition.y, transform.position.z);
+    }
+
     private IEnumerator ShakeObject(GameObject obj, float duration, float intensity)
     {
         Vector3 originalPosition = obj.transform.position;
@@ -223,6 +262,7 @@ public class EvaderLevel1 : MonoBehaviour
         // Reset the object to its original position and rotation when the shake is done.
         obj.transform.position = originalPosition;
         obj.transform.rotation = originalRotation;
+
     }
 
     private IEnumerator EnableChaserAfterDelay(float delay)

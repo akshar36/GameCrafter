@@ -14,7 +14,6 @@ TagManager:
   - shield
   - bomb
   - checkpoint
-  - HighJump
   - Fire
   - SafeLedge
   - ShieldPoint
@@ -22,6 +21,10 @@ TagManager:
   - ledgeTileMap
   - Laser
   - Frame
+  - icePoint
+  - iceLedge
+  - FrozenChaser
+  - GhostChaser
   layers:
   - Default
   - TransparentFX

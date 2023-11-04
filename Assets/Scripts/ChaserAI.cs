@@ -29,6 +29,10 @@ public class ChaserAI : MonoBehaviour
     public float bulletSpeed = 20f;
     private GameObject bullet;
     private float angle = 90f;
+    public Sprite frozenSprite;
+    public Sprite angrySprite;
+    public Sprite ghostSprite;
+
     void Start()
     {
         seeker = GetComponent<Seeker>();
@@ -60,6 +64,25 @@ public class ChaserAI : MonoBehaviour
         }
     }
 
+    void OnCollisionEnter2D(Collision2D collision){
+        if(collision.gameObject.CompareTag("iceLedge")){
+            Destroy(collision.gameObject);
+            AIPath speedObject = rb.GetComponent<AIPath>();
+            speedObject.maxSpeed = 10;
+            SpriteRenderer chaserSprite = rb.GetComponent<SpriteRenderer>();
+            chaserSprite.sprite = frozenSprite;
+            Invoke("backtoNormal", 5.0f);
+        }
+    }
+    void backtoNormal(){
+            AIPath speedObject = rb.GetComponent<AIPath>();
+            speedObject.maxSpeed = 80;
+            SpriteRenderer chaserSprite = rb.GetComponent<SpriteRenderer>();
+            if(rb.tag == "Chaser")
+                chaserSprite.sprite = angrySprite;
+            else
+                chaserSprite.sprite = ghostSprite;
+    }
     void Update()
     {
         if (isChasing)
@@ -97,8 +120,9 @@ public class ChaserAI : MonoBehaviour
     {
         isChasing = true;
         movespeed = 900f;
-        if(LevelSelector.chosenLevel == 3)
+        if(LevelSelector.chosenLevel == 3){
             StartCoroutine(ShootBulletsRandomly());
+        }
     }
 
     public void StopChasing()
@@ -157,9 +181,13 @@ public class ChaserAI : MonoBehaviour
         chaserSpriteRenderer.sprite = normalChaser;
         Vector3 newScale = new Vector3(3.0f, 3.0f, 3.0f);
         chaserSpriteRenderer.transform.localScale = newScale;
+        GameObject chaser = GameObject.Find("Chaser");
+        chaser.tag = "Chaser";
     }
 
     private void MakeChaserBigger(){
+        GameObject chaser = GameObject.Find("Chaser");
+        chaser.tag = "xx";
         chaserSpriteRenderer.sprite = angryChaser;
         Vector3 newScale = new Vector3(5.0f, 5.0f, 5.0f);
         chaserSpriteRenderer.transform.localScale = newScale;
@@ -169,7 +197,7 @@ public class ChaserAI : MonoBehaviour
     {
         while (true)
         {
-            yield return new WaitForSeconds(Random.Range(1f, 3f));
+            yield return new WaitForSeconds(Random.Range(5f, 10f));
             ShootBullets();
         }
     }
