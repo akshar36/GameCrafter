@@ -33,6 +33,7 @@ public class ChaserAI : MonoBehaviour
     public Sprite angrySprite;
     public Sprite ghostSprite;
     public static int timesStuck = 0;
+    private bool alreadyConsideredStuck = false;
 
     void Start()
     {
@@ -139,28 +140,26 @@ public class ChaserAI : MonoBehaviour
     void CheckForMovement()
     {
         // Check if the position has changed
-        if (Vector2.Distance(transform.position, previousPosition) < 0.02f)
+        if (Vector2.Distance(transform.position, previousPosition) < 0.01f)
         {
             // Position hasn't changed significantly, increase timer
             timeNotMoving += Time.deltaTime;
+            if (timeNotMoving >= destroyThreshold && !alreadyConsideredStuck)
+            {
+                MakeChaserBigger();
+                // Destroy nearby LedgePrefabs
+                StartCoroutine(DestroyNearbyLedges());
+                alreadyConsideredStuck = true;
+            }
         }
         else
         {
-            // Position changed, reset timer
             timeNotMoving = 0f;
+            alreadyConsideredStuck = false;
         }
 
         // Update previous position
         previousPosition = transform.position;
-
-        if (timeNotMoving >= destroyThreshold)
-        {
-            timesStuck += 1;
-            Debug.Log("times : " + timesStuck.ToString());
-            MakeChaserBigger();
-            // Destroy nearby LedgePrefabs
-            StartCoroutine(DestroyNearbyLedges());
-        }
     }
 
     IEnumerator DestroyNearbyLedges()
@@ -182,6 +181,7 @@ public class ChaserAI : MonoBehaviour
         }
         // Reset timer
         timeNotMoving = 0f;
+        timesStuck += 1;
         chaserSpriteRenderer.sprite = normalChaser;
         Vector3 newScale = new Vector3(3.0f, 3.0f, 3.0f);
         chaserSpriteRenderer.transform.localScale = newScale;

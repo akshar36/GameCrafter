@@ -25,6 +25,7 @@ TagManager:
   - iceLedge
   - FrozenChaser
   - GhostChaser
+  - xx
   layers:
   - Default
   - TransparentFX
