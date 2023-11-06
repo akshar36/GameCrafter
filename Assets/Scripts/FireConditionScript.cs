@@ -48,6 +48,8 @@ public class FireConditionScript : MonoBehaviour
             else if(contactDuration < 4f){
                 if(EvaderSpace.shieldCollected == 0){
                     spriteRenderer.sprite = hitThree;
+                    Evader.lostReason = "lava";
+                    Evader.deathPosition = collision.transform.position;
                     evaderController.ShowGameOverHideTimer();
                 }
                 else if(EvaderSpace.shieldCollected > 0){

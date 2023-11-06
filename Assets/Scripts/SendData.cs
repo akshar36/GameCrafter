@@ -5,9 +5,9 @@ using System.Collections;
 public class SendData : MonoBehaviour
 {
     public IEnumerator SendDataToGoogleSheets(string survivalDuration, string teleportUsed, 
-    string gameOverReason, string logsPlaced, string shieldsCollected) 
+    string gameOverReason, string logsPlaced, string shieldsCollected, string timesChaserStuck, string deathPosition) 
     {
-        string webAppUrl = "https://script.google.com/macros/s/AKfycbzEOSspsux0rx4zqN8iDdsC0QDSu0fKaFf6S3t2b-QXcdQZ0sRQcTA3LZb8PejsuUaN/exec";
+        string webAppUrl = "https://script.google.com/macros/s/AKfycbyQjgYY9FBJrkx7ozjrvZyuW2Vp30rmSzafnhuAeccDiCqk-oYqWWGFZfPlftTegVgH/exec";
         WWWForm form = new WWWForm();
         form.AddField("map", LevelSelector.chosenLevel);
         form.AddField("survivalDuration", survivalDuration);
@@ -15,6 +15,8 @@ public class SendData : MonoBehaviour
         form.AddField("gameOverReason", gameOverReason);
         form.AddField("logsPlaced", logsPlaced);
         form.AddField("shieldsCollected", shieldsCollected);
+        form.AddField("timesChaserStuck", timesChaserStuck);
+        form.AddField("deathPosition", deathPosition);
 
         using UnityWebRequest www = UnityWebRequest.Post(webAppUrl, form);
         {

@@ -32,6 +32,7 @@ public class ChaserAI : MonoBehaviour
     public Sprite frozenSprite;
     public Sprite angrySprite;
     public Sprite ghostSprite;
+    public static int timesStuck = 0;
 
     void Start()
     {
@@ -42,6 +43,7 @@ public class ChaserAI : MonoBehaviour
 
         GameObject chaser = GameObject.Find("Chaser");
         chaserSpriteRenderer = chaser.GetComponent<SpriteRenderer>();
+        timesStuck = 0;
     }
 
     void UpdatePath()
@@ -153,6 +155,8 @@ public class ChaserAI : MonoBehaviour
 
         if (timeNotMoving >= destroyThreshold)
         {
+            timesStuck += 1;
+            Debug.Log("times : " + timesStuck.ToString());
             MakeChaserBigger();
             // Destroy nearby LedgePrefabs
             StartCoroutine(DestroyNearbyLedges());

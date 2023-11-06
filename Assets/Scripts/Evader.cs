@@ -70,6 +70,9 @@ public class Evader : MonoBehaviour
     };
 
 
+    public static string lostReason = "chaser";
+    public static Vector2? deathPosition = null;
+
     void Start()
     {
         evaderMoved = false;
@@ -79,6 +82,7 @@ public class Evader : MonoBehaviour
         safeLedgeUsed = false;
         hasCollidedWithChaser = false;
         isCollidingWithLedge = false;
+        deathPosition = null;
 
         HideGameOverShowTimer();
         shiftKey.SetActive(false);
@@ -251,6 +255,10 @@ public class Evader : MonoBehaviour
     {
         if(collision.gameObject.CompareTag("Chaser") || collision.gameObject.CompareTag("Laser") || collision.gameObject.CompareTag("GhostChaser"))
         {
+            Evader.deathPosition = collision.transform.position;
+
+            if(collision.gameObject.CompareTag("Laser"))
+                lostReason = "laser";
             if(LevelSelector.chosenLevel == 1){
                 ShowGameOverHideTimer();
                 Debug.Log("set time called in collision");
@@ -334,7 +342,8 @@ public class Evader : MonoBehaviour
         RestartText.gameObject.SetActive(true);
         Time.timeScale = 0f;
         float survivalDuration = Time.time - survivalStartTime;
-        StartCoroutine(sendDataScript.SendDataToGoogleSheets(survivalDuration.ToString(), Teleport.teleportUsed, "lost", (10-platformCount).ToString(), EvaderSpace.totalShieldsCollected.ToString()));
+        StartCoroutine(sendDataScript.SendDataToGoogleSheets(survivalDuration.ToString(), Teleport.teleportUsed, lostReason, 
+        (10-platformCount).ToString(), EvaderSpace.totalShieldsCollected.ToString(), ChaserAI.timesStuck.ToString(), deathPosition.ToString()));
     }
 
     void HideGameOverShowTimer()

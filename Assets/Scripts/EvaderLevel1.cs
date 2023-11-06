@@ -68,6 +68,7 @@ public class EvaderLevel1 : MonoBehaviour
     bool isCollidingWithLedge = false;
     Collision2D currentCollision;
     private bool isNkeyShown = false;
+    Vector2? deathPosition = null;
 
     void Start()
     {
@@ -86,6 +87,7 @@ public class EvaderLevel1 : MonoBehaviour
         timerController = timer.GetComponent<TimerScript>();
         survivalStartTime = Time.time;
         isCollidingWithLedge = false;
+        deathPosition = null;
         //if(EvaderSpace.shield) {
         //    StartCoroutine(DeactivateShield(10f));
         //    noShield = false;            
@@ -309,6 +311,7 @@ public class EvaderLevel1 : MonoBehaviour
     {
         if(collision.gameObject.CompareTag("Chaser"))
         {
+            deathPosition = collision.transform.position;
             getHit++;
             if (getHit == 1)
             {
@@ -341,7 +344,8 @@ public class EvaderLevel1 : MonoBehaviour
         RestartText.gameObject.SetActive(true);
         Time.timeScale = 0f;
         float survivalDuration = Time.time - survivalStartTime;
-        StartCoroutine(sendDataScript.SendDataToGoogleSheets(survivalDuration.ToString(), Teleport.teleportUsed, "lost", (10-platformCount).ToString(), EvaderSpace.totalShieldsCollected.ToString()));
+        StartCoroutine(sendDataScript.SendDataToGoogleSheets(survivalDuration.ToString(), Teleport.teleportUsed, "chaser", 
+        (10-platformCount).ToString(), EvaderSpace.totalShieldsCollected.ToString(), ChaserAI.timesStuck.ToString(), deathPosition.ToString()));
     }
 
     void HideGameOverShowTimer()
