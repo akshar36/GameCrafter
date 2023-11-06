@@ -43,11 +43,7 @@ public class FireConditionScript : MonoBehaviour
             contactDuration += Time.deltaTime;
             Debug.Log("contact "+ contactDuration);
             if(contactDuration < 2f){
-                spriteRenderer.sprite = hitOne;
-            }
-            else if(contactDuration < 4f){
                 if(EvaderSpace.shieldCollected == 0){
-                    spriteRenderer.sprite = hitThree;
                     Evader.lostReason = "lava";
                     Evader.deathPosition = collision.transform.position;
                     evaderController.ShowGameOverHideTimer();
@@ -55,7 +51,7 @@ public class FireConditionScript : MonoBehaviour
                 else if(EvaderSpace.shieldCollected > 0){
                     spriteRenderer.sprite = hitTwo;
                     EvaderSpace.shieldCollected -=1;
-                }
+                }            
             }
         }
     }
