@@ -62,14 +62,22 @@ public class TimerScript : MonoBehaviour
         GameText.text = "YOU WIN";
         float survivalDuration = Time.time - Evader.survivalStartTime;
         string platformCount = "0";
+        string portalCount = "0";
+        string iceCount = "0";
+
         if(LevelSelector.chosenLevel == 1){
             platformCount = (10 - EvaderLevel1.platformCount).ToString();
+            portalCount = (5-EvaderLevel1.portalCount).ToString();
         }
         else{
-            platformCount = (10 - Evader.platformCount).ToString();
+            platformCount = (5 - Evader.platformCount).ToString();
+            portalCount = (5-Evader.portalCount).ToString();
+            if(Evader.iceCollected)
+                iceCount = (5 - Evader.icePlatformCount).ToString();
         }
-        StartCoroutine(sendDataScript.SendDataToGoogleSheets(survivalDuration.ToString(), Teleport.teleportUsed, "won", 
-            platformCount, EvaderSpace.totalShieldsCollected.ToString(), ChaserAI.timesStuck.ToString(), ""));
+
+        StartCoroutine(sendDataScript.SendDataToGoogleSheets(survivalDuration.ToString(), Teleport.wormholeUsed, portalCount, "won", 
+            platformCount, iceCount, EvaderSpace.totalShieldsCollected.ToString(), ChaserAI.timesStuck.ToString(), ""));
         GameText.gameObject.SetActive(true);
         PlayAgainTxt.gameObject.SetActive(true);
         NextLevelTxt.gameObject.SetActive(true);

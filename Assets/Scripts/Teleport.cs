@@ -8,12 +8,12 @@ public class Teleport : MonoBehaviour
     public GameObject portal;
     private GameObject player;
     private GameObject chaser;
-    public static string teleportUsed = "no";
+    public static string wormholeUsed = "no";
     public SendData sendDataScript;
 
     void Start()
     {
-        teleportUsed = "no";
+        wormholeUsed = "no";
         player = GameObject.FindWithTag("Player");
         chaser = GameObject.FindWithTag("Chaser");
     }
@@ -35,7 +35,7 @@ public class Teleport : MonoBehaviour
     {
         if (collision.tag == "Player")
         {
-            teleportUsed = "yes";
+            wormholeUsed = "yes";
             // Instead of teleporting within the scene, load the tutorial scene
             player.transform.position = new Vector2(portal.transform.position.x, portal.transform.position.y);
             SceneManager.LoadScene("Space");

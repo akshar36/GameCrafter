@@ -4,17 +4,19 @@ using System.Collections;
 
 public class SendData : MonoBehaviour
 {
-    public IEnumerator SendDataToGoogleSheets(string survivalDuration, string teleportUsed, 
-    string gameOverReason, string logsPlaced, string shieldsCollected, string timesChaserStuck, string deathPosition) 
+    public IEnumerator SendDataToGoogleSheets(string survivalDuration, string wormholeUsed, string teleportCount,
+    string gameOverReason, string logsPlaced, string iceLogsPlaced, string shieldsCollected, string timesChaserStuck, string deathPosition) 
     {
-        string webAppUrl = "https://script.google.com/macros/s/AKfycbyQjgYY9FBJrkx7ozjrvZyuW2Vp30rmSzafnhuAeccDiCqk-oYqWWGFZfPlftTegVgH/exec";
+        string webAppUrl = "https://script.google.com/macros/s/AKfycbw9KYLqsMnwRC112qYkIq8EijRm1M1ppzPxmcCzk3eFxPSO_W_FX7dvmFOJEz33K3s/exec";
         WWWForm form = new WWWForm();
-        form.AddField("map", LevelSelector.chosenLevel);
+        form.AddField("level", LevelSelector.chosenLevel);
+        form.AddField("wormholeUsed", wormholeUsed);
+        form.AddField("teleportUsedCount", teleportCount);
         form.AddField("survivalDuration", survivalDuration);
-        form.AddField("teleportUsed", teleportUsed);
         form.AddField("gameOverReason", gameOverReason);
-        form.AddField("logsPlaced", logsPlaced);
-        form.AddField("shieldsCollected", shieldsCollected);
+        form.AddField("logsPlacedCount", logsPlaced);
+        form.AddField("iceLogsPlacedCount", iceLogsPlaced);
+        form.AddField("shieldsCollectedCount", shieldsCollected);
         form.AddField("timesChaserStuck", timesChaserStuck);
         form.AddField("deathPosition", deathPosition);
 

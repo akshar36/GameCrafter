@@ -52,7 +52,7 @@ public class EvaderLevel1 : MonoBehaviour
     public GameObject Recollect;
     public GameObject shiftKey;
     public GameObject smoke;
-    private int portalCount = 5;
+    public static int portalCount = 5;
     private Vector2[] positions = new Vector2[]
     {
         new Vector2(105.4f, 1f),
@@ -344,8 +344,8 @@ public class EvaderLevel1 : MonoBehaviour
         RestartText.gameObject.SetActive(true);
         Time.timeScale = 0f;
         float survivalDuration = Time.time - survivalStartTime;
-        StartCoroutine(sendDataScript.SendDataToGoogleSheets(survivalDuration.ToString(), Teleport.teleportUsed, "chaser", 
-        (10-platformCount).ToString(), EvaderSpace.totalShieldsCollected.ToString(), ChaserAI.timesStuck.ToString(), deathPosition.ToString()));
+        StartCoroutine(sendDataScript.SendDataToGoogleSheets(survivalDuration.ToString(), Teleport.wormholeUsed, (5-portalCount).ToString(), "chaser", 
+        (10-platformCount).ToString(), "0", EvaderSpace.totalShieldsCollected.ToString(), ChaserAI.timesStuck.ToString(), deathPosition.ToString()));
     }
 
     void HideGameOverShowTimer()

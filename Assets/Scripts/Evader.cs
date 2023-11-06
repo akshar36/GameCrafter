@@ -52,7 +52,7 @@ public class Evader : MonoBehaviour
     public Sprite normalEvader;
     private int laserHit = 0;
     private GameObject hint;
-    private bool iceCollected = false;
+    public static bool iceCollected = false;
     private bool normalLedgeSelected = true;
     private bool iceLedgeSelected = true;
     private bool ghostNotCalled = true;
@@ -60,7 +60,7 @@ public class Evader : MonoBehaviour
     public GameObject smoke;
     public GameObject shiftKey;
     private bool shiftKeyNotPressed = true;
-    private int portalCount = 5;
+    public static int portalCount = 5;
     private Vector2[] positions = new Vector2[]
     {
         new Vector2(105.4f, 1f),
@@ -77,6 +77,7 @@ public class Evader : MonoBehaviour
     {
         evaderMoved = false;
         platformCount = 5;
+        icePlatformCount = 0;
         isColliding = false;
         onSafeLedge = false;
         safeLedgeUsed = false;
@@ -342,8 +343,11 @@ public class Evader : MonoBehaviour
         RestartText.gameObject.SetActive(true);
         Time.timeScale = 0f;
         float survivalDuration = Time.time - survivalStartTime;
-        StartCoroutine(sendDataScript.SendDataToGoogleSheets(survivalDuration.ToString(), Teleport.teleportUsed, lostReason, 
-        (10-platformCount).ToString(), EvaderSpace.totalShieldsCollected.ToString(), ChaserAI.timesStuck.ToString(), deathPosition.ToString()));
+        string iceCount = "0";
+        if(iceCollected)
+            iceCount = (5 - icePlatformCount).ToString();
+        StartCoroutine(sendDataScript.SendDataToGoogleSheets(survivalDuration.ToString(), Teleport.wormholeUsed, (5-portalCount).ToString(), lostReason, 
+        (5-platformCount).ToString(), iceCount, EvaderSpace.totalShieldsCollected.ToString(), ChaserAI.timesStuck.ToString(), deathPosition.ToString()));
     }
 
     void HideGameOverShowTimer()
