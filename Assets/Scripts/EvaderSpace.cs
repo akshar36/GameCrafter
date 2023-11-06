@@ -82,6 +82,7 @@ public class EvaderSpace : MonoBehaviour
                 spriteRenderer.sprite = hitTwo;
             } else if(bombHit == 3){
                 spriteRenderer.sprite = hitThree;
+                TimerScript.AreWeReturningToTheScene = true;
                 SetSceneBack();
             }
         }
