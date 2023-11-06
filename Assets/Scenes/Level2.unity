@@ -6541,7 +6541,7 @@ MonoBehaviour:
   RestartTxt: {fileID: 601196426}
   PlayAgainTxt: {fileID: 1415788214}
   NextLevelTxt: {fileID: 1344973184}
-  sendDataScript: {fileID: 0}
+  sendDataScript: {fileID: 1073655552}
 --- !u!114 &2059348204
 MonoBehaviour:
   m_ObjectHideFlags: 0
