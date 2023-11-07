@@ -106,13 +106,7 @@ public class Evader : MonoBehaviour
         countdownController = countdown.GetComponent<CountdownScript>();
         survivalStartTime = Time.time;
 
-        if(EvaderSpace.shield) {
-            spriteRenderer.sprite = powerEvader;
-            Color greenColor = HexToColor("#6AF802");
-            Vector3 newScale = new Vector3(5.0f, 5.0f, 5.0f);
-            spriteRenderer.material.color = greenColor;
-            spriteRenderer.transform.localScale = newScale;
-        }
+     
         if (EvaderSpace.shieldCollected == 0)
         {
             spriteRenderer.sprite = normalEvader;
