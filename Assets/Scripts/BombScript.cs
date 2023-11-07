@@ -5,10 +5,10 @@ using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 public class BombScript : MonoBehaviour {
-    private float speed = 11f;
+    private float speed = 10f;
     private Rigidbody2D rb;
     private Vector2 screenBounds;
-    private int startTime = 90;
+    private int startTime = 100;
 
     void Start () {
         rb = this.GetComponent<Rigidbody2D>();
@@ -47,4 +47,5 @@ public class BombScript : MonoBehaviour {
             }
         }
     }
+    
 }
