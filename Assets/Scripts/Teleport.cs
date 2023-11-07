@@ -18,6 +18,17 @@ public class Teleport : MonoBehaviour
         chaser = GameObject.FindWithTag("Chaser");
     }
 
+        private void OnTriggerEnter2D(Collider2D collision)
+    {
+        if (collision.tag == "Player")
+        {
+            wormholeUsed = "yes";
+            // Instead of teleporting within the scene, load the tutorial scene
+            player.transform.position = new Vector2(portal.transform.position.x, portal.transform.position.y);
+            SceneManager.LoadScene("Space");
+        }
+    }
+
     // private void OnTriggerEnter2D(Collider2D collision)
     // {
     //     if(collision.tag == "Player")
@@ -30,15 +41,4 @@ public class Teleport : MonoBehaviour
     //         chaser.transform.position = new Vector2(portal.transform.position.x, portal.transform.position.y);
     //     }
     // }
-
-    private void OnTriggerEnter2D(Collider2D collision)
-    {
-        if (collision.tag == "Player")
-        {
-            wormholeUsed = "yes";
-            // Instead of teleporting within the scene, load the tutorial scene
-            player.transform.position = new Vector2(portal.transform.position.x, portal.transform.position.y);
-            SceneManager.LoadScene("Space");
-        }
-    }
 }

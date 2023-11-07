@@ -274,10 +274,6 @@ public class Evader : MonoBehaviour
                 }
                 else{
                     EvaderSpace.shieldCollected -= 1;
-
-                    // Vector3 chaserPosition = collision.gameObject.transform.position;
-                    // collision.gameObject.transform.position = new Vector3(46.62f, 9.9f, 0);
-
                     if(EvaderSpace.shieldCollected == 0){
                         spriteRenderer.sprite = normalEvader;
                         Color yellowColor = HexToColor("#FFFF00");
@@ -313,8 +309,6 @@ public class Evader : MonoBehaviour
 
         Debug.Log("Ledge position:" + ledgeY);
         Debug.Log("Player position:"+ playerY);
-
-        // Adjust the following value based on your game's logic to define "above."
         float verticalThreshold = 2.0f;
 
         return playerY > ledgeY + verticalThreshold;
@@ -363,7 +357,6 @@ public class Evader : MonoBehaviour
         timerController.StartTime();
         Invoke("activateGhost", 10.0f);
         Invoke("openWormhole", 10.0f);
-
     }
 
     void openWormhole(){
@@ -429,13 +422,9 @@ public class Evader : MonoBehaviour
 
     Color HexToColor(string hex)
     {
-        // Remove the '#' character if it's included
         hex = hex.TrimStart('#');
-
-        // Parse the hex string to a Color object
         Color color = new Color();
         ColorUtility.TryParseHtmlString("#" + hex, out color);
-
         return color;
     }
 }
