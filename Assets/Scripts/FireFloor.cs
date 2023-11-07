@@ -30,6 +30,11 @@ public class FireFloor : MonoBehaviour
                 GameObject spawnedObject = null;
                 Vector2 collisionPoint = collision.GetContact(0).point;
                 Vector2 roundedVector = new Vector2(Mathf.Round(collisionPoint.x), Mathf.Round(collisionPoint.y));
+                if (temp != roundedVector)
+                { 
+                    spawnedObject = Instantiate(objectToSpawn, collisionPoint, Quaternion.identity);
+                    temp = roundedVector;
+                }
 
                 StartCoroutine(RemoveTileAfterDelay(spawnedObject, 10f));
             }
