@@ -106,7 +106,13 @@ public class Evader : MonoBehaviour
         countdownController = countdown.GetComponent<CountdownScript>();
         survivalStartTime = Time.time;
 
-     
+        if(EvaderSpace.shield) {
+            spriteRenderer.sprite = powerEvader;
+            Color greenColor = HexToColor("#6AF802");
+            Vector3 newScale = new Vector3(5.0f, 5.0f, 5.0f);
+            spriteRenderer.material.color = greenColor;
+            spriteRenderer.transform.localScale = newScale;
+        }
         if (EvaderSpace.shieldCollected == 0)
         {
             spriteRenderer.sprite = normalEvader;
@@ -172,14 +178,6 @@ public class Evader : MonoBehaviour
                 portalCountText.text = "x"+portalCount;
                 MoveToRandomPosition();
             }
-            // if (Input.GetKeyDown(KeyCode.M))
-            // {
-            //     if (DroppedLedge != null)
-            //     {
-            //         DroppedLedge.transform.Rotate(Vector3.forward * 90.0f);
-            //     }
-            // }
-
             if (!isGrounded && Input.GetKeyDown(KeyCode.Space))
             {
                 if(normalLedgeSelected && platformCount > 0){
