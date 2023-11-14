@@ -391,6 +391,11 @@ public class Evader : MonoBehaviour
 
      public void NextButtonClicked()
     {
+        Time.timeScale = 1f;
+        hasCollidedWithChaser = false;
+        EvaderSpace.shield = false;
+        EvaderSpace.shieldCollected = 0;
+        EvaderSpace.visited = false;
         TimerScript.AreWeReturningToTheScene = false;
         Scene currentScene = SceneManager.GetActiveScene();
         if(currentScene.name == "Level1"){
