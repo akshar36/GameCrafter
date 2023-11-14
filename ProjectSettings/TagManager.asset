@@ -26,6 +26,7 @@ TagManager:
   - FrozenChaser
   - GhostChaser
   - xx
+  - FireFloor
   layers:
   - Default
   - TransparentFX
