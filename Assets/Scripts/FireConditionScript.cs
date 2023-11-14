@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class FireConditionScript : MonoBehaviour
 {
@@ -39,7 +40,8 @@ public class FireConditionScript : MonoBehaviour
     
     private void OnTriggerStay2D(Collider2D collision)
     {
-        if(collision.tag == "Player"){
+        Scene currentScene = SceneManager.GetActiveScene();
+        if (collision.tag == "Player"){
             contactDuration += Time.deltaTime;
             Debug.Log("contact "+ contactDuration);
             if(contactDuration < 2f){
@@ -52,10 +54,18 @@ public class FireConditionScript : MonoBehaviour
                     //This one will not automatively call the time reset function.
                     evaderController.ShowGameOverHideTimer();
                 }
-                else if(EvaderSpace.shieldCollected > 0){
+                else if(EvaderSpace.shieldCollected > 0 && currentScene.name == "Level2")
+                {
                     spriteRenderer.sprite = hitTwo;
+                    spriteRenderer.transform.position = new Vector3(75f, 27f, 0);
                     EvaderSpace.shieldCollected -=1;
-                }            
+                }
+                else if (EvaderSpace.shieldCollected > 0 && currentScene.name == "Level3")
+                {
+                    spriteRenderer.sprite = hitTwo;
+                    spriteRenderer.transform.position = new Vector3(75f, 25f, 0);
+                    EvaderSpace.shieldCollected -= 1;
+                }
             }
         }
     }
