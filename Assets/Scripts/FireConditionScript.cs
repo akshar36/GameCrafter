@@ -46,6 +46,10 @@ public class FireConditionScript : MonoBehaviour
                 if(EvaderSpace.shieldCollected == 0){
                     Evader.lostReason = "lava";
                     Evader.deathPosition = collision.transform.position;
+                    // Call the setTime method from TimerScript.
+                    TimerScript.setTime();
+
+                    //This one will not automatively call the time reset function.
                     evaderController.ShowGameOverHideTimer();
                 }
                 else if(EvaderSpace.shieldCollected > 0){
