@@ -140,7 +140,7 @@ public class ChaserAI : MonoBehaviour
     void CheckForMovement()
     {
         // Check if the position has changed
-        if (Vector2.Distance(transform.position, previousPosition) < 0.01f)
+        if (Vector2.Distance(transform.position, previousPosition) < 0.02f)
         {
             // Position hasn't changed significantly, increase timer
             timeNotMoving += Time.deltaTime;
@@ -177,6 +177,9 @@ public class ChaserAI : MonoBehaviour
                 else
                     Evader.platformCount++;
                     LedgeCount.text = "x " + Evader.platformCount;
+            }
+            else if(collider.tag == "FireFloor"){
+                Destroy(collider.gameObject);
             }
         }
         // Reset timer
