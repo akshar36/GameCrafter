@@ -10,7 +10,8 @@ using Random = UnityEngine.Random;
 
 public class EvaderLevel1 : MonoBehaviour
 {
-    // public static Text ShieldCount;
+    public Text ShieldCount;
+    private int shields = 2;
     public float moveSpeed = 5.0f;
     public float jumpForce = 8.0f;
     private Rigidbody2D rb;
@@ -70,10 +71,14 @@ public class EvaderLevel1 : MonoBehaviour
     private bool isNkeyShown = false;
     Vector2? deathPosition = null;
     private GameObject collectTeleport;
+    private Vector2 respawnPosition = new Vector2(31f, 45f);
+    private bool hasCollidedWithChaser = false;
 
     void Start()
     {
+        shields = 2;
         portalCount = 5;
+        hasCollidedWithChaser = false;
         JumpSpace.SetActive(false);
         Recollect.SetActive(false);
         isNkeyShown = false;
@@ -313,25 +318,26 @@ public class EvaderLevel1 : MonoBehaviour
 
     void OnCollisionEnter2D(Collision2D collision)
     {
-        if(collision.gameObject.CompareTag("Chaser"))
+        if(!hasCollidedWithChaser && collision.gameObject.CompareTag("Chaser"))
         {
             deathPosition = collision.transform.position;
             getHit++;
-            if (getHit == 1)
-            {
-                spriteRenderer.sprite = hitOne;
-                transform.position = new Vector3(46.62f, 9.9f, 0);
+            hasCollidedWithChaser = true;
+
+            if(shields > 0){
+                shields--;
+                ShieldCount.text = "x" + shields.ToString();
             }
-            else if (getHit == 2)
-            {
-                spriteRenderer.sprite = hitTwo;
-                transform.position = new Vector3(46.62f, 9.9f, 0);
-            }
-            else if (getHit == 3)
+
+            if (getHit == 3)
             {
                 ShowGameOverHideTimer();
                 TimerScript.setTime();
             }
+            else{
+                StartCoroutine(RespawnPlayer());
+            }
+            
         } 
         else if(collision.gameObject.CompareTag("AddTeleport"))
         {
@@ -344,6 +350,18 @@ public class EvaderLevel1 : MonoBehaviour
             isGrounded = true;
         }
 
+    }
+
+    IEnumerator RespawnPlayer()
+    {
+        spriteRenderer.enabled = false;
+        
+        yield return new WaitForSeconds(1f);
+
+        hasCollidedWithChaser = false;
+        transform.position = respawnPosition;
+        chaserSpriteRenderer.transform.position = new Vector2(90f, 20f);
+        spriteRenderer.enabled = true;
     }
 
     public void ShowGameOverHideTimer()

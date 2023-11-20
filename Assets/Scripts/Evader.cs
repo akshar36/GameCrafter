@@ -154,10 +154,6 @@ public class Evader : MonoBehaviour
             isCollidingWithLedge = false;
             currentCollision = null;
         }
-        if (hasCollidedWithChaser && collision.gameObject.CompareTag("Chaser"))
-        {
-            hasCollidedWithChaser = false;
-        }
     }
 
     void Update()
@@ -288,13 +284,8 @@ public class Evader : MonoBehaviour
 
             if (collision.gameObject.CompareTag("Laser"))
                 lostReason = "laser";
-            if (LevelSelector.chosenLevel == 1)
-            {
-                ShowGameOverHideTimer();
-                Debug.Log("set time called in collision");
-                TimerScript.setTime();
-            }
-            else if (LevelSelector.chosenLevel != 1 && !hasCollidedWithChaser)
+
+            if(LevelSelector.chosenLevel != 1 && !hasCollidedWithChaser)
             {
                 hasCollidedWithChaser = true;
                 if (EvaderSpace.shieldCollected == 0)
@@ -306,6 +297,7 @@ public class Evader : MonoBehaviour
                 else
                 {
                     EvaderSpace.shieldCollected -= 1;
+                    
                     if (EvaderSpace.shieldCollected == 0)
                     {
                         spriteRenderer.sprite = normalEvader;
@@ -314,6 +306,8 @@ public class Evader : MonoBehaviour
                         spriteRenderer.material.color = yellowColor;
                         spriteRenderer.transform.localScale = newScale;
                     }
+
+                    StartCoroutine(RespawnPlayer());
                 }
             }
         }
@@ -346,6 +340,18 @@ public class Evader : MonoBehaviour
         {
             isGrounded = true;
         }
+    }
+    
+    IEnumerator RespawnPlayer()
+    {
+        spriteRenderer.enabled = false;
+        
+        yield return new WaitForSeconds(1f);
+
+        hasCollidedWithChaser = false;
+        transform.position = new Vector2(89f, 45f);
+        chaserSpriteRenderer.transform.position = new Vector2(35f, 25f);
+        spriteRenderer.enabled = true;
     }
 
     private bool IsPlayerAboveLedge(float ledgeY)
