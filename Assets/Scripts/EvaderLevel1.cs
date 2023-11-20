@@ -69,9 +69,11 @@ public class EvaderLevel1 : MonoBehaviour
     Collision2D currentCollision;
     private bool isNkeyShown = false;
     Vector2? deathPosition = null;
+    private GameObject collectTeleport;
 
     void Start()
     {
+        portalCount = 5;
         JumpSpace.SetActive(false);
         Recollect.SetActive(false);
         isNkeyShown = false;
@@ -82,6 +84,8 @@ public class EvaderLevel1 : MonoBehaviour
         spriteRenderer = GetComponent<SpriteRenderer>();
         GameObject chaser = GameObject.Find("Chaser");
         GameObject timer = GameObject.Find("TimerTxt");
+        collectTeleport = GameObject.Find("add_teleport");
+        collectTeleport.SetActive(true);
         chaserSpriteRenderer = chaser.GetComponent<SpriteRenderer>();
         chaserController = chaser.GetComponent<ChaserAI>();
         timerController = timer.GetComponent<TimerScript>();
@@ -328,7 +332,15 @@ public class EvaderLevel1 : MonoBehaviour
                 ShowGameOverHideTimer();
                 TimerScript.setTime();
             }
-        } else{
+        } 
+        else if(collision.gameObject.CompareTag("AddTeleport"))
+        {
+            collectTeleport.SetActive(false);
+            portalCount += 5;
+            Text portalCountText = GameObject.Find("PortalCount").GetComponent<Text>();
+            portalCountText.text = "x" + portalCount;
+        }
+        else{
             isGrounded = true;
         }
 

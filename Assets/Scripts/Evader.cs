@@ -52,6 +52,7 @@ public class Evader : MonoBehaviour
     public Sprite normalEvader;
     private int laserHit = 0;
     private GameObject hint;
+    private GameObject collectTeleport;
     public static bool iceCollected = false;
     private bool normalLedgeSelected = true;
     private bool iceLedgeSelected = true;
@@ -94,6 +95,8 @@ public class Evader : MonoBehaviour
         GameObject chaser = GameObject.Find("Chaser");
         GameObject timer = GameObject.Find("TimerTxt");
         hint = GameObject.Find("Hint");
+        collectTeleport = GameObject.Find("add_teleport");
+        collectTeleport.SetActive(true);
         countdown = GameObject.Find("Countdown");
         SafeLedge = GameObject.Find("SafeLedge");
         countdown.SetActive(false);
@@ -331,6 +334,13 @@ public class Evader : MonoBehaviour
             iceLedgeCount.gameObject.SetActive(true);
             hint.SetActive(true);
             iceCollected = true;
+        }
+        else if (collision.gameObject.CompareTag("AddTeleport"))
+        {
+            collectTeleport.SetActive(false);
+            portalCount += 5;
+            Text portalCountText = GameObject.Find("PortalCount").GetComponent<Text>();
+            portalCountText.text = "x" + portalCount;
         }
         else
         {
