@@ -63,6 +63,9 @@ public class TimerScript : MonoBehaviour
     void showGameWin(){
         GameText.text = "YOU WIN";
         float survivalDuration = Time.time - Evader.survivalStartTime;
+        Evader.portalCount = 0;
+        Evader.platformCount = 0;
+        Evader.icePlatformCount= 0;
         string platformCount = "0";
         string portalCount = "0";
         string iceCount = "0";
