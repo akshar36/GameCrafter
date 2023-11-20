@@ -348,7 +348,7 @@ public class Evader : MonoBehaviour
         chaserController.StartChasing();
         timerController.StartTime();
         Invoke("activateGhost", 10.0f);
-        Invoke("openWormhole", 10.0f);
+        Invoke("openWormhole", 4.0f);
     }
 
     void openWormhole(){
