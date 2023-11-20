@@ -20,7 +20,9 @@ public class TimerScript : MonoBehaviour
     {
         RestartTxt.gameObject.SetActive(false);
         PlayAgainTxt.gameObject.SetActive(false);
-        NextLevelTxt.gameObject.SetActive(false);
+        if(NextLevelTxt){
+            NextLevelTxt.gameObject.SetActive(false);
+        }
         Debug.Log("set time called on start");
         if (!AreWeReturningToTheScene){
             setTime();
@@ -80,7 +82,9 @@ public class TimerScript : MonoBehaviour
             platformCount, iceCount, EvaderSpace.totalShieldsCollected.ToString(), ChaserAI.timesStuck.ToString(), ""));
         GameText.gameObject.SetActive(true);
         PlayAgainTxt.gameObject.SetActive(true);
-        NextLevelTxt.gameObject.SetActive(true);
+        if(NextLevelTxt){
+             NextLevelTxt.gameObject.SetActive(true);
+        }
         TimerTxt.gameObject.SetActive(false);
         Time.timeScale = 0f;
         setTime();
