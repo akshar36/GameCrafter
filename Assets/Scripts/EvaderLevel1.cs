@@ -76,8 +76,13 @@ public class EvaderLevel1 : MonoBehaviour
     private Vector2 respawnPosition = new Vector2(31f, 45f);
     private bool hasCollidedWithChaser = false;
 
+    public GameObject shieldHighlight;
+    public GameObject portalHighlight;
+
     void Start()
     {
+        portalHighlight.SetActive(false);
+        shieldHighlight.SetActive(false);
         shields = 2;
         portalCount = 5;
         hasCollidedWithChaser = false;
@@ -362,6 +367,7 @@ public class EvaderLevel1 : MonoBehaviour
                 TimerScript.setTime();
             }
             else{
+                StartCoroutine(ShieldHighlightFlash());
                 StartCoroutine(RespawnPlayer());
             }
             
@@ -372,6 +378,7 @@ public class EvaderLevel1 : MonoBehaviour
             portalCount += 5;
             Text portalCountText = GameObject.Find("PortalCount").GetComponent<Text>();
             portalCountText.text = "x" + portalCount;
+            StartCoroutine(PortalHighlightFlash());
         }
         else{
             isGrounded = true;
@@ -389,6 +396,38 @@ public class EvaderLevel1 : MonoBehaviour
         transform.position = respawnPosition;
         chaserSpriteRenderer.transform.position = new Vector2(90f, 20f);
         spriteRenderer.enabled = true;
+    }
+
+    private IEnumerator PortalHighlightFlash()
+    {
+        portalHighlight.SetActive(true);
+        SpriteRenderer portalHighlightRenderer = portalHighlight.GetComponent<SpriteRenderer>();
+        // Flash the chaser red to remind the player
+        Color originalColor = portalHighlightRenderer.color;
+        for (int i = 0; i < 3; i++) // Flash 3 times
+        {
+            portalHighlightRenderer.color = Color.red;
+            yield return new WaitForSeconds(0.5f); // Flash duration
+            portalHighlightRenderer.color = originalColor;
+            yield return new WaitForSeconds(0.5f); // Time between flashes
+        }
+        portalHighlight.SetActive(false);
+    }
+
+    private IEnumerator ShieldHighlightFlash()
+    {
+        shieldHighlight.SetActive(true);
+        SpriteRenderer shieldHighlightRenderer = shieldHighlight.GetComponent<SpriteRenderer>();
+        // Flash the chaser red to remind the player
+        Color originalColor = shieldHighlightRenderer.color;
+        for (int i = 0; i < 3; i++) // Flash 3 times
+        {
+            shieldHighlightRenderer.color = Color.red;
+            yield return new WaitForSeconds(0.5f); // Flash duration
+            shieldHighlightRenderer.color = originalColor;
+            yield return new WaitForSeconds(0.5f); // Time between flashes
+        }
+        shieldHighlight.SetActive(false);
     }
 
     public void ShowGameOverHideTimer()
