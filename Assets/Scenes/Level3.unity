@@ -453,6 +453,8 @@ MonoBehaviour:
   ghostChaser: {fileID: 825804883}
   smoke: {fileID: 725748389856807714, guid: 4bda94453d2ca7444a0fff05b2d425f5, type: 3}
   shiftKey: {fileID: 1633722867}
+  iceHighlight: {fileID: 0}
+  normalLedgeSprite: {fileID: 0}
 --- !u!4 &108745094
 Transform:
   m_ObjectHideFlags: 0
@@ -4922,7 +4924,7 @@ Canvas:
   m_GameObject: {fileID: 1702839093}
   m_Enabled: 1
   serializedVersion: 3
-  m_RenderMode: 1
+  m_RenderMode: 0
   m_Camera: {fileID: 0}
   m_PlaneDistance: 100
   m_PixelPerfect: 0
