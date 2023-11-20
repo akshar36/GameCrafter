@@ -381,6 +381,9 @@ public class Evader : MonoBehaviour
         spriteRenderer.sprite = caughtSprite;
         RestartText.gameObject.SetActive(true);
         Time.timeScale = 0f;
+        portalCount = 0;
+        platformCount = 0;
+        icePlatformCount = 0;
         float survivalDuration = Time.time - survivalStartTime;
         string iceCount = "0";
         if (iceCollected)
