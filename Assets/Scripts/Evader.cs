@@ -73,9 +73,12 @@ public class Evader : MonoBehaviour
 
     public static string lostReason = "chaser";
     public static Vector2? deathPosition = null;
+    public GameObject iceHighlight;
+    public GameObject normalLedgeSprite;
 
     void Start()
     {
+        iceHighlight.SetActive(false);
         evaderMoved = false;
         platformCount = 5;
         portalCount = 5;
@@ -222,19 +225,17 @@ public class Evader : MonoBehaviour
         }
         if (iceCollected && (Input.GetKeyDown(KeyCode.M)))
         {
-            SpriteRenderer iceSprite = GameObject.Find("iceLedgeHighlight").GetComponent<SpriteRenderer>();
-            SpriteRenderer normalLedgeSprite = GameObject.Find("normalLedgeHighlight").GetComponent<SpriteRenderer>();
             if (normalLedgeSelected)
             {
-                iceSprite.color = HexToColor("#65FF0B");
-                normalLedgeSprite.color = HexToColor("#FFFFFF");
+                iceHighlight.SetActive(true);
+                normalLedgeSprite.SetActive(false);
                 normalLedgeSelected = false;
                 iceLedgeSelected = true;
             }
             else
             {
-                iceSprite.color = HexToColor("#FFFFFF");
-                normalLedgeSprite.color = HexToColor("#65FF0B");
+                iceHighlight.SetActive(false);
+                normalLedgeSprite.SetActive(true);
                 normalLedgeSelected = true;
                 iceLedgeSelected = false;
             }
@@ -328,6 +329,7 @@ public class Evader : MonoBehaviour
             iceLedgeCount.gameObject.SetActive(true);
             hint.SetActive(true);
             iceCollected = true;
+            StartCoroutine(iceHighlightFlash());
         }
         else if (collision.gameObject.CompareTag("AddTeleport"))
         {
@@ -352,6 +354,22 @@ public class Evader : MonoBehaviour
         transform.position = new Vector2(89f, 45f);
         chaserSpriteRenderer.transform.position = new Vector2(35f, 25f);
         spriteRenderer.enabled = true;
+    }
+
+    private IEnumerator iceHighlightFlash()
+    {
+        iceHighlight.SetActive(true);
+        SpriteRenderer iceHighlightRenderer = iceHighlight.GetComponent<SpriteRenderer>();
+        // Flash the chaser red to remind the player
+        Color originalColor = Color.white;
+        for (int i = 0; i < 3; i++) // Flash 3 times
+        {
+            iceHighlightRenderer.color = Color.red;
+            yield return new WaitForSeconds(0.5f); // Flash duration
+            iceHighlightRenderer.color = originalColor;
+            yield return new WaitForSeconds(0.5f); // Time between flashes
+        }
+        iceHighlight.SetActive(false);
     }
 
     private bool IsPlayerAboveLedge(float ledgeY)
