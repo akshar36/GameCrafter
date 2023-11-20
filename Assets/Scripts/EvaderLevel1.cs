@@ -192,7 +192,24 @@ public class EvaderLevel1 : MonoBehaviour
                 portalCount --;
                 Text portalCountText = GameObject.Find("PortalCount").GetComponent<Text>();
                 portalCountText.text = "x"+portalCount;
-                MoveToRandomPosition();
+                Vector3 chaserPosition = this.transform.position; //69 24
+                Debug.Log("aaa");
+                if (chaserPosition.x <= 69 && chaserPosition.y <= 20)
+                {
+                 MoveToRandomPosition(new Vector2(110f, 45f));
+                }
+                if (chaserPosition.x <= 69 && chaserPosition.y >= 20)
+                {
+                 MoveToRandomPosition(new Vector2(110f, 1f));
+                 }
+                if (chaserPosition.x >= 69 && chaserPosition.y <= 20)
+                {
+                    MoveToRandomPosition(new Vector2(30f, 45f));
+                }
+                if (chaserPosition.x >= 69 && chaserPosition.y >= 20)
+                {
+                    MoveToRandomPosition(new Vector2(30f, 1f));
+                }
             }
 
             if (!isGrounded && Input.GetKeyDown(KeyCode.Space) && platformCount > 0)
@@ -243,13 +260,14 @@ public class EvaderLevel1 : MonoBehaviour
         shiftNotclicked = false;
     }
 
-    private void MoveToRandomPosition()
+    private void MoveToRandomPosition(Vector2 target)
     {
-            int randomIndex = UnityEngine.Random.Range(0, positions.Length);
-            Vector2 targetPosition = positions[randomIndex];
-            GameObject particleInstance = Instantiate(smoke, targetPosition, Quaternion.identity);
-            particleInstance.GetComponent<ParticleSystem>().Play();
-            transform.position = new Vector3(targetPosition.x, targetPosition.y, transform.position.z);
+        Vector2 targetPosition = target;
+        GameObject particleInstance = Instantiate(smoke, targetPosition, Quaternion.identity);
+        Debug.Log(targetPosition.x);
+        Debug.Log(targetPosition.y);
+        particleInstance.GetComponent<ParticleSystem>().Play();
+        transform.position = new Vector3(targetPosition.x, targetPosition.y, transform.position.z);
     }
 
     private IEnumerator ShakeObject(GameObject obj, float duration, float intensity)

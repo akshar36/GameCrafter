@@ -183,21 +183,21 @@ public class Evader : MonoBehaviour
             portalCountText.text = "x" + portalCount;
             Vector3 chaserPosition = this.transform.position; //69 24
             Debug.Log("aaa");
-            if (chaserPosition.x < 69 && chaserPosition.y < 22)
+            if (chaserPosition.x <= 69 && chaserPosition.y <= 20)
             {
-                MoveToRandomPosition(new Vector2(89f, 45f));
+                MoveToRandomPosition(new Vector2(115f, 45f));
             }
-            if (chaserPosition.x < 69 && chaserPosition.y > 22)
+            if (chaserPosition.x <= 69 && chaserPosition.y >= 20)
             {
-                MoveToRandomPosition(new Vector2(89f, 1f));
+                MoveToRandomPosition(new Vector2(115f, 1f));
             }
-            if (chaserPosition.x > 69 && chaserPosition.y < 22)
+            if (chaserPosition.x >= 69 && chaserPosition.y <= 20)
             {
-                MoveToRandomPosition(new Vector2(31f, 45f));
+                MoveToRandomPosition(new Vector2(30f, 45f));
             }
-            if (chaserPosition.x > 69 && chaserPosition.y > 22)
+            if (chaserPosition.x >= 69 && chaserPosition.y >= 20)
             {
-                MoveToRandomPosition(new Vector2(31f, 1f));
+                MoveToRandomPosition(new Vector2(30f, 1f));
             }
         }
 
@@ -264,7 +264,7 @@ public class Evader : MonoBehaviour
         Vector2 targetPosition = target;
         GameObject particleInstance = Instantiate(smoke, targetPosition, Quaternion.identity);
         Debug.Log(targetPosition.x);
-        Debug.Log(targetPosition.x);
+        Debug.Log(targetPosition.y);
         particleInstance.GetComponent<ParticleSystem>().Play();
         transform.position = new Vector3(targetPosition.x, targetPosition.y, transform.position.z);
     }
