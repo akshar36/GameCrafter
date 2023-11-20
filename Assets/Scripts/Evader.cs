@@ -274,7 +274,7 @@ public class Evader : MonoBehaviour
     {
         rb.AddForce(Vector2.up * jumpForce, ForceMode2D.Impulse);
         // rb.velocity = new Vector2(rb.velocity.x, jumpForce);
-        console.log(rb.velocity.x);
+        // console.log(rb.velocity.x);
         isGrounded = false;
     }
 
