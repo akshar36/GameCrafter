@@ -207,7 +207,7 @@ public class EvaderLevel1 : MonoBehaviour
         //     wormhole.gameObject.SetActive(true);
         // }
 
-        if (isCollidingWithLedge && Input.GetKeyDown(KeyCode.N))
+        if (isCollidingWithLedge && (Input.GetKeyDown(KeyCode.S) || Input.GetKeyDown(KeyCode.DownArrow)))
         {
             Recollect.SetActive(false);
             Destroy(currentCollision.gameObject);

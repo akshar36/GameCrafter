@@ -218,7 +218,7 @@ public class Evader : MonoBehaviour
 
         ShieldCount.text = "x" + EvaderSpace.shieldCollected;
 
-        if (isCollidingWithLedge && Input.GetKeyDown(KeyCode.N))
+        if (isCollidingWithLedge && (Input.GetKeyDown(KeyCode.S) || Input.GetKeyDown(KeyCode.DownArrow)))
         {
             Destroy(currentCollision.gameObject);
             platformCount++;
