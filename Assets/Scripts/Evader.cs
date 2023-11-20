@@ -60,7 +60,7 @@ public class Evader : MonoBehaviour
     public GameObject smoke;
     public GameObject shiftKey;
     private bool shiftKeyNotPressed = true;
-    public static int portalCount = 5;
+    public static int portalCount;
     private Vector2[] positions = new Vector2[]
     {
         new Vector2(105.4f, 1f),
@@ -77,6 +77,7 @@ public class Evader : MonoBehaviour
     {
         evaderMoved = false;
         platformCount = 5;
+        portalCount = 5;
         icePlatformCount = 0;
         isColliding = false;
         onSafeLedge = false;
@@ -96,9 +97,9 @@ public class Evader : MonoBehaviour
         countdown = GameObject.Find("Countdown");
         SafeLedge = GameObject.Find("SafeLedge");
         countdown.SetActive(false);
-        if(hint != null)
+        if (hint != null)
             hint.SetActive(false);
-        if(ghostChaser != null)
+        if (ghostChaser != null)
             ghostChaser.SetActive(false);
         chaserSpriteRenderer = chaser.GetComponent<SpriteRenderer>();
         chaserController = chaser.GetComponent<ChaserAI>();
@@ -106,7 +107,8 @@ public class Evader : MonoBehaviour
         countdownController = countdown.GetComponent<CountdownScript>();
         survivalStartTime = Time.time;
 
-        if(EvaderSpace.shield) {
+        if (EvaderSpace.shield)
+        {
             spriteRenderer.sprite = powerEvader;
             Color greenColor = HexToColor("#6AF802");
             Vector3 newScale = new Vector3(5.0f, 5.0f, 5.0f);
@@ -121,7 +123,8 @@ public class Evader : MonoBehaviour
             spriteRenderer.material.color = yellowColor;
             spriteRenderer.transform.localScale = newScale;
         }
-        if (LevelSelector.chosenLevel != 1){
+        if (LevelSelector.chosenLevel != 1)
+        {
             wormhole = GameObject.Find("wormhole");
             wormhole.gameObject.SetActive(false);
         }
@@ -148,71 +151,100 @@ public class Evader : MonoBehaviour
             isCollidingWithLedge = false;
             currentCollision = null;
         }
-        if (hasCollidedWithChaser && collision.gameObject.CompareTag("Chaser")) {
+        if (hasCollidedWithChaser && collision.gameObject.CompareTag("Chaser"))
+        {
             hasCollidedWithChaser = false;
         }
     }
 
     void Update()
     {
-            float moveInput = Input.GetAxis("Horizontal");
-            Vector2 moveDirection = new Vector2(moveInput, 0);
-            if (rb.velocity.magnitude > 5f && !evaderMoved)
-            {
-                evaderMoved = true;
-                StartRunning();
-            }
-            rb.velocity = new Vector2(moveDirection.x * moveSpeed, rb.velocity.y);
+        float moveInput = Input.GetAxis("Horizontal");
+        Vector2 moveDirection = new Vector2(moveInput, 0);
+        if (rb.velocity.magnitude > 5f && !evaderMoved)
+        {
+            evaderMoved = true;
+            StartRunning();
+        }
+        rb.velocity = new Vector2(moveDirection.x * moveSpeed, rb.velocity.y);
 
-            if (isGrounded && (Input.GetKeyDown(KeyCode.W) || Input.GetKeyDown(KeyCode.UpArrow)))
+        if (isGrounded && (Input.GetKeyDown(KeyCode.W) || Input.GetKeyDown(KeyCode.UpArrow)))
+        {
+            Jump();
+        }
+
+        if (portalCount > 0 && (Input.GetKeyDown(KeyCode.LeftShift) || Input.GetKeyDown(KeyCode.RightShift)))
+        {
+            shiftKeyNotPressed = false;
+            shiftKey.SetActive(false);
+            GameObject particleInstance = Instantiate(smoke, transform.position, Quaternion.identity);
+            particleInstance.GetComponent<ParticleSystem>().Play();
+            portalCount--;
+            Text portalCountText = GameObject.Find("PortalCount").GetComponent<Text>();
+            portalCountText.text = "x" + portalCount;
+            Vector3 chaserPosition = this.transform.position; //69 24
+            Debug.Log("aaa");
+            if (chaserPosition.x < 69 && chaserPosition.y < 22)
             {
-                Jump();
+                MoveToRandomPosition(new Vector2(89f, 45f));
             }
-            if (portalCount >0 && (Input.GetKeyDown(KeyCode.LeftShift) || Input.GetKeyDown(KeyCode.RightShift))){
-                shiftKeyNotPressed = false;
-                shiftKey.SetActive(false);
-                GameObject particleInstance = Instantiate(smoke, transform.position, Quaternion.identity);
-                particleInstance.GetComponent<ParticleSystem>().Play();
-                portalCount --;
-                Text portalCountText = GameObject.Find("PortalCount").GetComponent<Text>();
-                portalCountText.text = "x"+portalCount;
-                MoveToRandomPosition();
-            }
-            if (!isGrounded && Input.GetKeyDown(KeyCode.Space))
+            if (chaserPosition.x < 69 && chaserPosition.y > 22)
             {
-                if(normalLedgeSelected && platformCount > 0){
-                    DroppedLedge = Instantiate(floorprefab, transform.position, Quaternion.identity);
-                    platformCount--;
-                    LedgeCount.text = "x" + platformCount;
-                    LedgeCount.gameObject.SetActive(true);
-                    isGrounded = true;
-                }else if(iceLedgeSelected && icePlatformCount > 0){
-                    DroppedLedge = Instantiate(iceFloorPrefab, transform.position, Quaternion.identity);
-                    icePlatformCount--;
-                    iceLedgeCount.text = "x" + icePlatformCount;
-                    iceLedgeCount.gameObject.SetActive(true);
-                    isGrounded = true;
-                }
+                MoveToRandomPosition(new Vector2(89f, 1f));
             }
-            if (iceCollected && (Input.GetKeyDown(KeyCode.M))) {
-                    SpriteRenderer iceSprite = GameObject.Find("iceLedgeHighlight").GetComponent<SpriteRenderer>();
-                    SpriteRenderer normalLedgeSprite = GameObject.Find("normalLedgeHighlight").GetComponent<SpriteRenderer>();
-                if(normalLedgeSelected){
-                    iceSprite.color = HexToColor("#65FF0B");
-                    normalLedgeSprite.color = HexToColor("#FFFFFF");
-                    normalLedgeSelected = false;
-                    iceLedgeSelected = true;
-                }else{
-                    iceSprite.color = HexToColor("#FFFFFF");
-                    normalLedgeSprite.color = HexToColor("#65FF0B");
-                    normalLedgeSelected = true;   
-                    iceLedgeSelected = false;                 
-                }
-                hint.SetActive(false);
+            if (chaserPosition.x > 69 && chaserPosition.y < 22)
+            {
+                MoveToRandomPosition(new Vector2(31f, 45f));
             }
+            if (chaserPosition.x > 69 && chaserPosition.y > 22)
+            {
+                MoveToRandomPosition(new Vector2(31f, 1f));
+            }
+        }
+
+        if (!isGrounded && Input.GetKeyDown(KeyCode.Space))
+        {
+            if (normalLedgeSelected && platformCount > 0)
+            {
+                DroppedLedge = Instantiate(floorprefab, transform.position, Quaternion.identity);
+                platformCount--;
+                LedgeCount.text = "x" + platformCount;
+                LedgeCount.gameObject.SetActive(true);
+                isGrounded = true;
+            }
+            else if (iceLedgeSelected && icePlatformCount > 0)
+            {
+                DroppedLedge = Instantiate(iceFloorPrefab, transform.position, Quaternion.identity);
+                icePlatformCount--;
+                iceLedgeCount.text = "x" + icePlatformCount;
+                iceLedgeCount.gameObject.SetActive(true);
+                isGrounded = true;
+            }
+        }
+        if (iceCollected && (Input.GetKeyDown(KeyCode.M)))
+        {
+            SpriteRenderer iceSprite = GameObject.Find("iceLedgeHighlight").GetComponent<SpriteRenderer>();
+            SpriteRenderer normalLedgeSprite = GameObject.Find("normalLedgeHighlight").GetComponent<SpriteRenderer>();
+            if (normalLedgeSelected)
+            {
+                iceSprite.color = HexToColor("#65FF0B");
+                normalLedgeSprite.color = HexToColor("#FFFFFF");
+                normalLedgeSelected = false;
+                iceLedgeSelected = true;
+            }
+            else
+            {
+                iceSprite.color = HexToColor("#FFFFFF");
+                normalLedgeSprite.color = HexToColor("#65FF0B");
+                normalLedgeSelected = true;
+                iceLedgeSelected = false;
+            }
+            hint.SetActive(false);
+        }
 
         float gameplayDuration = Time.time - survivalStartTime;
-        if(gameplayDuration > 10f && shiftKeyNotPressed){
+        if (gameplayDuration > 10f && shiftKeyNotPressed)
+        {
             shiftKey.SetActive(true);
         }
 
@@ -224,17 +256,18 @@ public class Evader : MonoBehaviour
             platformCount++;
             LedgeCount.text = "x" + platformCount;
             isCollidingWithLedge = false;
-            currentCollision = null;  
+            currentCollision = null;
         }
     }
 
-    private void MoveToRandomPosition()
+    private void MoveToRandomPosition(Vector2 target)
     {
-            int randomIndex = UnityEngine.Random.Range(0, positions.Length);
-            Vector2 targetPosition = positions[randomIndex];
-            GameObject particleInstance = Instantiate(smoke, targetPosition, Quaternion.identity);
-            particleInstance.GetComponent<ParticleSystem>().Play();
-            transform.position = new Vector3(targetPosition.x, targetPosition.y, transform.position.z);
+        Vector2 targetPosition = target;
+        GameObject particleInstance = Instantiate(smoke, targetPosition, Quaternion.identity);
+        Debug.Log(targetPosition.x);
+        Debug.Log(targetPosition.x);
+        particleInstance.GetComponent<ParticleSystem>().Play();
+        transform.position = new Vector3(targetPosition.x, targetPosition.y, transform.position.z);
     }
 
     void Jump()
@@ -246,27 +279,32 @@ public class Evader : MonoBehaviour
 
     void OnCollisionEnter2D(Collision2D collision)
     {
-        if(collision.gameObject.CompareTag("Chaser") || collision.gameObject.CompareTag("Laser") || collision.gameObject.CompareTag("GhostChaser"))
+        if (collision.gameObject.CompareTag("Chaser") || collision.gameObject.CompareTag("Laser") || collision.gameObject.CompareTag("GhostChaser"))
         {
             Evader.deathPosition = collision.transform.position;
 
-            if(collision.gameObject.CompareTag("Laser"))
+            if (collision.gameObject.CompareTag("Laser"))
                 lostReason = "laser";
-            if(LevelSelector.chosenLevel == 1){
+            if (LevelSelector.chosenLevel == 1)
+            {
                 ShowGameOverHideTimer();
                 Debug.Log("set time called in collision");
                 TimerScript.setTime();
             }
-            else if(LevelSelector.chosenLevel != 1 && !hasCollidedWithChaser){
+            else if (LevelSelector.chosenLevel != 1 && !hasCollidedWithChaser)
+            {
                 hasCollidedWithChaser = true;
-                if(EvaderSpace.shieldCollected == 0){
+                if (EvaderSpace.shieldCollected == 0)
+                {
                     ShowGameOverHideTimer();
                     Debug.Log("set time called in collision");
                     TimerScript.setTime();
                 }
-                else{
+                else
+                {
                     EvaderSpace.shieldCollected -= 1;
-                    if(EvaderSpace.shieldCollected == 0){
+                    if (EvaderSpace.shieldCollected == 0)
+                    {
                         spriteRenderer.sprite = normalEvader;
                         Color yellowColor = HexToColor("#FFFF00");
                         Vector3 newScale = new Vector3(3.0f, 3.0f, 3.0f);
@@ -275,32 +313,37 @@ public class Evader : MonoBehaviour
                     }
                 }
             }
-        } else if(collision.gameObject.CompareTag("SafeLedge") && safeLedgeUsed == false && IsPlayerAboveLedge(collision.gameObject.transform.position.y)){
+        }
+        else if (collision.gameObject.CompareTag("SafeLedge") && safeLedgeUsed == false && IsPlayerAboveLedge(collision.gameObject.transform.position.y))
+        {
             onSafeLedge = true;
             safeLedgeUsed = true;
             chaserController.StopChasing();
             countdown.SetActive(true);
             countdownController.StartCountdown(5f);
             StartCoroutine(ResumeChasingAfterDelay(7f));
-        }  else if(collision.gameObject.CompareTag("icePoint")){
-                icePlatformCount = 5;
-                Destroy(collision.gameObject);
-                iceLedgeCount.text = "x" + icePlatformCount;
-                iceLedgeCount.gameObject.SetActive(true);
-                hint.SetActive(true);
-                iceCollected = true;
-        }             
-        else{
+        }
+        else if (collision.gameObject.CompareTag("icePoint"))
+        {
+            icePlatformCount = 5;
+            Destroy(collision.gameObject);
+            iceLedgeCount.text = "x" + icePlatformCount;
+            iceLedgeCount.gameObject.SetActive(true);
+            hint.SetActive(true);
+            iceCollected = true;
+        }
+        else
+        {
             isGrounded = true;
         }
     }
 
-     private bool IsPlayerAboveLedge(float ledgeY)
+    private bool IsPlayerAboveLedge(float ledgeY)
     {
         float playerY = transform.position.y;
 
         Debug.Log("Ledge position:" + ledgeY);
-        Debug.Log("Player position:"+ playerY);
+        Debug.Log("Player position:" + playerY);
         float verticalThreshold = 2.0f;
 
         return playerY > ledgeY + verticalThreshold;
@@ -308,16 +351,16 @@ public class Evader : MonoBehaviour
 
     private IEnumerator ResumeChasingAfterDelay(float delay)
     {
-    yield return new WaitForSeconds(delay);
-    if (onSafeLedge)
-    {
-        Renderer renderer = SafeLedge.GetComponent<Renderer>();
-        renderer.material = ledgeMaterial;
-        onSafeLedge = false;
-        chaserController.StartChasing();
-        countdown.SetActive(false);
+        yield return new WaitForSeconds(delay);
+        if (onSafeLedge)
+        {
+            Renderer renderer = SafeLedge.GetComponent<Renderer>();
+            renderer.material = ledgeMaterial;
+            onSafeLedge = false;
+            chaserController.StartChasing();
+            countdown.SetActive(false);
+        }
     }
-}
 
     public void ShowGameOverHideTimer()
     {
@@ -330,10 +373,10 @@ public class Evader : MonoBehaviour
         Time.timeScale = 0f;
         float survivalDuration = Time.time - survivalStartTime;
         string iceCount = "0";
-        if(iceCollected)
+        if (iceCollected)
             iceCount = (5 - icePlatformCount).ToString();
-        StartCoroutine(sendDataScript.SendDataToGoogleSheets(survivalDuration.ToString(), Teleport.wormholeUsed, (5-portalCount).ToString(), lostReason, 
-        (5-platformCount).ToString(), iceCount, EvaderSpace.totalShieldsCollected.ToString(), ChaserAI.timesStuck.ToString(), deathPosition.ToString()));
+        StartCoroutine(sendDataScript.SendDataToGoogleSheets(survivalDuration.ToString(), Teleport.wormholeUsed, (5 - portalCount).ToString(), lostReason,
+        (5 - platformCount).ToString(), iceCount, EvaderSpace.totalShieldsCollected.ToString(), ChaserAI.timesStuck.ToString(), deathPosition.ToString()));
     }
 
     void HideGameOverShowTimer()
@@ -351,14 +394,18 @@ public class Evader : MonoBehaviour
         Invoke("openWormhole", 4.0f);
     }
 
-    void openWormhole(){
-        if(LevelSelector.chosenLevel != 1 && !EvaderSpace.visited){
+    void openWormhole()
+    {
+        if (LevelSelector.chosenLevel != 1 && !EvaderSpace.visited)
+        {
             wormhole.gameObject.SetActive(true);
         }
     }
 
-    void activateGhost(){
-        if(LevelSelector.chosenLevel == 3 && ghostNotCalled){
+    void activateGhost()
+    {
+        if (LevelSelector.chosenLevel == 3 && ghostNotCalled)
+        {
             ghostChaser.SetActive(true);
             AIDestinationSetter ghostTarget = ghostChaser.GetComponent<AIDestinationSetter>();
             ghostTarget.target = rb.transform;
@@ -370,12 +417,13 @@ public class Evader : MonoBehaviour
         }
     }
 
-    void removeGhost(){
-            GameObject ogChaser = GameObject.Find("Chaser");
-            AIPath ogChaserSpeed = ogChaser.GetComponent<AIPath>();
-            ogChaserSpeed.maxSpeed = 80;
-            ghostChaser.SetActive(false);
-            // Destroy(ghostChaser);
+    void removeGhost()
+    {
+        GameObject ogChaser = GameObject.Find("Chaser");
+        AIPath ogChaserSpeed = ogChaser.GetComponent<AIPath>();
+        ogChaserSpeed.maxSpeed = 80;
+        ghostChaser.SetActive(false);
+        // Destroy(ghostChaser);
     }
 
     public void RestartButtonClicked()
@@ -389,7 +437,7 @@ public class Evader : MonoBehaviour
         SceneManager.LoadScene(currentScene.name);
     }
 
-     public void NextButtonClicked()
+    public void NextButtonClicked()
     {
         Time.timeScale = 1f;
         hasCollidedWithChaser = false;
@@ -398,16 +446,19 @@ public class Evader : MonoBehaviour
         EvaderSpace.visited = false;
         TimerScript.AreWeReturningToTheScene = false;
         Scene currentScene = SceneManager.GetActiveScene();
-        if(currentScene.name == "Level1"){
+        if (currentScene.name == "Level1")
+        {
             LevelSelector.chosenLevel = 2;
             SceneManager.LoadScene("Level2");
-        }else{
+        }
+        else
+        {
             LevelSelector.chosenLevel = 3;
             SceneManager.LoadScene("Level3");
         }
     }
 
-     public void BackButtonClicked()
+    public void BackButtonClicked()
     {
         Time.timeScale = 1f;
         EvaderSpace.shieldCollected = 0;
