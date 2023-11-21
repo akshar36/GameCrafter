@@ -483,6 +483,7 @@ public class Evader : MonoBehaviour
     public void RestartButtonClicked()
     {
         Time.timeScale = 1f;
+        timerController.StartTime();
         hasCollidedWithChaser = false;
         EvaderSpace.shield = false;
         EvaderSpace.shieldCollected = 0;
