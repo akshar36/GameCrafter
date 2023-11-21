@@ -12,7 +12,10 @@ public class Evader : MonoBehaviour
 {
     public Text ShieldCount;
     public float moveSpeed = 5.0f;
-    public float jumpForce = 8.0f;
+    public float jumpForce = 11.0f;
+    public float jumpForce1 = 8.0f;
+    public float jumpForce2 = 11.0f;
+    public float jumpVelocity = 1.0f;
     private Rigidbody2D rb;
     private bool isGrounded;
     private ChaserAI chaserController;
@@ -272,8 +275,16 @@ public class Evader : MonoBehaviour
     void Jump()
     {
         rb.AddForce(Vector2.up * jumpForce, ForceMode2D.Impulse);
-        // rb.velocity = new Vector2(rb.velocity.x, jumpForce);
-        // console.log(rb.velocity.x);
+        // rb.velocity = new Vector2(jumpVelocity, jumpForce);
+        // System.out.println(rb.velocity.x);
+        // Console. WriteLine(rb.velocity.x);
+        // Scene currentScene = SceneManager.GetActiveScene();
+
+        // if(currentScene.name == "Level1"){
+        //     rb.AddForce(Vector2.up * jumpForce1, ForceMode2D.Impulse);
+        // }else{
+        //     rb.AddForce(Vector2.up * jumpForce2, ForceMode2D.Impulse);
+        // }
         isGrounded = false;
     }
 

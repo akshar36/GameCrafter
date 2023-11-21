@@ -157,8 +157,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   ShieldCount: {fileID: 374878640}
-  moveSpeed: 20
-  jumpForce: 60
+  moveSpeed: 22
+  jumpForce: 80
+  jumpForce1: 8
+  jumpForce2: 11
+  jumpVelocity: 1
   floorprefab: {fileID: 4146095093098565482, guid: c15b0709c4ef34a3197809618ae82dd9, type: 3}
   iceFloorPrefab: {fileID: 6978050041361409763, guid: 4da58164a6dcc4c3cbc255c36cdc7f4e, type: 3}
   GameText: {fileID: 1968769057}
