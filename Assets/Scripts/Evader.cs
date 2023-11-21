@@ -245,6 +245,10 @@ public class Evader : MonoBehaviour
             hint.SetActive(false);
         }
 
+        if(iceCollected && icePlatformCount==0){
+            hint.SetActive(false);
+        }
+
         float gameplayDuration = Time.time - survivalStartTime;
         if (gameplayDuration > 10f && shiftKeyNotPressed)
         {
