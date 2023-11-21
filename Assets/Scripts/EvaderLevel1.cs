@@ -78,9 +78,13 @@ public class EvaderLevel1 : MonoBehaviour
 
     public GameObject shieldHighlight;
     public GameObject portalHighlight;
+    private bool recollectUsed;
+    private bool jumpUsed;
 
     void Start()
     {
+        jumpUsed = false;
+        recollectUsed = false;
         portalHighlight.SetActive(false);
         shieldHighlight.SetActive(false);
         shields = 2;
@@ -222,10 +226,7 @@ public class EvaderLevel1 : MonoBehaviour
             if (!isGrounded && Input.GetKeyDown(KeyCode.Space) && platformCount > 0)
             {
                 JumpSpace.SetActive(false);
-                if(!isNkeyShown){
-                    Recollect.SetActive(true);
-                    isNkeyShown = true;
-                }
+                jumpUsed = true;
                 DroppedLedge = Instantiate(floorprefab, transform.position, Quaternion.identity);
                 platformCount--;
                 LedgeCount.text = "x " + platformCount;
@@ -240,9 +241,22 @@ public class EvaderLevel1 : MonoBehaviour
         //     wormhole.gameObject.SetActive(true);
         // }
 
+        if(jumpUsed && !recollectUsed){
+            if(isCollidingWithLedge && !isNkeyShown){
+                Recollect.SetActive(true);
+                isNkeyShown = true;
+            }
+            else{
+                Recollect.SetActive(false);
+                isNkeyShown = false;
+            }
+
+        }
+
         if (isCollidingWithLedge && (Input.GetKeyDown(KeyCode.S) || Input.GetKeyDown(KeyCode.DownArrow)))
         {
             Recollect.SetActive(false);
+            recollectUsed = true;
             Destroy(currentCollision.gameObject);
             platformCount++;
             LedgeCount.text = "x " + platformCount;
@@ -255,7 +269,8 @@ public class EvaderLevel1 : MonoBehaviour
     {
         yield return new WaitForSeconds(delay);
         yield return new WaitForSeconds(2.0f);
-        JumpSpace.SetActive(true);
+        if(!jumpUsed)
+            JumpSpace.SetActive(true);
         StartCoroutine(ShakeObject(JumpSpace, 3f, 0.1f));
         
     }
