@@ -30,7 +30,6 @@ public class EvaderTutorial : MonoBehaviour
     private SpriteRenderer spriteRenderer;
     public Sprite caughtSprite;
     public Sprite smilingSprite;
-    public SendData sendDataScript;
     private int getHit = 0;
 
     private bool evaderMoved = false;

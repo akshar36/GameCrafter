@@ -90,8 +90,11 @@ public class TimerScript : MonoBehaviour
                 iceCount = (Evader.totalIcePlatformCount - Evader.icePlatformCount).ToString();
         }
 
-        StartCoroutine(sendDataScript.SendDataToGoogleSheets(survivalDuration.ToString(), Teleport.wormholeUsed, portalCount, "won", 
-            platformCount, iceCount, EvaderSpace.totalShieldsCollected.ToString(), ChaserAI.timesStuck.ToString(), ""));
+        if(LevelSelector.chosenLevel <= 3){
+            StartCoroutine(sendDataScript.SendDataToGoogleSheets(survivalDuration.ToString(), Teleport.wormholeUsed, portalCount, "won", 
+                platformCount, iceCount, EvaderSpace.totalShieldsCollected.ToString(), ChaserAI.timesStuck.ToString(), ""));
+
+        }
 
         GameText.gameObject.SetActive(true);
         PlayAgainTxt.gameObject.SetActive(true);
