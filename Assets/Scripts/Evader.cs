@@ -21,7 +21,9 @@ public class Evader : MonoBehaviour
     private ChaserAI chaserController;
     private TimerScript timerController;
     public static int platformCount = 5;
+    public static int totalPlatformCount = 5;
     public static int icePlatformCount = 0;
+    public static int totalIcePlatformCount = 0;
     public GameObject floorprefab;
     public GameObject iceFloorPrefab;
     private GameObject chaser;
@@ -65,6 +67,7 @@ public class Evader : MonoBehaviour
     public GameObject shiftKey;
     private bool shiftKeyNotPressed = true;
     public static int portalCount;
+    public static int totalPortalCount;
     private Vector2[] positions = new Vector2[]
     {
         new Vector2(105.4f, 1f),
@@ -78,14 +81,21 @@ public class Evader : MonoBehaviour
     public static Vector2? deathPosition = null;
     public GameObject iceHighlight;
     public GameObject normalLedgeSprite;
+    public GameObject shieldHighlight;
+    public GameObject portalHighlight;
 
     void Start()
     {
+        portalHighlight.SetActive(false);
+        shieldHighlight.SetActive(false);
         iceHighlight.SetActive(false);
         evaderMoved = false;
         platformCount = 5;
+        totalPlatformCount = 5;
         portalCount = 5;
+        totalPortalCount = 5;
         icePlatformCount = 0;
+        totalIcePlatformCount = 0;
         isColliding = false;
         onSafeLedge = false;
         safeLedgeUsed = false;
@@ -188,7 +198,6 @@ public class Evader : MonoBehaviour
             Text portalCountText = GameObject.Find("PortalCount").GetComponent<Text>();
             portalCountText.text = "x" + portalCount;
             Vector3 chaserPosition = this.transform.position; //69 24
-            Debug.Log("aaa");
             if (chaserPosition.x <= 69 && chaserPosition.y <= 20)
             {
                 MoveToRandomPosition(new Vector2(115f, 45f));
@@ -261,6 +270,7 @@ public class Evader : MonoBehaviour
         {
             Destroy(currentCollision.gameObject);
             platformCount++;
+            totalPlatformCount++;
             LedgeCount.text = "x" + platformCount;
             isCollidingWithLedge = false;
             currentCollision = null;
@@ -325,6 +335,7 @@ public class Evader : MonoBehaviour
                         spriteRenderer.transform.localScale = newScale;
                     }
 
+                    StartCoroutine(ShieldHighlightFlash());
                     StartCoroutine(RespawnPlayer());
                 }
             }
@@ -341,6 +352,7 @@ public class Evader : MonoBehaviour
         else if (collision.gameObject.CompareTag("icePoint"))
         {
             icePlatformCount = 5;
+            totalIcePlatformCount = 5;
             Destroy(collision.gameObject);
             iceLedgeCount.text = "x" + icePlatformCount;
             iceLedgeCount.gameObject.SetActive(true);
@@ -352,8 +364,10 @@ public class Evader : MonoBehaviour
         {
             collectTeleport.SetActive(false);
             portalCount += 5;
+            totalPortalCount += 5;
             Text portalCountText = GameObject.Find("PortalCount").GetComponent<Text>();
             portalCountText.text = "x" + portalCount;
+            StartCoroutine(PortalHighlightFlash());
         }
         else
         {
@@ -361,6 +375,38 @@ public class Evader : MonoBehaviour
         }
     }
     
+    private IEnumerator PortalHighlightFlash()
+    {
+        portalHighlight.SetActive(true);
+        SpriteRenderer portalHighlightRenderer = portalHighlight.GetComponent<SpriteRenderer>();
+        // Flash the chaser red to remind the player
+        Color originalColor = portalHighlightRenderer.color;
+        for (int i = 0; i < 2; i++) // Flash 2 times
+        {
+            portalHighlightRenderer.color = Color.red;
+            yield return new WaitForSeconds(0.5f); // Flash duration
+            portalHighlightRenderer.color = originalColor;
+            yield return new WaitForSeconds(0.5f); // Time between flashes
+        }
+        portalHighlight.SetActive(false);
+    }
+
+    private IEnumerator ShieldHighlightFlash()
+    {
+        shieldHighlight.SetActive(true);
+        SpriteRenderer shieldHighlightRenderer = shieldHighlight.GetComponent<SpriteRenderer>();
+        // Flash the chaser red to remind the player
+        Color originalColor = shieldHighlightRenderer.color;
+        for (int i = 0; i < 2; i++) // Flash 2 times
+        {
+            shieldHighlightRenderer.color = Color.red;
+            yield return new WaitForSeconds(0.5f); // Flash duration
+            shieldHighlightRenderer.color = originalColor;
+            yield return new WaitForSeconds(0.5f); // Time between flashes
+        }
+        shieldHighlight.SetActive(false);
+    }
+
     IEnumerator RespawnPlayer()
     {
         spriteRenderer.enabled = false;
@@ -379,7 +425,7 @@ public class Evader : MonoBehaviour
         SpriteRenderer iceHighlightRenderer = iceHighlight.GetComponent<SpriteRenderer>();
         // Flash the chaser red to remind the player
         Color originalColor = Color.white;
-        for (int i = 0; i < 3; i++) // Flash 3 times
+        for (int i = 0; i < 2; i++) // Flash 2 times
         {
             iceHighlightRenderer.color = Color.red;
             yield return new WaitForSeconds(0.5f); // Flash duration
@@ -421,16 +467,16 @@ public class Evader : MonoBehaviour
         chaserSpriteRenderer.sprite = smilingSprite;
         spriteRenderer.sprite = caughtSprite;
         RestartText.gameObject.SetActive(true);
+        float survivalDuration = Time.time - survivalStartTime;
+        string iceCount = "0";
+        if (iceCollected)
+            iceCount = (totalIcePlatformCount - icePlatformCount).ToString();
+        StartCoroutine(sendDataScript.SendDataToGoogleSheets(survivalDuration.ToString(), Teleport.wormholeUsed, (totalPortalCount - portalCount).ToString(), lostReason,
+        (totalPlatformCount - platformCount).ToString(), iceCount, EvaderSpace.totalShieldsCollected.ToString(), ChaserAI.timesStuck.ToString(), deathPosition.ToString()));
         Time.timeScale = 0f;
         portalCount = 0;
         platformCount = 0;
         icePlatformCount = 0;
-        float survivalDuration = Time.time - survivalStartTime;
-        string iceCount = "0";
-        if (iceCollected)
-            iceCount = (5 - icePlatformCount).ToString();
-        StartCoroutine(sendDataScript.SendDataToGoogleSheets(survivalDuration.ToString(), Teleport.wormholeUsed, (5 - portalCount).ToString(), lostReason,
-        (5 - platformCount).ToString(), iceCount, EvaderSpace.totalShieldsCollected.ToString(), ChaserAI.timesStuck.ToString(), deathPosition.ToString()));
     }
 
     void HideGameOverShowTimer()
@@ -483,11 +529,11 @@ public class Evader : MonoBehaviour
     public void RestartButtonClicked()
     {
         Time.timeScale = 1f;
-        timerController.StartTime();
         hasCollidedWithChaser = false;
         EvaderSpace.shield = false;
         EvaderSpace.shieldCollected = 0;
         EvaderSpace.visited = false;
+        TimerScript.AreWeReturningToTheScene = false;
         Scene currentScene = SceneManager.GetActiveScene();
         SceneManager.LoadScene(currentScene.name);
     }

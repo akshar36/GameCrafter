@@ -41,6 +41,15 @@ public class TimerScript : MonoBehaviour
             case 3:
                 TimeLeft = 59f;
                 break;
+            case 4:
+                TimeLeft = 14f;
+                break;
+            case 5:
+                TimeLeft = 14f;
+                break;
+            case 6:
+                TimeLeft = 14f;
+                break;
         }
     }
 
@@ -61,36 +70,39 @@ public class TimerScript : MonoBehaviour
     }
 
     void showGameWin(){
+        Time.timeScale = 0f;
+
         GameText.text = "YOU WIN";
         float survivalDuration = Time.time - Evader.survivalStartTime;
-        Evader.portalCount = 0;
-        Evader.platformCount = 0;
-        Evader.icePlatformCount= 0;
+
         string platformCount = "0";
         string portalCount = "0";
         string iceCount = "0";
 
         if(LevelSelector.chosenLevel == 1){
-            platformCount = (10 - EvaderLevel1.platformCount).ToString();
-            portalCount = (5-EvaderLevel1.portalCount).ToString();
+            platformCount = (EvaderLevel1.totalPlatformCount - EvaderLevel1.platformCount).ToString();
+            portalCount = (EvaderLevel1.totalPortalCount-EvaderLevel1.portalCount).ToString();
         }
         else{
-            platformCount = (5 - Evader.platformCount).ToString();
-            portalCount = (5-Evader.portalCount).ToString();
+            platformCount = (Evader.totalPlatformCount - Evader.platformCount).ToString();
+            portalCount = (Evader.totalPortalCount-Evader.portalCount).ToString();
             if(Evader.iceCollected)
-                iceCount = (5 - Evader.icePlatformCount).ToString();
+                iceCount = (Evader.totalIcePlatformCount - Evader.icePlatformCount).ToString();
         }
 
         StartCoroutine(sendDataScript.SendDataToGoogleSheets(survivalDuration.ToString(), Teleport.wormholeUsed, portalCount, "won", 
             platformCount, iceCount, EvaderSpace.totalShieldsCollected.ToString(), ChaserAI.timesStuck.ToString(), ""));
+
         GameText.gameObject.SetActive(true);
         PlayAgainTxt.gameObject.SetActive(true);
         if(NextLevelTxt){
              NextLevelTxt.gameObject.SetActive(true);
         }
         TimerTxt.gameObject.SetActive(false);
-        Time.timeScale = 0f;
-        setTime();
+
+        Evader.portalCount = 0;
+        Evader.platformCount = 0;
+        Evader.icePlatformCount = 0;
     }
 
    

@@ -15,12 +15,15 @@ public class FireConditionScript : MonoBehaviour
     private float contactDuration;
     private float currentContactStartTime;
     private float x;
+    public Sprite normalEvader;
+    private bool hasTouchedLava = false;
     // Start is called before the first frame update
     void Start()
     {
         GameObject evader = GameObject.Find("Evader");
         evaderController = evader.GetComponent<Evader>();
         spriteRenderer = evader.GetComponent<SpriteRenderer>();
+        hasTouchedLava = false;
     }
 
     // Update is called once per frame
@@ -44,7 +47,7 @@ public class FireConditionScript : MonoBehaviour
         if (collision.tag == "Player"){
             contactDuration += Time.deltaTime;
             Debug.Log("contact "+ contactDuration);
-            if(contactDuration < 2f){
+            if (contactDuration < 2f && !hasTouchedLava)
                 if(EvaderSpace.shieldCollected == 0){
                     Evader.lostReason = "lava";
                     Evader.deathPosition = collision.transform.position;
@@ -54,20 +57,60 @@ public class FireConditionScript : MonoBehaviour
                     //This one will not automatively call the time reset function.
                     evaderController.ShowGameOverHideTimer();
                 }
-                else if(EvaderSpace.shieldCollected > 0 && currentScene.name == "Level2")
+                else if(EvaderSpace.shieldCollected > 0)
                 {
-                    spriteRenderer.sprite = hitTwo;
-                    spriteRenderer.transform.position = new Vector3(75f, 27f, 0);
-                    EvaderSpace.shieldCollected -=1;
-                }
-                else if (EvaderSpace.shieldCollected > 0 && currentScene.name == "Level3")
-                {
-                    spriteRenderer.sprite = hitTwo;
-                    spriteRenderer.transform.position = new Vector3(75f, 25f, 0);
-                    EvaderSpace.shieldCollected -= 1;
+                    DeductShield();
                 }
             }
+    }
+
+    void DeductShield()
+    {
+        hasTouchedLava = true;
+        Debug.Log("before" + EvaderSpace.shieldCollected.ToString());
+        EvaderSpace.shieldCollected -= 1;
+        Debug.Log("after" + EvaderSpace.shieldCollected.ToString());
+
+        StartCoroutine(RespawnPlayer());
+        spriteRenderer.transform.position = new Vector2(89f, 45f);
+
+            if (EvaderSpace.shieldCollected == 0)
+        {
+            spriteRenderer.sprite = normalEvader;
+            Color yellowColor = HexToColor("#FFFF00");
+            Vector3 newScale = new Vector3(3.0f, 3.0f, 3.0f);
+            spriteRenderer.material.color = yellowColor;
+            spriteRenderer.transform.localScale = newScale;
         }
+
+        spriteRenderer.enabled = true;
+
+        // Delay the reset of hasTouchedLava
+        StartCoroutine(ResetHasTouchedLava());
+    }
+
+    IEnumerator ResetHasTouchedLava()
+    {
+        // Wait for a certain period before allowing another shield deduction
+        yield return new WaitForSeconds(1f);
+        hasTouchedLava = false;
+    }
+
+    void OnTriggerExit2D(Collider2D collision)
+    {
+        if (collision.tag == "Player")
+        {
+            // Reset contactDuration and hasTouchedLava when player exits the trigger
+            contactDuration = 0;
+            hasTouchedLava = false;
+        }
+    }
+
+
+    IEnumerator RespawnPlayer(){
+        spriteRenderer.enabled = false;
+
+        yield return new WaitForSeconds(1f);
     }
 
     private void OnTriggerExit(Collider collision)
@@ -77,6 +120,15 @@ public class FireConditionScript : MonoBehaviour
         {
                 contactDuration += Time.time - contactStartTime;
         }
+    }
+
+
+    Color HexToColor(string hex)
+    {
+        hex = hex.TrimStart('#');
+        Color color = new Color();
+        ColorUtility.TryParseHtmlString("#" + hex, out color);
+        return color;
     }
     
 }
