@@ -119,6 +119,12 @@ public class TimerScript : MonoBehaviour
         startTime = true;
     }
 
+    public void RestartTime()
+    {
+        setTime();
+        startTime = true;
+    }
+
 }
 
     // void OnCollisionStay2D(Collision2D collision)
