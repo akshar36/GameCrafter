@@ -69,7 +69,7 @@ public class EvaderLevel1 : MonoBehaviour
     private Vector3 rightOffset;
     private Vector3 leftOffset;
     private bool shiftNotclicked = true;
-    private float disableChaserTime = 17f;
+    private float disableChaserTime = 11f;
     bool isCollidingWithLedge = false;
     Collision2D currentCollision;
     private bool isNkeyShown = false;
@@ -211,15 +211,15 @@ public class EvaderLevel1 : MonoBehaviour
                 {
                  MoveToRandomPosition(new Vector2(110f, 45f));
                 }
-                if (chaserPosition.x <= 69 && chaserPosition.y >= 20)
+                if (chaserPosition.x <= 72 && chaserPosition.y >= 20)
                 {
                  MoveToRandomPosition(new Vector2(110f, 1f));
                  }
-                if (chaserPosition.x >= 69 && chaserPosition.y <= 20)
+                if (chaserPosition.x >= 72 && chaserPosition.y <= 20)
                 {
                     MoveToRandomPosition(new Vector2(30f, 45f));
                 }
-                if (chaserPosition.x >= 69 && chaserPosition.y >= 20)
+                if (chaserPosition.x >= 72 && chaserPosition.y >= 20)
                 {
                     MoveToRandomPosition(new Vector2(30f, 1f));
                 }

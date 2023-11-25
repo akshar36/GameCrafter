@@ -394,12 +394,13 @@ public class EvaderTutorial : MonoBehaviour
         Scene currentScene = SceneManager.GetActiveScene();
         Debug.Log(currentScene.name);
         if(currentScene.name == "Tutorial1"){
-            //LevelSelector.chosenLevel = 2;
+            LevelSelector.chosenLevel = 5;
             SceneManager.LoadScene("Tutorial2");
         }else if(currentScene.name == "Tutorial2"){
-            //LevelSelector.chosenLevel = 3;
+            LevelSelector.chosenLevel = 6;
             SceneManager.LoadScene("Tutorial3");
         }else if(currentScene.name == "Tutorial3"){
+            LevelSelector.chosenLevel = 1;
             SceneManager.LoadScene("Level1");
         }
         TimerScript.AreWeReturningToTheScene = false;
