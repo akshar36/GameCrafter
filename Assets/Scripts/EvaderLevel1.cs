@@ -83,6 +83,19 @@ public class EvaderLevel1 : MonoBehaviour
     private bool recollectUsed;
     private bool jumpUsed;
 
+    public static int icePlatformCount = 0;
+    public static int totalIcePlatformCount = 0;
+    public Text iceLedgeCount;
+    public static bool iceCollected = false;
+    private bool normalLedgeSelected = true;
+    private bool iceLedgeSelected = true;
+    public GameObject iceHighlight;
+    public GameObject iceFloorPrefab;
+    private GameObject hint;
+    public GameObject normalLedgeSprite;
+
+
+
     void Start()
     {
         jumpUsed = false;
@@ -134,6 +147,13 @@ public class EvaderLevel1 : MonoBehaviour
         rightOffset = right.transform.position - transform.position;
         leftOffset = left.transform.position - transform.position;
 
+        iceHighlight.SetActive(false);
+        icePlatformCount = 0;
+        totalIcePlatformCount = 0;
+        hint = GameObject.Find("Hint");
+        if (hint != null)
+            hint.SetActive(false);
+
     }
     
 
@@ -148,6 +168,17 @@ public class EvaderLevel1 : MonoBehaviour
         {
             isCollidingWithLedge = false;
             currentCollision = null;
+        }
+        if (collision.gameObject.CompareTag("icePoint"))
+        {
+            icePlatformCount = 5;
+            totalIcePlatformCount = 5;
+            Destroy(collision.gameObject);
+            iceLedgeCount.text = "x" + icePlatformCount;
+            iceLedgeCount.gameObject.SetActive(true);
+            hint.SetActive(true);
+            iceCollected = true;
+            StartCoroutine(iceHighlightFlash());
         }
     }
 
@@ -227,16 +258,50 @@ public class EvaderLevel1 : MonoBehaviour
 
             if (!isGrounded && Input.GetKeyDown(KeyCode.Space) && platformCount > 0)
             {
+                if (normalLedgeSelected && platformCount > 0)
+             {
                 JumpSpace.SetActive(false);
                 jumpUsed = true;
                 DroppedLedge = Instantiate(floorprefab, transform.position, Quaternion.identity);
                 platformCount--;
-                LedgeCount.text = "x " + platformCount;
+                LedgeCount.text = "x" + platformCount;
                 LedgeCount.gameObject.SetActive(true);
                 isGrounded = true;
                 if (shiftNotclicked)
                     StartCoroutine(removeShift(7.0f));
             }
+            else if (iceLedgeSelected && icePlatformCount > 0)
+            {
+                DroppedLedge = Instantiate(iceFloorPrefab, transform.position, Quaternion.identity);
+                icePlatformCount--;
+                iceLedgeCount.text = "x" + icePlatformCount;
+                iceLedgeCount.gameObject.SetActive(true);
+                isGrounded = true;
+            }
+            }
+
+        if (iceCollected && (Input.GetKeyDown(KeyCode.M)))
+        {
+            if (normalLedgeSelected)
+            {
+                iceHighlight.SetActive(true);
+                normalLedgeSprite.SetActive(false);
+                normalLedgeSelected = false;
+                iceLedgeSelected = true;
+            }
+            else
+            {
+                iceHighlight.SetActive(false);
+                normalLedgeSprite.SetActive(true);
+                normalLedgeSelected = true;
+                iceLedgeSelected = false;
+            }
+            hint.SetActive(false);
+        }
+
+        if(iceCollected && icePlatformCount==0){
+            hint.SetActive(false);
+        }
         
 
         // if(LevelSelector.chosenLevel == 2 && Time.time > 10 && !EvaderSpace.visited){
@@ -433,6 +498,22 @@ public class EvaderLevel1 : MonoBehaviour
         portalHighlight.SetActive(false);
     }
 
+    private IEnumerator iceHighlightFlash()
+    {
+        iceHighlight.SetActive(true);
+        SpriteRenderer iceHighlightRenderer = iceHighlight.GetComponent<SpriteRenderer>();
+        // Flash the chaser red to remind the player
+        Color originalColor = Color.white;
+        for (int i = 0; i < 2; i++) // Flash 2 times
+        {
+            iceHighlightRenderer.color = Color.red;
+            yield return new WaitForSeconds(0.5f); // Flash duration
+            iceHighlightRenderer.color = originalColor;
+            yield return new WaitForSeconds(0.5f); // Time between flashes
+        }
+        iceHighlight.SetActive(false);
+    }
+
     private IEnumerator ShieldHighlightFlash()
     {
         shieldHighlight.SetActive(true);
@@ -461,6 +542,12 @@ public class EvaderLevel1 : MonoBehaviour
         float survivalDuration = Time.time - survivalStartTime;
         StartCoroutine(sendDataScript.SendDataToGoogleSheets(survivalDuration.ToString(), Teleport.wormholeUsed, (totalPortalCount-portalCount).ToString(), "chaser", 
         (totalPlatformCount-platformCount).ToString(), "0", EvaderSpace.totalShieldsCollected.ToString(), ChaserAI.timesStuck.ToString(), deathPosition.ToString()));
+        string iceCount = "0";
+        if (iceCollected)
+            iceCount = (totalIcePlatformCount - icePlatformCount).ToString();
+        platformCount = 0;
+        icePlatformCount = 0;
+    
     }
 
     void HideGameOverShowTimer()

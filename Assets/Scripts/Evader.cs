@@ -198,19 +198,19 @@ public class Evader : MonoBehaviour
             Text portalCountText = GameObject.Find("PortalCount").GetComponent<Text>();
             portalCountText.text = "x" + portalCount;
             Vector3 chaserPosition = this.transform.position; //69 24
-            if (chaserPosition.x <= 69 && chaserPosition.y <= 20)
+            if (chaserPosition.x <= 72 && chaserPosition.y <= 20)
             {
                 MoveToRandomPosition(new Vector2(115f, 45f));
             }
-            if (chaserPosition.x <= 69 && chaserPosition.y >= 20)
+            if (chaserPosition.x <= 72 && chaserPosition.y >= 20)
             {
                 MoveToRandomPosition(new Vector2(115f, 1f));
             }
-            if (chaserPosition.x >= 69 && chaserPosition.y <= 20)
+            if (chaserPosition.x >= 72 && chaserPosition.y <= 20)
             {
                 MoveToRandomPosition(new Vector2(30f, 45f));
             }
-            if (chaserPosition.x >= 69 && chaserPosition.y >= 20)
+            if (chaserPosition.x >= 72 && chaserPosition.y >= 20)
             {
                 MoveToRandomPosition(new Vector2(30f, 1f));
             }

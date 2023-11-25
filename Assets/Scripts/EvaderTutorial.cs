@@ -39,8 +39,6 @@ public class EvaderTutorial : MonoBehaviour
     private bool isColliding = false;
     private GameObject LedgePrefab;
     private GameObject wormhole;
-
-
     public RawImage up;
     public RawImage right;
     public RawImage left;
