@@ -64,7 +64,7 @@ public class EvaderTutorial : MonoBehaviour
     private bool shiftNotclicked = true;
     bool isCollidingWithLedge = false;
     Collision2D currentCollision;
-    private bool isNkeyShown = false;
+    private bool isSkeyShown = false;
     Vector2? deathPosition = null;
     private GameObject collectTeleport;
     private Vector2 respawnPosition = new Vector2(31f, 45f);
@@ -82,7 +82,7 @@ public class EvaderTutorial : MonoBehaviour
         portalCount = 5;
         JumpSpace.SetActive(false);
         Recollect.SetActive(false);
-        isNkeyShown = false;
+        isSkeyShown = false;
         HideGameOverShowTimer();
         platformCount = 10;
         totalPlatformCount = 10;
@@ -191,19 +191,19 @@ public class EvaderTutorial : MonoBehaviour
                 Text portalCountText = GameObject.Find("PortalCount").GetComponent<Text>();
                 portalCountText.text = "x"+portalCount;
                 Vector3 chaserPosition = this.transform.position; //69 24
-                if (chaserPosition.x <= 69 && chaserPosition.y <= 20)
+                if (chaserPosition.x <= 72 && chaserPosition.y <= 20)
                 {
                  MoveToRandomPosition(new Vector2(110f, 45f));
                 }
-                if (chaserPosition.x <= 69 && chaserPosition.y >= 20)
+                if (chaserPosition.x <= 72 && chaserPosition.y >= 20)
                 {
                  MoveToRandomPosition(new Vector2(110f, 1f));
                  }
-                if (chaserPosition.x >= 69 && chaserPosition.y <= 20)
+                if (chaserPosition.x >= 72 && chaserPosition.y <= 20)
                 {
                     MoveToRandomPosition(new Vector2(30f, 45f));
                 }
-                if (chaserPosition.x >= 69 && chaserPosition.y >= 20)
+                if (chaserPosition.x >= 72 && chaserPosition.y >= 20)
                 {
                     MoveToRandomPosition(new Vector2(30f, 1f));
                 }
@@ -228,16 +228,14 @@ public class EvaderTutorial : MonoBehaviour
         // }
 
         if(jumpUsed && !recollectUsed){
-            if(isCollidingWithLedge && !isNkeyShown){
+            if(isCollidingWithLedge && !isSkeyShown){
                 Recollect.SetActive(true);
-                isNkeyShown = true;
+                isSkeyShown = true;
             }
-            else{
+        }else{
                 Recollect.SetActive(false);
-                isNkeyShown = false;
+                isSkeyShown = false;
             }
-
-        }
 
         if (isCollidingWithLedge && (Input.GetKeyDown(KeyCode.S) || Input.GetKeyDown(KeyCode.DownArrow)))
         {
@@ -395,12 +393,14 @@ public class EvaderTutorial : MonoBehaviour
         Time.timeScale = 1f;
         Scene currentScene = SceneManager.GetActiveScene();
         Debug.Log(currentScene.name);
-        if(currentScene.name == "Level1"){
-            LevelSelector.chosenLevel = 2;
-            SceneManager.LoadScene("Level2");
-        }else{
-            LevelSelector.chosenLevel = 3;
-            SceneManager.LoadScene("Level3");
+        if(currentScene.name == "Tutorial1"){
+            //LevelSelector.chosenLevel = 2;
+            SceneManager.LoadScene("Tutorial2");
+        }else if(currentScene.name == "Tutorial2"){
+            //LevelSelector.chosenLevel = 3;
+            SceneManager.LoadScene("Tutorial3");
+        }else if(currentScene.name == "Tutorial3"){
+            SceneManager.LoadScene("Level1");
         }
         TimerScript.AreWeReturningToTheScene = false;
     }

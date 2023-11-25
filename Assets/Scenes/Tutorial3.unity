@@ -239,7 +239,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 491.89355, y: -63.000008}
+  m_AnchoredPosition: {x: 491.89355, y: -120}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &205969011
@@ -286,8 +286,8 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
-        m_TargetAssemblyTypeName: EvaderLevel1, Assembly-CSharp
+      - m_Target: {fileID: 1676882405}
+        m_TargetAssemblyTypeName: EvaderTutorial, Assembly-CSharp
         m_MethodName: NextButtonClicked
         m_Mode: 1
         m_Arguments:
@@ -2634,8 +2634,8 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
-        m_TargetAssemblyTypeName: EvaderLevel1, Assembly-CSharp
+      - m_Target: {fileID: 1676882405}
+        m_TargetAssemblyTypeName: EvaderTutorial, Assembly-CSharp
         m_MethodName: BackButtonClicked
         m_Mode: 1
         m_Arguments:
@@ -3814,7 +3814,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 447, y: -63}
+  m_AnchoredPosition: {x: 447, y: -120}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1067395214
@@ -3861,8 +3861,8 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
-        m_TargetAssemblyTypeName: EvaderLevel1, Assembly-CSharp
+      - m_Target: {fileID: 1676882405}
+        m_TargetAssemblyTypeName: EvaderTutorial, Assembly-CSharp
         m_MethodName: RestartButtonClicked
         m_Mode: 1
         m_Arguments:
@@ -4448,7 +4448,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 393.00006, y: -63.000004}
+  m_AnchoredPosition: {x: 393.00006, y: -120}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1581795388
@@ -4495,8 +4495,8 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
-        m_TargetAssemblyTypeName: EvaderLevel1, Assembly-CSharp
+      - m_Target: {fileID: 1676882405}
+        m_TargetAssemblyTypeName: EvaderTutorial, Assembly-CSharp
         m_MethodName: RestartButtonClicked
         m_Mode: 1
         m_Arguments:
@@ -4879,7 +4879,6 @@ MonoBehaviour:
   TimerTxt: {fileID: 399831060}
   caughtSprite: {fileID: 21300000, guid: 704eaec5f474fc24bba95faec2ee8d47, type: 3}
   smilingSprite: {fileID: 21300000, guid: 1df6f8ffe2785a34c804f7ac2722d1c1, type: 3}
-  sendDataScript: {fileID: 1725015606}
   up: {fileID: 590216345}
   right: {fileID: 2065397674}
   left: {fileID: 223437325}
@@ -5041,7 +5040,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 18, y: 222}
+  m_AnchoredPosition: {x: 18, y: -120}
   m_SizeDelta: {x: 48.606, y: 38.327}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1001 &1962185679
