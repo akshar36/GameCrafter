@@ -74,17 +74,23 @@ public class ChaserAI : MonoBehaviour
             speedObject.maxSpeed = 10;
             SpriteRenderer chaserSprite = rb.GetComponent<SpriteRenderer>();
             chaserSprite.sprite = frozenSprite;
-            Invoke("backtoNormal", 15.0f);
+            rb.tag = "FrozenChaser";
+            Invoke("backtoNormal", 8.0f);
         }
     }
     void backtoNormal(){
             AIPath speedObject = rb.GetComponent<AIPath>();
             speedObject.maxSpeed = 80;
             SpriteRenderer chaserSprite = rb.GetComponent<SpriteRenderer>();
-            if(rb.tag == "Chaser")
+            if(rb.tag == "FrozenChaser")
+            {
                 chaserSprite.sprite = angrySprite;
+                rb.tag = "Chaser";
+            }
             else
+            {
                 chaserSprite.sprite = ghostSprite;
+            }
     }
     void Update()
     {

@@ -306,7 +306,7 @@ public class Evader : MonoBehaviour
 
     void OnCollisionEnter2D(Collision2D collision)
     {
-        if (collision.gameObject.CompareTag("Chaser") || collision.gameObject.CompareTag("Laser") || collision.gameObject.CompareTag("GhostChaser"))
+        if (collision.gameObject.CompareTag("Chaser") || collision.gameObject.CompareTag("Laser") || collision.gameObject.CompareTag("GhostChaser") || collision.gameObject.CompareTag("FrozenChaser"))
         {
             Evader.deathPosition = collision.transform.position;
 
