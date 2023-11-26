@@ -40,7 +40,6 @@ public class FireFloor : MonoBehaviour
                 StartCoroutine(RemoveTileAfterDelay(spawnedObject, 10f));
             }
         }
-        // Check for a collision with the ledge (you can use a specific tag or layer)
     }
     private IEnumerator RemoveTileAfterDelay(GameObject tile, float delay)
     {

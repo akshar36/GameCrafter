@@ -44,29 +44,28 @@ public class FireConditionScript : MonoBehaviour
     private void OnTriggerStay2D(Collider2D collision)
     {
         Scene currentScene = SceneManager.GetActiveScene();
-        if (collision.tag == "Player"){
+        if (collision.tag == "Player" && !hasTouchedLava)
+        {
             contactDuration += Time.deltaTime;
-            Debug.Log("contact "+ contactDuration);
-            if (contactDuration < 2f && !hasTouchedLava)
+            if (contactDuration < 2f){
                 if(EvaderSpace.shieldCollected == 0){
                     Evader.lostReason = "lava";
                     Evader.deathPosition = collision.transform.position;
-                    // Call the setTime method from TimerScript.
                     TimerScript.setTime();
-
-                    //This one will not automatively call the time reset function.
                     evaderController.ShowGameOverHideTimer();
                 }
                 else if(EvaderSpace.shieldCollected > 0)
                 {
+                    hasTouchedLava = true;
+                    StartCoroutine(ShieldHighlightFlash());
                     DeductShield();
                 }
             }
+        }
     }
 
     void DeductShield()
     {
-        hasTouchedLava = true;
         Debug.Log("before" + EvaderSpace.shieldCollected.ToString());
         EvaderSpace.shieldCollected -= 1;
         Debug.Log("after" + EvaderSpace.shieldCollected.ToString());
@@ -74,7 +73,7 @@ public class FireConditionScript : MonoBehaviour
         StartCoroutine(RespawnPlayer());
         spriteRenderer.transform.position = new Vector2(89f, 45f);
 
-            if (EvaderSpace.shieldCollected == 0)
+        if (EvaderSpace.shieldCollected == 0)
         {
             spriteRenderer.sprite = normalEvader;
             Color yellowColor = HexToColor("#FFFF00");
@@ -89,11 +88,28 @@ public class FireConditionScript : MonoBehaviour
         StartCoroutine(ResetHasTouchedLava());
     }
 
+
     IEnumerator ResetHasTouchedLava()
     {
         // Wait for a certain period before allowing another shield deduction
         yield return new WaitForSeconds(1f);
         hasTouchedLava = false;
+    }
+    
+     private IEnumerator ShieldHighlightFlash()
+    {
+        evaderController.shieldHighlight.SetActive(true);
+        SpriteRenderer shieldHighlightRenderer = evaderController.shieldHighlight.GetComponent<SpriteRenderer>();
+        // Flash the chaser red to remind the player
+        Color originalColor = shieldHighlightRenderer.color;
+        for (int i = 0; i < 2; i++) // Flash 2 times
+        {
+            shieldHighlightRenderer.color = Color.red;
+            yield return new WaitForSeconds(0.5f); // Flash duration
+            shieldHighlightRenderer.color = originalColor;
+            yield return new WaitForSeconds(0.5f); // Time between flashes
+        }
+        evaderController.shieldHighlight.SetActive(false);
     }
 
     void OnTriggerExit2D(Collider2D collision)
@@ -102,15 +118,24 @@ public class FireConditionScript : MonoBehaviour
         {
             // Reset contactDuration and hasTouchedLava when player exits the trigger
             contactDuration = 0;
-            hasTouchedLava = false;
         }
     }
 
 
     IEnumerator RespawnPlayer(){
         spriteRenderer.enabled = false;
+        DestroyFireFloor();
 
         yield return new WaitForSeconds(1f);
+    }
+
+    void DestroyFireFloor(){
+        GameObject[] fireFloorObjects = GameObject.FindGameObjectsWithTag("FireFloor");
+
+        foreach (var obj in fireFloorObjects)
+        {
+            Destroy(obj);
+        }
     }
 
     private void OnTriggerExit(Collider collision)

@@ -410,13 +410,22 @@ public class Evader : MonoBehaviour
     IEnumerator RespawnPlayer()
     {
         spriteRenderer.enabled = false;
-        
+        DestroyFireFloor();
         yield return new WaitForSeconds(1f);
 
         hasCollidedWithChaser = false;
         transform.position = new Vector2(89f, 45f);
         chaserSpriteRenderer.transform.position = new Vector2(35f, 25f);
         spriteRenderer.enabled = true;
+    }
+
+    void DestroyFireFloor(){
+        GameObject[] fireFloorObjects = GameObject.FindGameObjectsWithTag("FireFloor");
+
+        foreach (var obj in fireFloorObjects)
+        {
+            Destroy(obj);
+        }
     }
 
     private IEnumerator iceHighlightFlash()

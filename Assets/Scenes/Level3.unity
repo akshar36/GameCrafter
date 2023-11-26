@@ -580,6 +580,7 @@ MonoBehaviour:
   hitTwo: {fileID: 21300000, guid: 7cd27c6cf1157c1489d4bd558fa3ab1f, type: 3}
   hitThree: {fileID: 21300000, guid: 1df6f8ffe2785a34c804f7ac2722d1c1, type: 3}
   normalEvader: {fileID: 21300000, guid: 1df6f8ffe2785a34c804f7ac2722d1c1, type: 3}
+  shieldHighlight: {fileID: 1203681753}
 --- !u!1 &190052770
 GameObject:
   m_ObjectHideFlags: 0
