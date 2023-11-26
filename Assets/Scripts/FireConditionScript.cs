@@ -59,6 +59,8 @@ public class FireConditionScript : MonoBehaviour
                     hasTouchedLava = true;
                     StartCoroutine(ShieldHighlightFlash());
                     DeductShield();
+                    RespawnPlayer();
+                    StartCoroutine(ResetHasTouchedLava());
                 }
             }
         }
@@ -69,8 +71,21 @@ public class FireConditionScript : MonoBehaviour
         Debug.Log("before" + EvaderSpace.shieldCollected.ToString());
         EvaderSpace.shieldCollected -= 1;
         Debug.Log("after" + EvaderSpace.shieldCollected.ToString());
+    }
 
-        StartCoroutine(RespawnPlayer());
+
+    IEnumerator ResetHasTouchedLava()
+    {
+        // Wait for a certain period before allowing another shield deduction
+        yield return new WaitForSeconds(1f);
+        hasTouchedLava = false;
+    }
+
+
+    void RespawnPlayer(){
+        spriteRenderer.enabled = false;
+        DestroyFireFloor();
+
         spriteRenderer.transform.position = new Vector2(89f, 45f);
 
         if (EvaderSpace.shieldCollected == 0)
@@ -83,17 +98,6 @@ public class FireConditionScript : MonoBehaviour
         }
 
         spriteRenderer.enabled = true;
-
-        // Delay the reset of hasTouchedLava
-        StartCoroutine(ResetHasTouchedLava());
-    }
-
-
-    IEnumerator ResetHasTouchedLava()
-    {
-        // Wait for a certain period before allowing another shield deduction
-        yield return new WaitForSeconds(1f);
-        hasTouchedLava = false;
     }
     
      private IEnumerator ShieldHighlightFlash()
@@ -119,14 +123,6 @@ public class FireConditionScript : MonoBehaviour
             // Reset contactDuration and hasTouchedLava when player exits the trigger
             contactDuration = 0;
         }
-    }
-
-
-    IEnumerator RespawnPlayer(){
-        spriteRenderer.enabled = false;
-        DestroyFireFloor();
-
-        yield return new WaitForSeconds(1f);
     }
 
     void DestroyFireFloor(){
