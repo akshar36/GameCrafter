@@ -33,7 +33,6 @@ public class FireFloor : MonoBehaviour
                 if (temp != roundedVector)
                 { 
                     spawnedObject = Instantiate(objectToSpawn, collisionPoint, Quaternion.identity);
-                    spawnedObject.tag = "FireFloor";
                     temp = roundedVector;
                 }
 
