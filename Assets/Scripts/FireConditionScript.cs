@@ -107,7 +107,7 @@ public class FireConditionScript : MonoBehaviour
     }
 
     void DestroyFireFloor(){
-        GameObject[] fireFloorObjects = GameObject.FindGameObjectsWithTag("FireFloor");
+        GameObject[] fireFloorObjects = GameObject.FindGameObjectsWithTag("Fire");
 
         foreach (var obj in fireFloorObjects)
         {
