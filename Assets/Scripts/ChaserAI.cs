@@ -74,7 +74,7 @@ public class ChaserAI : MonoBehaviour
             speedObject.maxSpeed = 10;
             SpriteRenderer chaserSprite = rb.GetComponent<SpriteRenderer>();
             chaserSprite.sprite = frozenSprite;
-            Invoke("backtoNormal", 5.0f);
+            Invoke("backtoNormal", 15.0f);
         }
     }
     void backtoNormal(){
@@ -211,6 +211,8 @@ public class ChaserAI : MonoBehaviour
 
     void ShootBullets()
     {
+        SpriteRenderer chaserSprite = rb.GetComponent<SpriteRenderer>();
+        if(chaserSprite.sprite != frozenSprite){
         for (int i = 0; i <8; i++)
         {
             angle = angle + 45*i;  
@@ -230,5 +232,8 @@ public class ChaserAI : MonoBehaviour
 
         }
         angle = -180;
+
+        }
+        
     }
 }
