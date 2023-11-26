@@ -36,32 +36,23 @@ public class FireConditionScript : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if(collision.tag == "Player" && !EvaderSpace.shield){
-            currentContactStartTime = Time.time;
-        }
-    }
-    
-    private void OnTriggerStay2D(Collider2D collision)
-    {
-        Scene currentScene = SceneManager.GetActiveScene();
-        if (collision.tag == "Player" && !hasTouchedLava)
+       if (collision.tag == "Player" && !hasTouchedLava)
         {
+            hasTouchedLava = true;
             contactDuration += Time.deltaTime;
-            if (contactDuration < 2f){
-                if(EvaderSpace.shieldCollected == 0){
-                    Evader.lostReason = "lava";
-                    Evader.deathPosition = collision.transform.position;
-                    TimerScript.setTime();
-                    evaderController.ShowGameOverHideTimer();
-                }
-                else if(EvaderSpace.shieldCollected > 0)
-                {
-                    hasTouchedLava = true;
-                    StartCoroutine(ShieldHighlightFlash());
-                    DeductShield();
-                    RespawnPlayer();
-                    StartCoroutine(ResetHasTouchedLava());
-                }
+
+            if(EvaderSpace.shieldCollected == 0){
+                Evader.lostReason = "lava";
+                Evader.deathPosition = collision.transform.position;
+                TimerScript.setTime();
+                evaderController.ShowGameOverHideTimer();
+            }
+            else if(EvaderSpace.shieldCollected > 0)
+            {
+                StartCoroutine(ShieldHighlightFlash());
+                DeductShield();
+                RespawnPlayer();
+                StartCoroutine(ResetHasTouchedLava());
             }
         }
     }
@@ -80,7 +71,6 @@ public class FireConditionScript : MonoBehaviour
         yield return new WaitForSeconds(1f);
         hasTouchedLava = false;
     }
-
 
     void RespawnPlayer(){
         spriteRenderer.enabled = false;
@@ -116,15 +106,6 @@ public class FireConditionScript : MonoBehaviour
         evaderController.shieldHighlight.SetActive(false);
     }
 
-    void OnTriggerExit2D(Collider2D collision)
-    {
-        if (collision.tag == "Player")
-        {
-            // Reset contactDuration and hasTouchedLava when player exits the trigger
-            contactDuration = 0;
-        }
-    }
-
     void DestroyFireFloor(){
         GameObject[] fireFloorObjects = GameObject.FindGameObjectsWithTag("FireFloor");
 
@@ -133,16 +114,6 @@ public class FireConditionScript : MonoBehaviour
             Destroy(obj);
         }
     }
-
-    private void OnTriggerExit(Collider collision)
-    {
-        // Check if the trigger is with the tile (you might use a tag or layer to identify it)
-        if(collision.tag == "Player" && !EvaderSpace.shield)
-        {
-                contactDuration += Time.time - contactStartTime;
-        }
-    }
-
 
     Color HexToColor(string hex)
     {
