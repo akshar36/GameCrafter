@@ -18,7 +18,6 @@ public class EvaderTutorial : MonoBehaviour
     public float jumpForce2 = 11.0f;
     private Rigidbody2D rb;
     private bool isGrounded;
-    private TimerScript timerController;
     public static int platformCount = 10;
     public static int totalPlatformCount = 10;
     public GameObject floorprefab;
@@ -26,14 +25,13 @@ public class EvaderTutorial : MonoBehaviour
     public GameObject RestartText;
     public GameObject BackButton;
     public Text LedgeCount;
-    public Text TimerTxt;
     private SpriteRenderer spriteRenderer;
     public Sprite caughtSprite;
     public Sprite smilingSprite;
     private int getHit = 0;
-
+    public GameObject PlayAgainTxt;
+    public GameObject NextLevelTxt;
     private bool evaderMoved = false;
-    public static float survivalStartTime;
     private bool noShield = true;
     private GameObject DroppedLedge;
     private bool isColliding = false;
@@ -42,13 +40,12 @@ public class EvaderTutorial : MonoBehaviour
     public RawImage up;
     public RawImage right;
     public RawImage left;
-
     public GameObject JumpSpace;
     public GameObject Recollect;
     public GameObject shiftKey;
     public GameObject smoke;
-    public static int portalCount = 5;
-    public static int totalPortalCount = 5;
+    public static int portalCount = 0;
+    public static int totalPortalCount = 0;
     private Vector2[] positions = new Vector2[]
     {
         new Vector2(105.4f, 1f),
@@ -66,16 +63,27 @@ public class EvaderTutorial : MonoBehaviour
     Vector2? deathPosition = null;
     private GameObject collectTeleport;
     private Vector2 respawnPosition = new Vector2(31f, 45f);
-
     public GameObject portalHighlight;
     private bool recollectUsed;
     private bool jumpUsed;
+    public GameObject checkpoint;
 
     void Start()
     {
+
+        if(LevelSelector.chosenLevel > 4){
+            checkpoint.gameObject.SetActive(false);
+            portalHighlight.SetActive(false);
+            shiftKey.SetActive(false);
+            collectTeleport = GameObject.Find("add_teleport");
+            collectTeleport.SetActive(true);
+        }
+        PlayAgainTxt.gameObject.SetActive(false);
+        if(NextLevelTxt){
+            NextLevelTxt.gameObject.SetActive(false);
+        }
         jumpUsed = false;
         recollectUsed = false;
-        portalHighlight.SetActive(false);
         shields = 2;
         portalCount = 5;
         JumpSpace.SetActive(false);
@@ -85,13 +93,7 @@ public class EvaderTutorial : MonoBehaviour
         platformCount = 10;
         totalPlatformCount = 10;
         rb = GetComponent<Rigidbody2D>();
-        shiftKey.SetActive(false);
         spriteRenderer = GetComponent<SpriteRenderer>();
-        GameObject timer = GameObject.Find("TimerTxt");
-        collectTeleport = GameObject.Find("add_teleport");
-        collectTeleport.SetActive(true);
-        timerController = timer.GetComponent<TimerScript>();
-        survivalStartTime = Time.time;
         isCollidingWithLedge = false;
         deathPosition = null;
         //if(EvaderSpace.shield) {
@@ -160,7 +162,6 @@ public class EvaderTutorial : MonoBehaviour
             if (rb.velocity.magnitude > 5f && !evaderMoved)
             {
                 evaderMoved = true;
-                StartRunning();
                 StartCoroutine(RemoveRawImagesAfterDelay(2.0f));
             }
 
@@ -172,15 +173,7 @@ public class EvaderTutorial : MonoBehaviour
                 Jump();
             }
 
-            // if (Input.GetKeyDown(KeyCode.M))
-            // {
-            //     if (DroppedLedge != null)
-            //     {
-            //         DroppedLedge.transform.Rotate(Vector3.forward * 90.0f);
-            //     }
-            // }
-
-            if (LevelSelector.chosenLevel != 4 && portalCount >0 && ((Input.GetKeyDown(KeyCode.LeftShift)) || (Input.GetKeyDown(KeyCode.RightShift)))){
+            if (LevelSelector.chosenLevel > 4 && portalCount >0 && ((Input.GetKeyDown(KeyCode.LeftShift)) || (Input.GetKeyDown(KeyCode.RightShift)))){
                 shiftKey.SetActive(false);
                 Debug.Log("playing");
                 GameObject particleInstance = Instantiate(smoke, transform.position, Quaternion.identity);
@@ -216,14 +209,9 @@ public class EvaderTutorial : MonoBehaviour
                 LedgeCount.text = "x " + platformCount;
                 LedgeCount.gameObject.SetActive(true);
                 isGrounded = true;
-                if (LevelSelector.chosenLevel != 4 && shiftNotclicked)
+                if (LevelSelector.chosenLevel > 4 && shiftNotclicked)
                     StartCoroutine(removeShift(7.0f));
             }
-        
-
-        // if(LevelSelector.chosenLevel == 2 && Time.time > 10 && !EvaderSpace.visited){
-        //     wormhole.gameObject.SetActive(true);
-        // }
 
         if(jumpUsed && !recollectUsed){
             if(isCollidingWithLedge && !isSkeyShown){
@@ -246,6 +234,8 @@ public class EvaderTutorial : MonoBehaviour
             isCollidingWithLedge = false;
             currentCollision = null;  
         }
+
+        // if(LevelSelector.chosenLevel == 4 && )
     }
 
     private IEnumerator RemoveRawImagesAfterDelay(float delay)
@@ -324,8 +314,7 @@ public class EvaderTutorial : MonoBehaviour
     }
 
 
-    void OnCollisionEnter2D(Collision2D collision)
-    {
+    void OnCollisionEnter2D(Collision2D collision){
         if(collision.gameObject.CompareTag("AddTeleport"))
         {
             collectTeleport.SetActive(false);
@@ -333,7 +322,11 @@ public class EvaderTutorial : MonoBehaviour
             totalPortalCount += 5;
             Text portalCountText = GameObject.Find("PortalCount").GetComponent<Text>();
             portalCountText.text = "x" + portalCount;
+            checkpoint.gameObject.SetActive(true);
             StartCoroutine(PortalHighlightFlash());
+        }else if(collision.gameObject.CompareTag("checkpoint")){
+            checkpoint.gameObject.SetActive(false);
+            showGameWinTutorial();
         }
         else{
             isGrounded = true;
@@ -361,13 +354,7 @@ public class EvaderTutorial : MonoBehaviour
     void HideGameOverShowTimer()
     {
         GameText.gameObject.SetActive(false);
-        TimerTxt.gameObject.SetActive(true);
         RestartText.gameObject.SetActive(false);
-    }
-
-    public void StartRunning()
-    { 
-        timerController.StartTime();
     }
 
     public void RestartButtonClicked()
@@ -375,7 +362,6 @@ public class EvaderTutorial : MonoBehaviour
         Time.timeScale = 1f;
         Scene currentScene = SceneManager.GetActiveScene();
         SceneManager.LoadScene(currentScene.name);
-        TimerScript.AreWeReturningToTheScene = false;
     }
 
      public void BackButtonClicked()
@@ -383,14 +369,12 @@ public class EvaderTutorial : MonoBehaviour
         Time.timeScale = 1f;
         Scene currentScene = SceneManager.GetActiveScene();
         SceneManager.LoadScene("LevelSelection");
-        TimerScript.setTime();
     }
 
      public void NextButtonClicked()
     {
         Time.timeScale = 1f;
         Scene currentScene = SceneManager.GetActiveScene();
-        Debug.Log(currentScene.name);
         if(currentScene.name == "Tutorial1"){
             LevelSelector.chosenLevel = 5;
             SceneManager.LoadScene("Tutorial2");
@@ -401,8 +385,28 @@ public class EvaderTutorial : MonoBehaviour
             LevelSelector.chosenLevel = 1;
             SceneManager.LoadScene("Level1");
         }
-        TimerScript.AreWeReturningToTheScene = false;
     }
+
+
+    void showGameWinTutorial(){
+        Time.timeScale = 0f;
+
+        GameText.text = "YOU WIN";
+
+        string platformCount = "0";
+        string portalCount = "0";
+        string iceCount = "0";
+
+        GameText.gameObject.SetActive(true);
+        PlayAgainTxt.gameObject.SetActive(true);
+        if(NextLevelTxt){
+             NextLevelTxt.gameObject.SetActive(true);
+        }
+        Evader.portalCount = 0;
+        Evader.platformCount = 0;
+        Evader.icePlatformCount = 0;
+    }
+
 
     Color HexToColor(string hex)
     {
