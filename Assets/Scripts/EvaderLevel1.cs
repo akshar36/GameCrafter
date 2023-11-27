@@ -90,7 +90,7 @@ public class EvaderLevel1 : MonoBehaviour
     public Text iceLedgeCount;
     public static bool iceCollected = false;
     private bool normalLedgeSelected = true;
-    private bool iceLedgeSelected = true;
+    private bool iceLedgeSelected = false;
     public GameObject iceHighlight;
     public GameObject iceFloorPrefab;
     public GameObject normalLedgeSprite;
@@ -257,7 +257,7 @@ public class EvaderLevel1 : MonoBehaviour
                 }
             }
 
-            if (!isGrounded && Input.GetKeyDown(KeyCode.Space) && platformCount > 0)
+            if (!isGrounded && Input.GetKeyDown(KeyCode.Space))
             {
                 JumpSpace.SetActive(false);
                 jumpUsed = true;
@@ -284,17 +284,14 @@ public class EvaderLevel1 : MonoBehaviour
 
         if (iceCollected && (Input.GetKeyDown(KeyCode.M)))
         {
-           
-
             if (normalLedgeSelected)
             {
-                Debug.Log("adkajfhdkfj");
                 iceHighlight.SetActive(true);
                 normalLedgeSprite.SetActive(false);
                 normalLedgeSelected = false;
                 iceLedgeSelected = true;
             }
-            else
+            else if (iceLedgeSelected)
             {
                 iceHighlight.SetActive(false);
                 normalLedgeSprite.SetActive(true);

@@ -59,7 +59,7 @@ public class Evader : MonoBehaviour
     private GameObject collectTeleport;
     public static bool iceCollected = false;
     private bool normalLedgeSelected = true;
-    private bool iceLedgeSelected = true;
+    private bool iceLedgeSelected = false;
     private bool ghostNotCalled = true;
     public GameObject ghostChaser;
     public GameObject smoke;
