@@ -61,12 +61,13 @@ public class EvaderTutorial : MonoBehaviour
     Collision2D currentCollision;
     private bool isSkeyShown = false;
     Vector2? deathPosition = null;
-    private GameObject collectTeleport;
+    public GameObject collectTeleport;
     private Vector2 respawnPosition = new Vector2(31f, 45f);
     public GameObject portalHighlight;
     private bool recollectUsed;
     private bool jumpUsed;
     public GameObject checkpoint;
+    public static bool isTeleportCollected = false;
 
     void Start()
     {
@@ -90,8 +91,8 @@ public class EvaderTutorial : MonoBehaviour
         Recollect.SetActive(false);
         isSkeyShown = false;
         HideGameOverShowTimer();
-        platformCount = 10;
-        totalPlatformCount = 10;
+        platformCount = 7;
+        totalPlatformCount = 7;
         rb = GetComponent<Rigidbody2D>();
         spriteRenderer = GetComponent<SpriteRenderer>();
         isCollidingWithLedge = false;
@@ -178,7 +179,7 @@ public class EvaderTutorial : MonoBehaviour
                 Debug.Log("playing");
                 GameObject particleInstance = Instantiate(smoke, transform.position, Quaternion.identity);
                 particleInstance.GetComponent<ParticleSystem>().Play();
-                portalCount --;
+                portalCount--;
                 Text portalCountText = GameObject.Find("PortalCount").GetComponent<Text>();
                 portalCountText.text = "x"+portalCount;
                 Vector3 chaserPosition = this.transform.position; //69 24
@@ -209,19 +210,17 @@ public class EvaderTutorial : MonoBehaviour
                 LedgeCount.text = "x " + platformCount;
                 LedgeCount.gameObject.SetActive(true);
                 isGrounded = true;
-                if (LevelSelector.chosenLevel > 4 && shiftNotclicked)
-                    StartCoroutine(removeShift(7.0f));
             }
 
-        if(jumpUsed && !recollectUsed){
-            if(isCollidingWithLedge && !isSkeyShown){
+        if(jumpUsed && !recollectUsed && isCollidingWithLedge){
+            if(!isSkeyShown){
                 Recollect.SetActive(true);
                 isSkeyShown = true;
             }
         }else{
                 Recollect.SetActive(false);
                 isSkeyShown = false;
-            }
+        }
 
         if (isCollidingWithLedge && (Input.GetKeyDown(KeyCode.S) || Input.GetKeyDown(KeyCode.DownArrow)))
         {
@@ -235,7 +234,9 @@ public class EvaderTutorial : MonoBehaviour
             currentCollision = null;  
         }
 
-        // if(LevelSelector.chosenLevel == 4 && )
+        if (!shiftNotclicked && isTeleportCollected){
+                StartCoroutine(removeShift(5.0f));
+        }
     }
 
     private IEnumerator RemoveRawImagesAfterDelay(float delay)
@@ -318,12 +319,16 @@ public class EvaderTutorial : MonoBehaviour
         if(collision.gameObject.CompareTag("AddTeleport"))
         {
             collectTeleport.SetActive(false);
-            portalCount += 5;
-            totalPortalCount += 5;
+            portalCount = 5;
+            totalPortalCount = 5;
             Text portalCountText = GameObject.Find("PortalCount").GetComponent<Text>();
             portalCountText.text = "x" + portalCount;
             checkpoint.gameObject.SetActive(true);
             StartCoroutine(PortalHighlightFlash());
+            isTeleportCollected = true;
+            if (!shiftNotclicked && isTeleportCollected){
+                StartCoroutine(removeShift(1.0f));
+            }
         }else if(collision.gameObject.CompareTag("checkpoint")){
             checkpoint.gameObject.SetActive(false);
             showGameWinTutorial();
@@ -375,13 +380,13 @@ public class EvaderTutorial : MonoBehaviour
     {
         Time.timeScale = 1f;
         Scene currentScene = SceneManager.GetActiveScene();
-        if(currentScene.name == "Tutorial1"){
+        if(currentScene.name == "Tutorial1" || LevelSelector.chosenLevel == 4){
             LevelSelector.chosenLevel = 5;
             SceneManager.LoadScene("Tutorial2");
-        }else if(currentScene.name == "Tutorial2"){
+        }else if(currentScene.name == "Tutorial2" || LevelSelector.chosenLevel == 5){
             LevelSelector.chosenLevel = 6;
             SceneManager.LoadScene("Tutorial3");
-        }else if(currentScene.name == "Tutorial3"){
+        }else if(currentScene.name == "Tutorial3" || LevelSelector.chosenLevel == 6){
             LevelSelector.chosenLevel = 1;
             SceneManager.LoadScene("Level1");
         }
@@ -412,6 +417,14 @@ public class EvaderTutorial : MonoBehaviour
         GameObject addTeleport = GameObject.FindGameObjectWithTag("AddTeleport");
         GameObject mapTag = GameObject.FindGameObjectWithTag("ledgeTileMap");
         GameObject icePoint = GameObject.FindGameObjectWithTag("icePoint");
+        GameObject shift = GameObject.FindGameObjectWithTag("ShiftTag");
+
+
+        if (shift != null)
+        {
+            shift.SetActive(false);
+        }
+
         // Check if the evader is not null before destroying
         if (evader != null)
         {

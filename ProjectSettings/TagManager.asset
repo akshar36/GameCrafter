@@ -28,7 +28,13 @@ TagManager:
   - xx
   - FireFloor
   - AddTeleport
+<<<<<<< Updated upstream
+  - Floor
+  - LedgeTileMap
+=======
   - MapTag
+  - ShiftTag
+>>>>>>> Stashed changes
   layers:
   - Default
   - TransparentFX
