@@ -56,7 +56,6 @@ public class Evader : MonoBehaviour
     public Sprite powerEvader;
     public Sprite normalEvader;
     private int laserHit = 0;
-    private GameObject hint;
     private GameObject collectTeleport;
     public static bool iceCollected = false;
     private bool normalLedgeSelected = true;
@@ -111,14 +110,11 @@ public class Evader : MonoBehaviour
         spriteRenderer = evader.GetComponent<SpriteRenderer>();
         GameObject chaser = GameObject.Find("Chaser");
         GameObject timer = GameObject.Find("TimerTxt");
-        hint = GameObject.Find("Hint");
         collectTeleport = GameObject.Find("add_teleport");
         collectTeleport.SetActive(true);
         countdown = GameObject.Find("Countdown");
         SafeLedge = GameObject.Find("SafeLedge");
         countdown.SetActive(false);
-        if (hint != null)
-            hint.SetActive(false);
         if (ghostChaser != null)
             ghostChaser.SetActive(false);
         chaserSpriteRenderer = chaser.GetComponent<SpriteRenderer>();
@@ -237,9 +233,6 @@ public class Evader : MonoBehaviour
                 isGrounded = true;
             }
         }
-        if(iceCollected) {
-            mKey.SetActive(true);
-        }
 
         if (iceCollected && (Input.GetKeyDown(KeyCode.M)))
         {
@@ -257,15 +250,11 @@ public class Evader : MonoBehaviour
                 normalLedgeSelected = true;
                 iceLedgeSelected = false;
             }
-            hint.SetActive(false);
+            mKey.SetActive(false);
         }
          
-        if(!hint.activeSelf){
-             mKey.SetActive(false);
-        }
 
         if(iceCollected && icePlatformCount==0){
-            hint.SetActive(false);
             mKey.SetActive(false);
         }
 
@@ -322,8 +311,8 @@ public class Evader : MonoBehaviour
             Destroy(collision.gameObject);
             iceLedgeCount.text = "x" + icePlatformCount;
             iceLedgeCount.gameObject.SetActive(true);
-            hint.SetActive(true);
             iceCollected = true;
+            mKey.SetActive(true);
             StartCoroutine(iceHighlightFlash());
         }
         else if (collision.gameObject.CompareTag("AddTeleport"))

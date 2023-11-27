@@ -93,7 +93,6 @@ public class EvaderLevel1 : MonoBehaviour
     private bool iceLedgeSelected = true;
     public GameObject iceHighlight;
     public GameObject iceFloorPrefab;
-    private GameObject hint;
     public GameObject normalLedgeSprite;
     public GameObject mKey;
     private bool chaserEnabled = false;
@@ -155,11 +154,6 @@ public class EvaderLevel1 : MonoBehaviour
         iceHighlight.SetActive(false);
         icePlatformCount = 0;
         totalIcePlatformCount = 0;
-        hint = GameObject.Find("Hint");
-        if (hint != null)
-            hint.SetActive(false);
-        
- 
         mKey.SetActive(false);
     }
     
@@ -183,7 +177,7 @@ public class EvaderLevel1 : MonoBehaviour
             Destroy(collision.gameObject);
             iceLedgeCount.text = "x" + icePlatformCount;
             iceLedgeCount.gameObject.SetActive(true);
-            hint.SetActive(true);
+            mKey.SetActive(true);
             iceCollected = true;
             StartCoroutine(iceHighlightFlash());
         }
@@ -265,31 +259,28 @@ public class EvaderLevel1 : MonoBehaviour
 
             if (!isGrounded && Input.GetKeyDown(KeyCode.Space) && platformCount > 0)
             {
-                if (normalLedgeSelected && platformCount > 0)
-             {
                 JumpSpace.SetActive(false);
                 jumpUsed = true;
-                DroppedLedge = Instantiate(floorprefab, transform.position, Quaternion.identity);
-                platformCount--;
-                LedgeCount.text = "x" + platformCount;
-                LedgeCount.gameObject.SetActive(true);
+                if (normalLedgeSelected && platformCount > 0)
+                {
+                    
+                    DroppedLedge = Instantiate(floorprefab, transform.position, Quaternion.identity);
+                    platformCount--;
+                    LedgeCount.text = "x" + platformCount;
+                    LedgeCount.gameObject.SetActive(true);
+                    
+                    if (shiftNotclicked)
+                        StartCoroutine(removeShift(7.0f));
+                }
+                else if (iceLedgeSelected && icePlatformCount > 0)
+                {
+                    DroppedLedge = Instantiate(iceFloorPrefab, transform.position, Quaternion.identity);
+                    icePlatformCount--;
+                    iceLedgeCount.text = "x" + icePlatformCount;
+                    iceLedgeCount.gameObject.SetActive(true);
+                }
                 isGrounded = true;
-                if (shiftNotclicked)
-                    StartCoroutine(removeShift(7.0f));
             }
-            else if (iceLedgeSelected && icePlatformCount > 0)
-            {
-                DroppedLedge = Instantiate(iceFloorPrefab, transform.position, Quaternion.identity);
-                icePlatformCount--;
-                iceLedgeCount.text = "x" + icePlatformCount;
-                iceLedgeCount.gameObject.SetActive(true);
-                isGrounded = true;
-            }
-            }
-
-        if(iceCollected) {
-            mKey.SetActive(true);
-        }
 
         if (iceCollected && (Input.GetKeyDown(KeyCode.M)))
         {
@@ -310,15 +301,10 @@ public class EvaderLevel1 : MonoBehaviour
                 normalLedgeSelected = true;
                 iceLedgeSelected = false;
             }
-            // mKey.SetActive(false);
-            hint.SetActive(false);
-        }
-        if(!hint.activeSelf){
-             mKey.SetActive(false);
+            mKey.SetActive(false);
         }
 
         if(iceCollected && icePlatformCount==0){
-            hint.SetActive(false);
             mKey.SetActive(false);
         }
         
