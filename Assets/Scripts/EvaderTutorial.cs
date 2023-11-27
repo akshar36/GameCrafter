@@ -76,7 +76,7 @@ public class EvaderTutorial : MonoBehaviour
     private bool iceLedgeSelected = true;
     public GameObject iceHighlight;
     public GameObject iceLedgePoint;
-    private GameObject hint;
+    public GameObject mKey;
 
     void Start()
     {
@@ -128,8 +128,6 @@ public class EvaderTutorial : MonoBehaviour
         upOffset = up.transform.position - transform.position;
         rightOffset = right.transform.position - transform.position;
         leftOffset = left.transform.position - transform.position;
-        hint = GameObject.Find("Hint");
-
     }
     
 
@@ -343,13 +341,12 @@ public class EvaderTutorial : MonoBehaviour
             checkpoint.gameObject.SetActive(false);
             showGameWinTutorial();
         }else if(collision.gameObject.CompareTag("icePoint")){
-            //checkpoint.gameObject.SetActive(false);
             iceLedgePoint.gameObject.SetActive(false);
-             icePlatformCount = 5;
-             totalIcePlatformCount = 5;
+            icePlatformCount = 5;
+            totalIcePlatformCount = 5;
             iceLedgeCount.text = "x" + icePlatformCount;
             iceLedgeCount.gameObject.SetActive(true);
-            hint.SetActive(true);
+            mKey.SetActive(true);
             iceCollected = true;
             StartCoroutine(iceHighlightFlash());
         }
