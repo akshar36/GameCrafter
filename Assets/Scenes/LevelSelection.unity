@@ -748,9 +748,9 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1080430164}
+      - m_Target: {fileID: 1080430167}
         m_TargetAssemblyTypeName: LevelSelector, Assembly-CSharp
-        m_MethodName: 
+        m_MethodName: OpenScene
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -1572,7 +1572,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Ice
+  m_text: Try
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 73472f4d5cc214db0b2885d1e1448de7, type: 2}
   m_sharedMaterial: {fileID: 6667947045877097549, guid: 73472f4d5cc214db0b2885d1e1448de7, type: 2}
@@ -2175,9 +2175,9 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1537465823179185259}
+      - m_Target: {fileID: 1535169974854264499}
         m_TargetAssemblyTypeName: LevelSelector, Assembly-CSharp
-        m_MethodName: 
+        m_MethodName: OpenScene
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -2351,9 +2351,9 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1537465824365865583}
+      - m_Target: {fileID: 1535169973600637111}
         m_TargetAssemblyTypeName: LevelSelector, Assembly-CSharp
-        m_MethodName: 
+        m_MethodName: OpenScene
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
