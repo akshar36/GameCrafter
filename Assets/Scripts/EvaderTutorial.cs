@@ -334,6 +334,7 @@ public class EvaderTutorial : MonoBehaviour
             showGameWinTutorial();
         }else if(collision.gameObject.CompareTag("icePoint")){
             Debug.Log("ice collected");
+
         }
         else{
             isGrounded = true;
