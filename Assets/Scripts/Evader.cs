@@ -303,6 +303,28 @@ public class Evader : MonoBehaviour
         isGrounded = false;
     }
 
+    private void OnTriggerEnter2D(Collider2D collision){
+        if (collision.gameObject.CompareTag("icePoint"))
+        {
+            icePlatformCount = 5;
+            totalIcePlatformCount = 5;
+            Destroy(collision.gameObject);
+            iceLedgeCount.text = "x" + icePlatformCount;
+            iceLedgeCount.gameObject.SetActive(true);
+            hint.SetActive(true);
+            iceCollected = true;
+            StartCoroutine(iceHighlightFlash());
+        }
+        else if (collision.gameObject.CompareTag("AddTeleport"))
+        {
+            collectTeleport.SetActive(false);
+            portalCount += 5;
+            totalPortalCount += 5;
+            Text portalCountText = GameObject.Find("PortalCount").GetComponent<Text>();
+            portalCountText.text = "x" + portalCount;
+            StartCoroutine(PortalHighlightFlash());
+        }
+    }
 
     void OnCollisionEnter2D(Collision2D collision)
     {
@@ -348,26 +370,6 @@ public class Evader : MonoBehaviour
             countdown.SetActive(true);
             countdownController.StartCountdown(5f);
             StartCoroutine(ResumeChasingAfterDelay(7f));
-        }
-        else if (collision.gameObject.CompareTag("icePoint"))
-        {
-            icePlatformCount = 5;
-            totalIcePlatformCount = 5;
-            Destroy(collision.gameObject);
-            iceLedgeCount.text = "x" + icePlatformCount;
-            iceLedgeCount.gameObject.SetActive(true);
-            hint.SetActive(true);
-            iceCollected = true;
-            StartCoroutine(iceHighlightFlash());
-        }
-        else if (collision.gameObject.CompareTag("AddTeleport"))
-        {
-            collectTeleport.SetActive(false);
-            portalCount += 5;
-            totalPortalCount += 5;
-            Text portalCountText = GameObject.Find("PortalCount").GetComponent<Text>();
-            portalCountText.text = "x" + portalCount;
-            StartCoroutine(PortalHighlightFlash());
         }
         else
         {
