@@ -41,15 +41,6 @@ public class TimerScript : MonoBehaviour
             case 3:
                 TimeLeft = 59f;
                 break;
-            case 4:
-                TimeLeft = 14f;
-                break;
-            case 5:
-                TimeLeft = 14f;
-                break;
-            case 6:
-                TimeLeft = 14f;
-                break;
         }
     }
 

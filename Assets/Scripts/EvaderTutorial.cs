@@ -323,13 +323,17 @@ public class EvaderTutorial : MonoBehaviour
             totalPortalCount = 5;
             Text portalCountText = GameObject.Find("PortalCount").GetComponent<Text>();
             portalCountText.text = "x" + portalCount;
+            if(LevelSelector.chosenLevel == 5){
             checkpoint.gameObject.SetActive(true);
+            }
             StartCoroutine(PortalHighlightFlash());
             isTeleportCollected = true;
             StartCoroutine(removeShift(1.0f));
         }else if(collision.gameObject.CompareTag("checkpoint")){
             checkpoint.gameObject.SetActive(false);
             showGameWinTutorial();
+        }else if(collision.gameObject.CompareTag("icePoint")){
+            Debug.Log("ice collected");
         }
         else{
             isGrounded = true;
