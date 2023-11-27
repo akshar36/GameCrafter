@@ -93,6 +93,7 @@ public class EvaderLevel1 : MonoBehaviour
     public GameObject iceFloorPrefab;
     private GameObject hint;
     public GameObject normalLedgeSprite;
+    public GameObject mKey;
     private bool chaserEnabled = false;
 
 
@@ -155,7 +156,9 @@ public class EvaderLevel1 : MonoBehaviour
         hint = GameObject.Find("Hint");
         if (hint != null)
             hint.SetActive(false);
-
+        
+ 
+        mKey.SetActive(false);
     }
     
 
@@ -282,10 +285,17 @@ public class EvaderLevel1 : MonoBehaviour
             }
             }
 
+        if(iceCollected) {
+            mKey.SetActive(true);
+        }
+
         if (iceCollected && (Input.GetKeyDown(KeyCode.M)))
         {
+           
+
             if (normalLedgeSelected)
             {
+                Debug.Log("adkajfhdkfj");
                 iceHighlight.SetActive(true);
                 normalLedgeSprite.SetActive(false);
                 normalLedgeSelected = false;
@@ -298,14 +308,18 @@ public class EvaderLevel1 : MonoBehaviour
                 normalLedgeSelected = true;
                 iceLedgeSelected = false;
             }
+            // mKey.SetActive(false);
             hint.SetActive(false);
+        }
+        if(!hint.activeSelf){
+             mKey.SetActive(false);
         }
 
         if(iceCollected && icePlatformCount==0){
             hint.SetActive(false);
         }
         
-
+    
         // if(LevelSelector.chosenLevel == 2 && Time.time > 10 && !EvaderSpace.visited){
         //     wormhole.gameObject.SetActive(true);
         // }
