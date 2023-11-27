@@ -503,6 +503,20 @@ public class Evader : MonoBehaviour
                 renderer.enabled = false;
             }
         }
+
+        GameObject[] iceObjects = GameObject.FindGameObjectsWithTag("iceLedge");
+        // Remove each fire object
+        foreach (GameObject iceObject in iceObjects)
+        {
+            Renderer renderer = iceObject.GetComponent<Renderer>();
+            // Check if the renderer is not null to avoid errors
+            if (renderer != null)
+            {
+                // Set the object's visibility to false
+                renderer.enabled = false;
+            }
+        }
+
         // Find the game object with the tag "Evader" and destroy it
         GameObject evaderTag = GameObject.FindGameObjectWithTag("Player");
         GameObject addTeleport = GameObject.FindGameObjectWithTag("AddTeleport");
@@ -511,6 +525,17 @@ public class Evader : MonoBehaviour
         GameObject icePoint = GameObject.FindGameObjectWithTag("icePoint");
         GameObject Portal1 = GameObject.FindGameObjectWithTag("Portal1");
         GameObject shift = GameObject.FindGameObjectWithTag("ShiftTag");
+        GameObject frozenChaser = GameObject.FindGameObjectWithTag("FrozenChaser");
+        GameObject GhostChaser = GameObject.FindGameObjectWithTag("GhostChaser");
+        if (GhostChaser != null)
+        {
+            GhostChaser.SetActive(false);
+        }
+
+        if (frozenChaser != null)
+        {
+            frozenChaser.SetActive(false);
+        }
 
 
         if (shift != null)

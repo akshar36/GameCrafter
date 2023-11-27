@@ -103,15 +103,39 @@ public class TimerScript : MonoBehaviour
                 renderer.enabled = false;
             }
         }
+        GameObject[] iceObjects = GameObject.FindGameObjectsWithTag("iceLedge");
+        // Remove each fire object
+        foreach (GameObject iceObject in iceObjects)
+        {
+            Renderer renderer = iceObject.GetComponent<Renderer>();
+            // Check if the renderer is not null to avoid errors
+            if (renderer != null)
+            {
+                // Set the object's visibility to false
+                renderer.enabled = false;
+            }
+        }
+
         // Find the game object with the tag "Evader" and destroy it
-        GameObject evader = GameObject.FindGameObjectWithTag("Player");
+        GameObject evaderTag = GameObject.FindGameObjectWithTag("Player");
         GameObject addTeleport = GameObject.FindGameObjectWithTag("AddTeleport");
         GameObject mapTag = GameObject.FindGameObjectWithTag("ledgeTileMap");
         GameObject chaserTag = GameObject.FindGameObjectWithTag("Chaser");
         GameObject icePoint = GameObject.FindGameObjectWithTag("icePoint");
         GameObject Portal1 = GameObject.FindGameObjectWithTag("Portal1");
         GameObject shift = GameObject.FindGameObjectWithTag("ShiftTag");
+        GameObject frozenChaser = GameObject.FindGameObjectWithTag("FrozenChaser");
+        GameObject GhostChaser = GameObject.FindGameObjectWithTag("GhostChaser");
+        if (GhostChaser != null)
+        {
+            GhostChaser.SetActive(false);
+        }
 
+
+        if (frozenChaser != null)
+        {
+            frozenChaser.SetActive(false);
+        }
 
         if (shift != null)
         {
@@ -122,9 +146,9 @@ public class TimerScript : MonoBehaviour
         {
             icePoint.SetActive(false);
         }
-        if (evader != null)
+        if (evaderTag != null)
         {
-            evader.SetActive(false);
+            evaderTag.SetActive(false);
         }
         if (addTeleport != null)
         {
