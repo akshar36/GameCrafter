@@ -56,7 +56,7 @@ public class EvaderTutorial : MonoBehaviour
     private Vector3 upOffset;
     private Vector3 rightOffset;
     private Vector3 leftOffset;
-    private bool shiftNotclicked = true;
+    private bool shiftClicked = false;
     bool isCollidingWithLedge = false;
     Collision2D currentCollision;
     private bool isSkeyShown = false;
@@ -174,9 +174,8 @@ public class EvaderTutorial : MonoBehaviour
                 Jump();
             }
 
-            if (LevelSelector.chosenLevel > 4 && portalCount >0 && ((Input.GetKeyDown(KeyCode.LeftShift)) || (Input.GetKeyDown(KeyCode.RightShift)))){
+            if (LevelSelector.chosenLevel > 4 && portalCount > 0 && ((Input.GetKeyDown(KeyCode.LeftShift)) || (Input.GetKeyDown(KeyCode.RightShift)))){
                 shiftKey.SetActive(false);
-                Debug.Log("playing");
                 GameObject particleInstance = Instantiate(smoke, transform.position, Quaternion.identity);
                 particleInstance.GetComponent<ParticleSystem>().Play();
                 portalCount--;
@@ -234,8 +233,8 @@ public class EvaderTutorial : MonoBehaviour
             currentCollision = null;  
         }
 
-        if (!shiftNotclicked && isTeleportCollected){
-                StartCoroutine(removeShift(5.0f));
+        if (!shiftClicked && isTeleportCollected && LevelSelector.chosenLevel>4){
+            StartCoroutine(removeShift(4.0f));
         }
     }
 
@@ -251,9 +250,10 @@ public class EvaderTutorial : MonoBehaviour
 
     private IEnumerator removeShift(float delay)
     {
-        yield return new WaitForSeconds(delay);
         shiftKey.SetActive(true);
-        shiftNotclicked = false;
+        shiftClicked = true;
+        yield return new WaitForSeconds(delay);
+        shiftClicked = false;
     }
 
     private void MoveToRandomPosition(Vector2 target)
@@ -326,9 +326,7 @@ public class EvaderTutorial : MonoBehaviour
             checkpoint.gameObject.SetActive(true);
             StartCoroutine(PortalHighlightFlash());
             isTeleportCollected = true;
-            if (!shiftNotclicked && isTeleportCollected){
-                StartCoroutine(removeShift(1.0f));
-            }
+            StartCoroutine(removeShift(1.0f));
         }else if(collision.gameObject.CompareTag("checkpoint")){
             checkpoint.gameObject.SetActive(false);
             showGameWinTutorial();
@@ -395,53 +393,6 @@ public class EvaderTutorial : MonoBehaviour
 
     void showGameWinTutorial(){
         Time.timeScale = 0f;
-
-        // Find all game objects with the tag "LedgePrefab"
-        GameObject[] ledges = GameObject.FindGameObjectsWithTag("LedgePrefab");
-
-        // Make each ledge invisible
-        foreach (GameObject ledge in ledges)
-        {
-            // Assuming your LedgePrefab has a Renderer component
-            Renderer renderer = ledge.GetComponent<Renderer>();
-
-            // Check if the renderer is not null to avoid errors
-            if (renderer != null)
-            {
-                // Set the object's visibility to false
-                renderer.enabled = false;
-            }
-        }
-        // Find the game object with the tag "Evader" and destroy it
-        GameObject evader = GameObject.FindGameObjectWithTag("Player");
-        GameObject addTeleport = GameObject.FindGameObjectWithTag("AddTeleport");
-        GameObject mapTag = GameObject.FindGameObjectWithTag("ledgeTileMap");
-        GameObject icePoint = GameObject.FindGameObjectWithTag("icePoint");
-        GameObject shift = GameObject.FindGameObjectWithTag("ShiftTag");
-
-
-        if (shift != null)
-        {
-            shift.SetActive(false);
-        }
-
-        // Check if the evader is not null before destroying
-        if (evader != null)
-        {
-            evader.SetActive(false);
-        }
-        if (addTeleport != null)
-        {
-            addTeleport.SetActive(false);
-        }
-        if (mapTag != null)
-        {
-            mapTag.SetActive(false);
-        }
-        if (icePoint != null)
-        {
-            icePoint.SetActive(false);
-        }
 
         GameText.text = "YOU WIN";
 
