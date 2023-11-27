@@ -44,8 +44,8 @@ public class EvaderTutorial : MonoBehaviour
     public GameObject Recollect;
     public GameObject shiftKey;
     public GameObject smoke;
-    public static int portalCount = 0;
-    public static int totalPortalCount = 0;
+    private int portalCount = 0;
+    private int totalPortalCount = 0;
     private Vector2[] positions = new Vector2[]
     {
         new Vector2(105.4f, 1f),
@@ -73,8 +73,10 @@ public class EvaderTutorial : MonoBehaviour
     public GameObject iceFloorPrefab;
     public Text iceLedgeCount;
     public static bool iceCollected = false;
+    private bool normalLedgeSelected = true;
     private bool iceLedgeSelected = true;
     public GameObject iceHighlight;
+    public GameObject normalHighlight;
     public GameObject iceLedgePoint;
     public GameObject mKey;
 
@@ -85,8 +87,12 @@ public class EvaderTutorial : MonoBehaviour
             checkpoint.gameObject.SetActive(false);
             portalHighlight.SetActive(false);
             shiftKey.SetActive(false);
+            mKey.SetActive(false);
             collectTeleport = GameObject.Find("add_teleport");
             collectTeleport.SetActive(true);
+        }
+        if(LevelSelector.chosenLevel == 6){
+            iceHighlight.SetActive(false);
         }
         PlayAgainTxt.gameObject.SetActive(false);
         if(NextLevelTxt){
@@ -95,7 +101,7 @@ public class EvaderTutorial : MonoBehaviour
         jumpUsed = false;
         recollectUsed = false;
         shields = 2;
-        portalCount = 5;
+        portalCount = 0;
         JumpSpace.SetActive(false);
         Recollect.SetActive(false);
         isSkeyShown = false;
@@ -208,15 +214,26 @@ public class EvaderTutorial : MonoBehaviour
                 }
             }
 
-            if (!isGrounded && Input.GetKeyDown(KeyCode.Space) && platformCount > 0)
+            if (!isGrounded && Input.GetKeyDown(KeyCode.Space))
             {
                 JumpSpace.SetActive(false);
                 jumpUsed = true;
-                DroppedLedge = Instantiate(floorprefab, transform.position, Quaternion.identity);
-                platformCount--;
-                LedgeCount.text = "x " + platformCount;
-                LedgeCount.gameObject.SetActive(true);
-                isGrounded = true;
+                if (normalLedgeSelected && platformCount > 0)
+                {
+                    DroppedLedge = Instantiate(floorprefab, transform.position, Quaternion.identity);
+                    platformCount--;
+                    LedgeCount.text = "x" + platformCount;
+                    LedgeCount.gameObject.SetActive(true);
+                    isGrounded = true;
+                }
+                else if (iceLedgeSelected && icePlatformCount > 0)
+                {
+                    DroppedLedge = Instantiate(iceFloorPrefab, transform.position, Quaternion.identity);
+                    icePlatformCount--;
+                    iceLedgeCount.text = "x" + icePlatformCount;
+                    iceLedgeCount.gameObject.SetActive(true);
+                    isGrounded = true;
+                }
             }
 
         if(jumpUsed && !recollectUsed && isCollidingWithLedge){
@@ -243,6 +260,25 @@ public class EvaderTutorial : MonoBehaviour
 
         if (!shiftClicked && isTeleportCollected && LevelSelector.chosenLevel>4){
             StartCoroutine(removeShift(4.0f));
+        }
+
+        if (iceCollected && (Input.GetKeyDown(KeyCode.M)))
+        {
+            mKey.SetActive(false);
+            if (normalLedgeSelected)
+            {
+                iceHighlight.SetActive(true);
+                normalHighlight.SetActive(false);
+                normalLedgeSelected = false;
+                iceLedgeSelected = true;
+            }
+            else
+            {
+                iceHighlight.SetActive(false);
+                normalHighlight.SetActive(true);
+                normalLedgeSelected = true;
+                iceLedgeSelected = false;
+            }
         }
     }
 
@@ -503,10 +539,6 @@ public class EvaderTutorial : MonoBehaviour
         }
 
         GameText.text = "YOU WIN";
-
-        string platformCount = "0";
-        string portalCount = "0";
-        string iceCount = "0";
 
         GameText.gameObject.SetActive(true);
         PlayAgainTxt.gameObject.SetActive(true);
