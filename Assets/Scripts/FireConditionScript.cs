@@ -50,7 +50,6 @@ public class FireConditionScript : MonoBehaviour
     }
     private void OnTriggerExit2D(Collider2D collision){
         if (collision.tag == "Player"){
-            StartCoroutine(ShieldHighlightFlash());
             DeductShield();
             hasTouchedLava = false;
         } 
@@ -76,22 +75,6 @@ public class FireConditionScript : MonoBehaviour
             spriteRenderer.material.color = yellowColor;
             spriteRenderer.transform.localScale = newScale;
         }
-    }
-    
-     private IEnumerator ShieldHighlightFlash()
-    {
-        evaderController.shieldHighlight.SetActive(true);
-        SpriteRenderer shieldHighlightRenderer = evaderController.shieldHighlight.GetComponent<SpriteRenderer>();
-        // Flash the chaser red to remind the player
-        Color originalColor = shieldHighlightRenderer.color;
-        for (int i = 0; i < 2; i++) // Flash 2 times
-        {
-            shieldHighlightRenderer.color = Color.red;
-            yield return new WaitForSeconds(0.5f); // Flash duration
-            shieldHighlightRenderer.color = originalColor;
-            yield return new WaitForSeconds(0.5f); // Time between flashes
-        }
-        evaderController.shieldHighlight.SetActive(false);
     }
 
     void DestroyFireFloor(){
