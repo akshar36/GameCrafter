@@ -68,6 +68,15 @@ public class EvaderTutorial : MonoBehaviour
     private bool jumpUsed;
     public GameObject checkpoint;
     public static bool isTeleportCollected = false;
+    public static int icePlatformCount = 0;
+    public static int totalIcePlatformCount = 0;
+    public GameObject iceFloorPrefab;
+    public Text iceLedgeCount;
+    public static bool iceCollected = false;
+    private bool iceLedgeSelected = true;
+    public GameObject iceHighlight;
+    public GameObject iceLedgePoint;
+    private GameObject hint;
 
     void Start()
     {
@@ -119,6 +128,7 @@ public class EvaderTutorial : MonoBehaviour
         upOffset = up.transform.position - transform.position;
         rightOffset = right.transform.position - transform.position;
         leftOffset = left.transform.position - transform.position;
+        hint = GameObject.Find("Hint");
 
     }
     
@@ -333,13 +343,36 @@ public class EvaderTutorial : MonoBehaviour
             checkpoint.gameObject.SetActive(false);
             showGameWinTutorial();
         }else if(collision.gameObject.CompareTag("icePoint")){
-            Debug.Log("ice collected");
-
+            //checkpoint.gameObject.SetActive(false);
+            iceLedgePoint.gameObject.SetActive(false);
+             icePlatformCount = 5;
+             totalIcePlatformCount = 5;
+            iceLedgeCount.text = "x" + icePlatformCount;
+            iceLedgeCount.gameObject.SetActive(true);
+            hint.SetActive(true);
+            iceCollected = true;
+            StartCoroutine(iceHighlightFlash());
         }
         else{
             isGrounded = true;
         }
 
+    }
+
+     private IEnumerator iceHighlightFlash()
+    {
+        iceHighlight.SetActive(true);
+        SpriteRenderer iceHighlightRenderer = iceHighlight.GetComponent<SpriteRenderer>();
+        // Flash the chaser red to remind the player
+        Color originalColor = Color.white;
+        for (int i = 0; i < 2; i++) // Flash 2 times
+        {
+            iceHighlightRenderer.color = Color.red;
+            yield return new WaitForSeconds(0.5f); // Flash duration
+            iceHighlightRenderer.color = originalColor;
+            yield return new WaitForSeconds(0.5f); // Time between flashes
+        }
+        iceHighlight.SetActive(false);
     }
 
     private IEnumerator PortalHighlightFlash()
