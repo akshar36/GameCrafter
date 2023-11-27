@@ -23,15 +23,16 @@ public class TimerScript : MonoBehaviour
         if(NextLevelTxt){
             NextLevelTxt.gameObject.SetActive(false);
         }
-        Debug.Log("set time called on start");
-        if (!AreWeReturningToTheScene){
+        if(!AreWeReturningToTheScene)
             setTime();
-        }
         updateTimer(TimeLeft);
     }
 
     public static void setTime(){
+            Debug.Log("xxxxxxx");
+            Debug.Log(LevelSelector.chosenLevel);
         switch(LevelSelector.chosenLevel){
+
             case 1:
                 TimeLeft = 39f;
                 break;

@@ -20,6 +20,7 @@ public class LevelSelector : MonoBehaviour
     {
         if (level.ToString() == "1")
         {
+            chosenLevel = 1;
             SceneManager.LoadScene("Level1");
         }
         else if(level.ToString() == "2") {

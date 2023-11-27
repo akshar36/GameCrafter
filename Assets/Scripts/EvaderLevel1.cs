@@ -58,6 +58,8 @@ public class EvaderLevel1 : MonoBehaviour
     public GameObject smoke;
     public static int portalCount = 5;
     public static int totalPortalCount = 5;
+    public static bool AreWeReturningToTheScene = false;
+
     private Vector2[] positions = new Vector2[]
     {
         new Vector2(105.4f, 1f),
@@ -682,7 +684,8 @@ public class EvaderLevel1 : MonoBehaviour
         Time.timeScale = 1f;
         Scene currentScene = SceneManager.GetActiveScene();
         SceneManager.LoadScene("LevelSelection");
-        TimerScript.setTime();
+        AreWeReturningToTheScene = false;
+        // TimerScript.setTime();
     }
 
      public void NextButtonClicked()
