@@ -93,11 +93,13 @@ public class EvaderLevel1 : MonoBehaviour
     public GameObject iceFloorPrefab;
     private GameObject hint;
     public GameObject normalLedgeSprite;
+    private bool chaserEnabled = false;
 
 
 
     void Start()
     {
+        chaserEnabled = false;
         jumpUsed = false;
         recollectUsed = false;
         portalHighlight.SetActive(false);
@@ -114,7 +116,7 @@ public class EvaderLevel1 : MonoBehaviour
         rb = GetComponent<Rigidbody2D>();
         shiftKey.SetActive(false);
         spriteRenderer = GetComponent<SpriteRenderer>();
-        GameObject chaser = GameObject.Find("Chaser");
+        chaser = GameObject.Find("Chaser");
         GameObject timer = GameObject.Find("TimerTxt");
         collectTeleport = GameObject.Find("add_teleport");
         collectTeleport.SetActive(true);
@@ -390,8 +392,12 @@ public class EvaderLevel1 : MonoBehaviour
         StartCoroutine(RedReminderFlash());
         yield return new WaitForSeconds(3.0f);
         chaserSpriteRenderer.color = Color.yellow;
+        Rigidbody2D rbChaser = chaser.GetComponent<Rigidbody2D>();
+        rbChaser.constraints = RigidbodyConstraints2D.None;
         chaserController.StartChasing();
+        chaserEnabled = true;
     }
+
     private IEnumerator RedReminderFlash()
     {
         // Flash the chaser red to remind the player
@@ -433,7 +439,7 @@ public class EvaderLevel1 : MonoBehaviour
 
     void OnCollisionEnter2D(Collision2D collision)
     {
-        if(!hasCollidedWithChaser && collision.gameObject.CompareTag("Chaser"))
+        if(!hasCollidedWithChaser && chaserEnabled && collision.gameObject.CompareTag("Chaser"))
         {
             deathPosition = collision.transform.position;
             getHit++;
