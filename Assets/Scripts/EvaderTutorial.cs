@@ -417,6 +417,14 @@ public class EvaderTutorial : MonoBehaviour
         GameObject addTeleport = GameObject.FindGameObjectWithTag("AddTeleport");
         GameObject mapTag = GameObject.FindGameObjectWithTag("ledgeTileMap");
         GameObject icePoint = GameObject.FindGameObjectWithTag("icePoint");
+        GameObject shift = GameObject.FindGameObjectWithTag("ShiftTag");
+
+
+        if (shift != null)
+        {
+            shift.SetActive(false);
+        }
+
         // Check if the evader is not null before destroying
         if (evader != null)
         {
