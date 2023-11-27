@@ -32,30 +32,31 @@ public class FireConditionScript : MonoBehaviour
         
     }
 
-
-
     private void OnTriggerEnter2D(Collider2D collision)
     {
-       if (collision.tag == "Player" && !hasTouchedLava)
+        if (collision.tag == "Player")
         {
-            hasTouchedLava = true;
-            contactDuration += Time.deltaTime;
-
-            if(EvaderSpace.shieldCollected == 0){
-                Evader.lostReason = "lava";
-                Evader.deathPosition = collision.transform.position;
-                TimerScript.setTime();
-                evaderController.ShowGameOverHideTimer();
-            }
-            else if(EvaderSpace.shieldCollected > 0)
+            if (!hasTouchedLava)
             {
-                StartCoroutine(ShieldHighlightFlash());
-                DeductShield();
-                RespawnPlayer();
-                StartCoroutine(ResetHasTouchedLava());
+                hasTouchedLava = true;
+
+                if(EvaderSpace.shieldCollected == 0){
+                    Evader.lostReason = "lava";
+                    Evader.deathPosition = collision.transform.position;
+                    TimerScript.setTime();
+                    evaderController.ShowGameOverHideTimer();
+                }
+                else if(EvaderSpace.shieldCollected > 0)
+                {
+                    StartCoroutine(ShieldHighlightFlash());
+                    DeductShield();
+                    RespawnPlayer();
+                    StartCoroutine(ResetHasTouchedLava());
+                }
             }
         }
     }
+
 
     void DeductShield()
     {
@@ -73,7 +74,7 @@ public class FireConditionScript : MonoBehaviour
     }
 
     void RespawnPlayer(){
-        spriteRenderer.enabled = false;
+        // spriteRenderer.enabled = false;
         DestroyFireFloor();
 
         spriteRenderer.transform.position = new Vector2(89f, 45f);
@@ -87,7 +88,7 @@ public class FireConditionScript : MonoBehaviour
             spriteRenderer.transform.localScale = newScale;
         }
 
-        spriteRenderer.enabled = true;
+        // spriteRenderer.enabled = true;
     }
     
      private IEnumerator ShieldHighlightFlash()
