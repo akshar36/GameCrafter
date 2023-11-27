@@ -73,6 +73,8 @@ public class ChaserAI : MonoBehaviour
             AIPath speedObject = rb.GetComponent<AIPath>();
             speedObject.maxSpeed = 10;
             SpriteRenderer chaserSprite = rb.GetComponent<SpriteRenderer>();
+            if (rb.tag == "Chaser")
+                chaserSprite.color = Color.white;
             chaserSprite.sprite = frozenSprite;
             rb.tag = "FrozenChaser";
             Invoke("backtoNormal", 8.0f);
