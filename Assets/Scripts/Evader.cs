@@ -68,6 +68,7 @@ public class Evader : MonoBehaviour
     private bool shiftKeyNotPressed = true;
     public static int portalCount;
     public static int totalPortalCount;
+    public GameObject mKey;
     private Vector2[] positions = new Vector2[]
     {
         new Vector2(105.4f, 1f),
@@ -147,6 +148,7 @@ public class Evader : MonoBehaviour
             wormhole = GameObject.Find("wormhole");
             wormhole.gameObject.SetActive(false);
         }
+        mKey.SetActive(false);
     }
 
     void OnCollisionStay2D(Collision2D collision)
@@ -235,6 +237,10 @@ public class Evader : MonoBehaviour
                 isGrounded = true;
             }
         }
+        if(iceCollected) {
+            mKey.SetActive(true);
+        }
+
         if (iceCollected && (Input.GetKeyDown(KeyCode.M)))
         {
             if (normalLedgeSelected)
@@ -253,9 +259,14 @@ public class Evader : MonoBehaviour
             }
             hint.SetActive(false);
         }
+         
+        if(!hint.activeSelf){
+             mKey.SetActive(false);
+        }
 
         if(iceCollected && icePlatformCount==0){
             hint.SetActive(false);
+            mKey.SetActive(false);
         }
 
         float gameplayDuration = Time.time - survivalStartTime;
