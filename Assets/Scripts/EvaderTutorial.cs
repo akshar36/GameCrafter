@@ -455,10 +455,6 @@ public class EvaderTutorial : MonoBehaviour
         }
 
         // Check if the evader is not null before destroying
-        if (evaderTag != null)
-        {
-            evaderTag.SetActive(false);
-        }
         if (addTeleport != null)
         {
             addTeleport.SetActive(false);
@@ -470,10 +466,6 @@ public class EvaderTutorial : MonoBehaviour
         if (icePoint != null)
         {
             icePoint.SetActive(false);
-        }
-        if (chaserTag != null)
-        {
-            chaserTag.SetActive(false);
         }
         if (Portal1 != null)
         {

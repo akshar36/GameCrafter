@@ -137,10 +137,6 @@ public class TimerScript : MonoBehaviour
         {
             icePoint.SetActive(false);
         }
-        if (evaderTag != null)
-        {
-            evaderTag.SetActive(false);
-        }
         if (addTeleport != null)
         {
             addTeleport.SetActive(false);
@@ -148,10 +144,6 @@ public class TimerScript : MonoBehaviour
         if (mapTag != null)
         {
             mapTag.SetActive(false);
-        }
-        if (chaserTag != null)
-        {
-            chaserTag.SetActive(false);
         }
         if (Portal1 != null)
         {

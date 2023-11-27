@@ -537,20 +537,14 @@ public class Evader : MonoBehaviour
             frozenChaser.SetActive(false);
         }
 
-
         if (shift != null)
         {
             shift.SetActive(false);
         }
 
-
         if (icePoint != null)
         {
             icePoint.SetActive(false);
-        }
-        if (evaderTag != null)
-        {
-            evaderTag.SetActive(false);
         }
         if (addTeleport != null)
         {
@@ -559,10 +553,6 @@ public class Evader : MonoBehaviour
         if (mapTag != null)
         {
             mapTag.SetActive(false);
-        }
-        if (chaserTag != null)
-        {
-            chaserTag.SetActive(false);
         }
         if (Portal1 != null)
         {
