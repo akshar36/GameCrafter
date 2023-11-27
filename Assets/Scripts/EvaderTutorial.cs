@@ -477,8 +477,6 @@ public class EvaderTutorial : MonoBehaviour
             Portal1.SetActive(false);
         }
 
-
->>>>>>> Stashed changes
         GameText.text = "YOU WIN";
 
         string platformCount = "0";
