@@ -394,8 +394,6 @@ public class EvaderTutorial : MonoBehaviour
     void showGameWinTutorial(){
         Time.timeScale = 0f;
 
-<<<<<<< Updated upstream
-=======
         // Find all game objects with the tag "LedgePrefab"
         GameObject[] ledges = GameObject.FindGameObjectsWithTag("LedgePrefab");
 
