@@ -72,7 +72,7 @@ public class EvaderLevel1 : MonoBehaviour
     private float disableChaserTime = 11f;
     bool isCollidingWithLedge = false;
     Collision2D currentCollision;
-    private bool isNkeyShown = false;
+    private bool isSKeyShown = false;
     Vector2? deathPosition = null;
     private GameObject collectTeleport;
     private Vector2 respawnPosition = new Vector2(31f, 45f);
@@ -110,7 +110,7 @@ public class EvaderLevel1 : MonoBehaviour
         hasCollidedWithChaser = false;
         JumpSpace.SetActive(false);
         Recollect.SetActive(false);
-        isNkeyShown = false;
+        isSKeyShown = false;
         HideGameOverShowTimer();
         platformCount = 10;
         totalPlatformCount = 10;
@@ -325,16 +325,14 @@ public class EvaderLevel1 : MonoBehaviour
         //     wormhole.gameObject.SetActive(true);
         // }
 
-        if(jumpUsed && !recollectUsed){
-            if(isCollidingWithLedge && !isNkeyShown){
+        if(jumpUsed && !recollectUsed && isCollidingWithLedge){
+            if(!isSKeyShown){
                 Recollect.SetActive(true);
-                isNkeyShown = true;
+                isSKeyShown = true;
             }
-            else{
+        }else{
                 Recollect.SetActive(false);
-                isNkeyShown = false;
-            }
-
+                isSKeyShown = false;
         }
 
         if (isCollidingWithLedge && (Input.GetKeyDown(KeyCode.S) || Input.GetKeyDown(KeyCode.DownArrow)))
