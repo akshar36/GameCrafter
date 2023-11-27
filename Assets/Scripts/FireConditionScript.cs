@@ -36,26 +36,25 @@ public class FireConditionScript : MonoBehaviour
     {
         if (collision.tag == "Player")
         {
-            if (!hasTouchedLava)
-            {
-                hasTouchedLava = true;
+            hasTouchedLava = true;
+            contactDuration += Time.deltaTime;
 
-                if(EvaderSpace.shieldCollected == 0){
-                    Evader.lostReason = "lava";
-                    Evader.deathPosition = collision.transform.position;
-                    TimerScript.setTime();
-                    evaderController.ShowGameOverHideTimer();
-                }
-                else if(EvaderSpace.shieldCollected > 0)
-                {
-                    StartCoroutine(ShieldHighlightFlash());
-                    DeductShield();
-                    RespawnPlayer();
-                    StartCoroutine(ResetHasTouchedLava());
-                }
+            if(EvaderSpace.shieldCollected == 0){
+                Evader.lostReason = "lava";
+                Evader.deathPosition = collision.transform.position;
+                TimerScript.setTime();
+                evaderController.ShowGameOverHideTimer();
             }
+            RespawnPlayer();
         }
     }
+    private void OnTriggerExit2D(Collider2D collision){
+        if (collision.tag == "Player"){
+            StartCoroutine(ShieldHighlightFlash());
+            DeductShield();
+            hasTouchedLava = false;
+        } 
+   }
 
 
     void DeductShield()
@@ -65,18 +64,8 @@ public class FireConditionScript : MonoBehaviour
         Debug.Log("after" + EvaderSpace.shieldCollected.ToString());
     }
 
-
-    IEnumerator ResetHasTouchedLava()
-    {
-        // Wait for a certain period before allowing another shield deduction
-        yield return new WaitForSeconds(1f);
-        hasTouchedLava = false;
-    }
-
     void RespawnPlayer(){
-        // spriteRenderer.enabled = false;
         DestroyFireFloor();
-
         spriteRenderer.transform.position = new Vector2(89f, 45f);
 
         if (EvaderSpace.shieldCollected == 0)
@@ -87,8 +76,6 @@ public class FireConditionScript : MonoBehaviour
             spriteRenderer.material.color = yellowColor;
             spriteRenderer.transform.localScale = newScale;
         }
-
-        // spriteRenderer.enabled = true;
     }
     
      private IEnumerator ShieldHighlightFlash()
