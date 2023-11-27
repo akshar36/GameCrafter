@@ -4552,8 +4552,8 @@ MonoBehaviour:
   normalChaser: {fileID: 21300000, guid: 0a54a495f5640dd4b99190576fdb6d67, type: 3}
   bulletPrefab: {fileID: 0}
   bulletSpeed: 20
-  frozenSprite: {fileID: 0}
-  angrySprite: {fileID: 0}
+  frozenSprite: {fileID: 21300000, guid: 423bd4f8c0e4edb43b157d8202563ffa, type: 3}
+  angrySprite: {fileID: 21300000, guid: 0a54a495f5640dd4b99190576fdb6d67, type: 3}
   ghostSprite: {fileID: 0}
 --- !u!58 &1263878965
 CircleCollider2D:
@@ -5357,7 +5357,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1519959994}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 49, y: 26, z: 0}
+  m_LocalPosition: {x: 60.7, y: 0.1, z: 0}
   m_LocalScale: {x: 4, y: 4, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
