@@ -317,6 +317,7 @@ public class EvaderLevel1 : MonoBehaviour
 
         if(iceCollected && icePlatformCount==0){
             hint.SetActive(false);
+            mKey.SetActive(false);
         }
         
     

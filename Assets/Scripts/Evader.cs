@@ -266,6 +266,7 @@ public class Evader : MonoBehaviour
 
         if(iceCollected && icePlatformCount==0){
             hint.SetActive(false);
+            mKey.SetActive(false);
         }
 
         float gameplayDuration = Time.time - survivalStartTime;
