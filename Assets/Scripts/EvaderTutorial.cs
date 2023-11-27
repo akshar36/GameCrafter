@@ -391,6 +391,45 @@ public class EvaderTutorial : MonoBehaviour
     void showGameWinTutorial(){
         Time.timeScale = 0f;
 
+        // Find all game objects with the tag "LedgePrefab"
+        GameObject[] ledges = GameObject.FindGameObjectsWithTag("LedgePrefab");
+
+        // Make each ledge invisible
+        foreach (GameObject ledge in ledges)
+        {
+            // Assuming your LedgePrefab has a Renderer component
+            Renderer renderer = ledge.GetComponent<Renderer>();
+
+            // Check if the renderer is not null to avoid errors
+            if (renderer != null)
+            {
+                // Set the object's visibility to false
+                renderer.enabled = false;
+            }
+        }
+        // Find the game object with the tag "Evader" and destroy it
+        GameObject evader = GameObject.FindGameObjectWithTag("Player");
+        GameObject addTeleport = GameObject.FindGameObjectWithTag("AddTeleport");
+        GameObject mapTag = GameObject.FindGameObjectWithTag("ledgeTileMap");
+        GameObject icePoint = GameObject.FindGameObjectWithTag("icePoint");
+        // Check if the evader is not null before destroying
+        if (evader != null)
+        {
+            evader.SetActive(false);
+        }
+        if (addTeleport != null)
+        {
+            addTeleport.SetActive(false);
+        }
+        if (mapTag != null)
+        {
+            mapTag.SetActive(false);
+        }
+        if (icePoint != null)
+        {
+            icePoint.SetActive(false);
+        }
+
         GameText.text = "YOU WIN";
 
         string platformCount = "0";

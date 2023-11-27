@@ -90,11 +90,32 @@ public class TimerScript : MonoBehaviour
         }
         // Find the game object with the tag "Evader" and destroy it
         GameObject evader = GameObject.FindGameObjectWithTag("Player");
+        GameObject addTeleport = GameObject.FindGameObjectWithTag("AddTeleport");
+        GameObject mapTag = GameObject.FindGameObjectWithTag("ledgeTileMap");
+        GameObject chaserTag = GameObject.FindGameObjectWithTag("Chaser");
+        GameObject icePoint = GameObject.FindGameObjectWithTag("icePoint");
 
-        // Check if the evader is not null before destroying
+
+
+        if (icePoint != null)
+        {
+            icePoint.SetActive(false);
+        }
         if (evader != null)
         {
             evader.SetActive(false);
+        }
+        if (addTeleport != null)
+        {
+            addTeleport.SetActive(false);
+        }
+        if (mapTag != null)
+        {
+            mapTag.SetActive(false);
+        }
+        if (chaserTag != null)
+        {
+            chaserTag.SetActive(false);
         }
 
         GameText.text = "YOU WIN";

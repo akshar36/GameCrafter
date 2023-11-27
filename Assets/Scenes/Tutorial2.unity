@@ -765,7 +765,7 @@ GameObject:
   - component: {fileID: 389248525}
   m_Layer: 6
   m_Name: LedgeTileMap
-  m_TagString: Untagged
+  m_TagString: ledgeTileMap
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0

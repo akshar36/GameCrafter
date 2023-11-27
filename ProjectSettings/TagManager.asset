@@ -28,6 +28,7 @@ TagManager:
   - xx
   - FireFloor
   - AddTeleport
+  - MapTag
   layers:
   - Default
   - TransparentFX

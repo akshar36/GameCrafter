@@ -3171,7 +3171,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3791402041063724601, guid: 5d3198ac3e4e0204d9d6cbb51c4e804d, type: 3}
       propertyPath: m_TagString
-      value: Untagged
+      value: ledgeTileMap
       objectReference: {fileID: 0}
     - target: {fileID: 7610664340132202214, guid: 5d3198ac3e4e0204d9d6cbb51c4e804d, type: 3}
       propertyPath: m_RootOrder

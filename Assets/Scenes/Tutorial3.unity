@@ -632,7 +632,7 @@ GameObject:
   - component: {fileID: 389248525}
   m_Layer: 6
   m_Name: LedgeTileMap
-  m_TagString: Untagged
+  m_TagString: ledgeTileMap
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -4876,9 +4876,10 @@ MonoBehaviour:
   RestartText: {fileID: 1067395212}
   BackButton: {fileID: 888325851}
   LedgeCount: {fileID: 992558769}
-  TimerTxt: {fileID: 399831060}
   caughtSprite: {fileID: 21300000, guid: 704eaec5f474fc24bba95faec2ee8d47, type: 3}
   smilingSprite: {fileID: 21300000, guid: 1df6f8ffe2785a34c804f7ac2722d1c1, type: 3}
+  PlayAgainTxt: {fileID: 0}
+  NextLevelTxt: {fileID: 0}
   up: {fileID: 590216345}
   right: {fileID: 2065397674}
   left: {fileID: 223437325}
@@ -4887,6 +4888,7 @@ MonoBehaviour:
   shiftKey: {fileID: 1024785147}
   smoke: {fileID: 725748389856807714, guid: 4bda94453d2ca7444a0fff05b2d425f5, type: 3}
   portalHighlight: {fileID: 1171444860}
+  checkpoint: {fileID: 0}
 --- !u!1 &1725015605
 GameObject:
   m_ObjectHideFlags: 0
