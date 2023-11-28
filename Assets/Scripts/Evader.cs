@@ -536,7 +536,6 @@ public class Evader : MonoBehaviour
         TimerTxt.gameObject.SetActive(false);
         chaserSpriteRenderer.sprite = smilingSprite;
         spriteRenderer.sprite = caughtSprite;
-        RestartText.gameObject.SetActive(true);
         float survivalDuration = Time.time - survivalStartTime;
         string iceCount = "0";
         if (iceCollected)
@@ -547,6 +546,8 @@ public class Evader : MonoBehaviour
         portalCount = 0;
         platformCount = 0;
         icePlatformCount = 0;
+        RestartText.gameObject.SetActive(true);
+
     }
 
     void HideGameOverShowTimer()
