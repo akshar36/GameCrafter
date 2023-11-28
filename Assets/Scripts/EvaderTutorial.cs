@@ -284,6 +284,7 @@ public class EvaderTutorial : MonoBehaviour
         }
         if(iceCollected && iceLedgePlaced){
             checkpoint.gameObject.SetActive(true);
+
         }
     }
 
@@ -509,6 +510,7 @@ public class EvaderTutorial : MonoBehaviour
         GameObject shift = GameObject.FindGameObjectWithTag("ShiftTag");
         GameObject frozenChaser = GameObject.FindGameObjectWithTag("FrozenChaser");
         GameObject GhostChaser = GameObject.FindGameObjectWithTag("GhostChaser");
+        GameObject checkpoint = GameObject.FindGameObjectWithTag("checkpoint");
         if (GhostChaser != null)
         {
             GhostChaser.SetActive(false);
@@ -541,6 +543,9 @@ public class EvaderTutorial : MonoBehaviour
         if (Portal1 != null)
         {
             Portal1.SetActive(false);
+        }
+        if(checkpoint!= null){
+            checkpoint.SetActive(false);
         }
 
         GameText.text = "YOU WIN";
