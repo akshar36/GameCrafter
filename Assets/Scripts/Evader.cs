@@ -44,9 +44,6 @@ public class Evader : MonoBehaviour
     private bool isColliding = false;
     private GameObject LedgePrefab;
     private GameObject wormhole;
-    private GameObject countdown;
-    private bool onSafeLedge = false;
-    private CountdownScript countdownController;
     private bool hasCollidedWithChaser = false;
     private bool safeLedgeUsed = false;
     private GameObject SafeLedge;
@@ -97,7 +94,6 @@ public class Evader : MonoBehaviour
         icePlatformCount = 0;
         totalIcePlatformCount = 0;
         isColliding = false;
-        onSafeLedge = false;
         safeLedgeUsed = false;
         hasCollidedWithChaser = false;
         isCollidingWithLedge = false;
@@ -112,15 +108,12 @@ public class Evader : MonoBehaviour
         GameObject timer = GameObject.Find("TimerTxt");
         collectTeleport = GameObject.Find("add_teleport");
         collectTeleport.SetActive(true);
-        countdown = GameObject.Find("Countdown");
         SafeLedge = GameObject.Find("SafeLedge");
-        countdown.SetActive(false);
         if (ghostChaser != null)
             ghostChaser.SetActive(false);
         chaserSpriteRenderer = chaser.GetComponent<SpriteRenderer>();
         chaserController = chaser.GetComponent<ChaserAI>();
         timerController = timer.GetComponent<TimerScript>();
-        countdownController = countdown.GetComponent<CountdownScript>();
         survivalStartTime = Time.time;
 
         if (EvaderSpace.shield)
@@ -362,15 +355,6 @@ public class Evader : MonoBehaviour
                 }
             }
         }
-        else if (collision.gameObject.CompareTag("SafeLedge") && safeLedgeUsed == false && IsPlayerAboveLedge(collision.gameObject.transform.position.y))
-        {
-            onSafeLedge = true;
-            safeLedgeUsed = true;
-            chaserController.StopChasing();
-            countdown.SetActive(true);
-            countdownController.StartCountdown(5f);
-            StartCoroutine(ResumeChasingAfterDelay(7f));
-        }
         else
         {
             isGrounded = true;
@@ -455,19 +439,6 @@ public class Evader : MonoBehaviour
         float verticalThreshold = 2.0f;
 
         return playerY > ledgeY + verticalThreshold;
-    }
-
-    private IEnumerator ResumeChasingAfterDelay(float delay)
-    {
-        yield return new WaitForSeconds(delay);
-        if (onSafeLedge)
-        {
-            Renderer renderer = SafeLedge.GetComponent<Renderer>();
-            renderer.material = ledgeMaterial;
-            onSafeLedge = false;
-            chaserController.StartChasing();
-            countdown.SetActive(false);
-        }
     }
 
     public void ShowGameOverHideTimer()
