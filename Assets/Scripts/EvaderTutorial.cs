@@ -79,6 +79,7 @@ public class EvaderTutorial : MonoBehaviour
     public GameObject normalHighlight;
     public GameObject iceLedgePoint;
     public GameObject mKey;
+    public static bool iceLedgePlaced = false;
 
     void Start()
     {
@@ -228,6 +229,7 @@ public class EvaderTutorial : MonoBehaviour
                 }
                 else if (iceLedgeSelected && icePlatformCount > 0)
                 {
+                    iceLedgePlaced = true;
                     DroppedLedge = Instantiate(iceFloorPrefab, transform.position, Quaternion.identity);
                     icePlatformCount--;
                     iceLedgeCount.text = "x" + icePlatformCount;
@@ -279,6 +281,9 @@ public class EvaderTutorial : MonoBehaviour
                 normalLedgeSelected = true;
                 iceLedgeSelected = false;
             }
+        }
+        if(iceCollected && iceLedgePlaced){
+            checkpoint.gameObject.SetActive(true);
         }
     }
 
